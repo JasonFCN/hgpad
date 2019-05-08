@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+     <META HTTP-EQUIV="Pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Expires" CONTENT="0">
+        <title>空间应用</title>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/iconfont/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.css">              
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/oneicon/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/history/iconfont1.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/list-style.css">
+
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/swiper.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/search.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/compare.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/head-foot.css">
+
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jqthumb.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/baguetteBox.css">
+        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/baguetteBox.js"></script>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/confirm/confirm.css">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/confirm/confirm.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/swiper.min.js"></script>
+   		<script type="text/javascript" src="${pageContext.request.contextPath}/barCode/utf.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/barCode/jquery.qrcode.js"></script>
+        <style type="text/css">
+        .swiper-pagination-fraction{
+         font-size:14px;
+         color:#323c3f;
+        }
+        .swiper-container{
+         font-size:14px;
+         color:#333;
+        }
+        .aaa{
+        display:none;
+        position: absolute;
+        right:0px;top:10px;
+        border:1px solid #ccc}
+        </style>
+        <script type="text/javascript">
+        
+        
+        //历史记录
+     	$(function(){
+     		var $hisbtn=$(".historyBtn");
+			 $hisbtn.click(function(){
+
+
+				 var lsjl = getCookie("lsjl");
+				 //$(this).next('.history-con').slideToggle();
+				 $.ajax({
+					 type: "post",
+		     		   url: "${pageContext.request.contextPath}/index/getLsjlPro.action",
+		     		   data: {lsjl:lsjl},
+		     		   datatype:"json",
+		     		   success: function(msg){
+				 			
+				 			var n = msg.length;
+				 			var str = "${pageContext.request.contextPath}";
+				 			$(".history-ul").empty();
+				 			if(n==0){
+				 				$(".history-ul").append('<li class="alertText">没有记录</li>');
+				 			}else{
+				 				for(var i = 0;i<n;i++){
+				 					$(".history-ul").append("<li onclick=gokongjian('"+msg[i].fId+"')><label><div class='img-sm'> <img  src='${pageContext.request.contextPath}/"+msg[i].fPicturepath+"' class='Himg'/></div>"+
+				 							"<input name='fProductId' id='fPid' onchange='getDetail()' value="+msg[i].fId+" "+"type='radio'>"+
+				 							"<span class='lbl'></span></label>"+"</label><p class='sm-name'>"+msg[i].fName+"/"+msg[i].fCode+"</p></li>");
+				 				}
+				 			}
+		     		   }
+				 });
+				 //$('.close-mask').fadeToggle();
+				 $('.history-con').fadeToggle();
+
+		       }); 
+			$('.closeBtn').click(function(){
+				$('.history-con').fadeToggle();
+			})
+		})
+        
+        
+           //点击图片变大
+        	window.onload = function() {
+			    baguetteBox.run('.baguetteBoxOne');
+			};
+        	//缩略图不变形
+        	$(function(){
+				$('.threeimg').jqthumb({
+					width:260,
+					height:180,
+				})				
+			});
+        	$(function(){
+				$('.twoimg').jqthumb({
+					width:130,
+					height:50,
+				});
+				$('.Himg').jqthumb({
+					width:128,
+					height:60,
+				});
+			});
+          //客服
+        	$(function(){
+        		$('.kefu').click(function(){
+        			$.MsgBox.Alert("温馨提示", "已为您通知导购！");
+        		})
+        	})
+            //点选空间
+			$(function(){
+				$(".stylebox li").click(function() {
+					$(this).toggleClass('active');
+				});
+			})
+            //点选地板
+			$(function(){
+				$(".sec-pic li").click(function() {
+					$(this).addClass('active').siblings().removeClass('active');
+				});
+			})
+			function getCookie(c_name){
+		     	if (document.cookie.length>0){ 
+		     		c_start=document.cookie.indexOf(c_name + "=")
+		     		if (c_start!=-1){ 
+		     			c_start=c_start + c_name.length+1 
+		     			c_end=document.cookie.indexOf(";",c_start)
+		     			if (c_end==-1) c_end=document.cookie.length
+		     			return unescape(document.cookie.substring(c_start,c_end))
+		     		} 
+		     	}
+		     	return ""
+		     }
+     		function setCookie(c_name,value,expiredays){
+		     	var exdate=new Date()
+			     	exdate.setDate(exdate.getDate()+expiredays)
+			     	document.cookie=c_name+ "=" +escape(value)+
+			     	((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+		     }
+		 	function goIndex(){
+		 		/* var fId = "";
+				<c:forEach items="${tProducts}" var="msg">
+					fId += ","+'${msg.fId}';
+				</c:forEach>
+				var ss = fId.substring(1);
+				var gcookie = getCookie("lsjl");
+				if(gcookie != ""){
+					window.location.href="../index/index.action?fId="+ss+"&lsjl="+getCookie("lsjl")+"";
+					setCookie("lsjl",ss,7);
+				}else{
+					window.location.href="../index/index.action?fId="+ss+"";
+					setCookie("lsjl",ss,7);
+				} */
+		 		window.location.href="../index/index.action";
+			}
+			function getDetail(){	
+				var fProductId = $('input[name="fProductId"]:checked ').val();
+				var Status = $("#Status").val();
+				if(fProductId!=null&&fProductId!=""){
+					$.ajax({  
+	                	cache: false,
+				        type:"post",
+				        url : "../index/getDetail.action",
+				        dataType:"json", 
+				        data:$('#form1').serialize(),// 你的formid
+		                async: true,
+				        success : function(msg){
+				        	if(msg.length==0){
+				        	
+				        		$("#detailRoom").html("未找到符合条件的效果图！");	
+				        	}
+				        	else{
+				        	$("#detailRoom").html("");
+				        	var newhtml="";
+				        	$.each(msg, function(i,item) {				        		
+					        	newhtml+="<div class='smpic swiper-slide'><a href='${pageContext.request.contextPath}/"+item.fPicture+"' data-caption='"+item.fProductName+"/"+item.fProductCode+"'>";
+					        	newhtml+="<img src='${pageContext.request.contextPath}/"+item.fPicture64+"' class='threeimg'>";
+					        	newhtml+="</a>";		    	    		
+					        	newhtml+="</div>";
+					        	baguetteBox.run('.baguetteBoxOne');
+					        	$("#detailRoom").html(newhtml);
+				        	})				        	
+				        		$('.threeimg').jqthumb({
+									width:260,
+									height:180,
+								});
+				        	baguetteBox.run('.baguetteBoxOne');
+				        	}
+				        },
+				        error : function(){  
+				        	$.MsgBox.Alert("温馨提示", "稍后再试");
+				        }  
+					});
+					if(Status=='0'){
+						$.ajax({
+		                	cache: false,
+					        type:"post",
+					        url : "../index/getkongjian.action",
+					        dataType:"json", 
+					        data:{fProductId:fProductId},// 你的formid
+			                async: true,
+					        success : function(msg){
+					        	if(msg.length==0){	
+					        	}
+					        	else{
+					        	$("#ls").html("");
+					        	    newhtml="<input name='fId2' value="+msg.fCode+" checked='checked' type='checkbox'>";
+					        	    newhtml+="<input name='fId' type='checkbox' checked='checked' value="+msg.fId+">"
+					        	    newhtml+="<li class='active'>";
+						        	newhtml+="<label>";
+						        	newhtml+="<div class='sec-box'> <img src='${pageContext.request.contextPath}/"+msg.fPicture+"' class='twoimg'/></div>";		    	    		
+						        	newhtml+="<span class='lbl'></span>";
+						        	newhtml+="</label>";
+						        	newhtml+="<ul class='three-text'>";
+						        	newhtml+="<li>"+msg.fName+"/"+msg.fCode+"</li>";
+						        	newhtml+="</ul>";
+						        	newhtml+="</li>";
+						        	$("#ls").html(newhtml);
+					        	}
+					        },
+					        error : function(){  
+					        	$.MsgBox.Alert("温馨提示", "稍后再试");
+					        }  
+						});
+						
+					}
+				}			
+			}	
+			//点击重置
+	         $(function(){
+	             $(".right-txt").click(function() {
+	            	 var Status = $("#Status").val();
+	            	 var cookieval = getCookie("lsjl");
+	            	 if(Status == 1){
+	            	 }else{
+	            		 Status = 2;
+	            	 }
+	            	var fProductId = $("#fProductId").val();
+	            	if(cookieval != ""){
+	            		$(".icon-right .top-icon").removeClass('active');
+		             	$(".tool2").html(0);	
+		             	$(".icon-right .cart-icon").removeClass('active'); 	
+		             	$(".tool").html(0);	
+		             	setCookie("lsjl","",7);
+		             	var url="../index/kongjian.action?fProductId="+fProductId+"&Status="+Status+"";
+						document.forms["form1"].action=url;
+						document.forms["form1"].submit(); // 提交表单
+	            	}else{
+		            	window.location.reload();
+	            	}
+	             });
+	         })
+	         
+			 function goback(){
+	        	var Status = $("#Status").val();
+				var gcookie = getCookie("lsjl");
+				if(Status == '0' || Status == '2'){
+					var stringbuffer=$("#stringbuffer").val();
+					stringbuffer=encodeURI(encodeURI(stringbuffer));
+					window.location.href="${pageContext.request.contextPath}/index/list.action?stringbuffer="+stringbuffer+"&lsjl="+gcookie+"";
+				}else{
+					var url="../index/compare.action";
+					document.forms["form1"].action=url;
+					document.forms["form1"].submit(); // 提交表单
+				}
+				//window.history.back();
+			 }
+			 $(function(){
+				 $("#openDiv").click(function(){
+					 $(".aaa").toggle();
+				 })
+			 })
+        </script>
+    </head>
+    <body>
+    
+    	<form  id="form1" name="form1" method="post">		   
+    
+
+    	  <div class="content-box fadeInLeftBig animated">
+    	  
+    	  <!-- 
+    	      <div class="fixed-btn">
+          	    <div class="btn-mask">
+          	    	  <div class="history-btn"><i class="icon iconfont icon-lishijilu"></i></div>
+          	          <div class="history-close"><i class="icon iconfont icon-close1"></i></div>
+          	    </div>
+				<input type="hidden" id="stringbuffer" value="${stringbuffer}" >
+          	    <div class="history-con">
+          	       <p class="new-look">历史<br/>记录</p>
+          	       <ul class="history-ul">
+          	          <c:forEach items="${tProducts1}" var="msg" varStatus="index">
+				        <li >
+				             <label>
+		    	    	    	<div class="img-sm"> <img src="${pageContext.request.contextPath}/${msg.fPicturepath}" /></div>
+			    	    		<input name="fProductId" onchange="getDetail()" value="${msg.fId}" type="radio" checked="checked">
+								<span class="lbl"></span>
+		    	    	    </label>
+		    	    	     <p class="sm-name">${msg.fName}</p>
+			    	    	<p>${msg.fCode}</p>
+		    			</li>
+		    	       </c:forEach>
+			    	</ul>
+		    	    <i class="cate-arrow"></i>
+          	    </div>
+             </div>
+             
+           -->   
+		        <div class="top-header">
+		    		<div class="left-back" onclick="goback()"><i class="icon iconfont icon-fanhui" style="font-size:22px;"></i></div>
+		    		<div class="con-text">空间应用</div>
+		    		<div class="right-txt"><i class="icon iconfont icon-zhongzhi"></i>重置</div>
+		    	</div>
+		    	 <div class="second-module fadeIn animated" style="animation-delay:1s; padding-bottom:2px;">
+		    		  <ul class="ul-btn style-btn kongjianli">
+			    		<c:forEach items="${tStyles}" var="msg" varStatus="index">
+			    		<li>
+			    			<label>
+								<input name="styles" onchange="getDetail()" value="${msg.fId}" type="checkbox"  >
+								<span class="lbl">${msg.fName}</span>
+							</label>
+			    		</li>
+			    		</c:forEach>
+		    		</ul>
+		    	</div>
+		    	<div class="fist-module  fadeIn animated " style="animation-delay:1s;" >
+		    	    <!-- <p class="smalltext">1. 点击选择一个空间</p> -->
+		    	    <ul class="stylebox" >
+		    	    	<c:forEach items="${tRoomTypes}" var="msg" varStatus="index">
+		    	    	<li>
+		    	    	   <label>
+			    				<div class="smallpic" ><img alt="" src="${pageContext.request.contextPath}/${msg.fPicture}"></div>
+			    				<input name="tRoomType" onchange="getDetail()" value="${msg.fId}" type="checkbox"  >
+								<span class="lbl"></span>
+			    				<p class="style-name">${msg.fName}</p>
+			    		   </label>
+		    	    	</li>
+		    	    	</c:forEach>			    	    
+		    	    </ul>
+		    	</div>
+		         
+		    	<div class="second-module fadeIn animated" style="animation-delay:1s;">
+		    	    <!-- <p class="smalltext">2. 点击选择一款地板</p> -->
+		    		<ul class="sec-pic " id="ls">
+		    			<c:forEach items="${tProducts}" var="msg" varStatus="index">
+		    			<input name="fId2" value="${msg.fCode}" checked="checked" type="checkbox">
+		    			<input name="fId" type="checkbox" checked="checked" value="${msg.fId}">
+		    			<c:if test="${index.count==1}">
+		    			<li class="active">
+		    			    <label>
+		    	    	    	<div class="sec-box"> <img src="${pageContext.request.contextPath}/${msg.fPicturepath}" class="twoimg"/></div>
+			    	    		<input name="fProductId" id="fProductId" onchange="getDetail()" value="${msg.fId}" type="radio"  checked="checked">
+								<span class="lbl"></span>
+		    	    	    </label>
+		    	    	    <ul class="three-text">
+			    	    	    <li>${msg.fName}/${msg.fCode}</li>			    	
+		    	    		</ul>
+		    			</li>
+		    			</c:if>
+		    			<c:if test="${index.count>1}">
+		    			<li class="">
+		    			     <label>
+		    	    	    	<div class="sec-box"> <img src="${pageContext.request.contextPath}/${msg.fPicturepath}" class="twoimg"/></div>
+			    	    		<input name="fProductId" onchange="getDetail()" value="${msg.fId}"  type="radio" >
+								<span class="lbl"></span>
+		    	    	    </label>
+		    	    	    <ul class="three-text">
+			    	    	    <li>${msg.fName}/${msg.fCode}</li>
+			    	    		<!-- <li></li> -->
+		    	    		</ul>
+		    			</li>
+		    			</c:if>
+		    			</c:forEach>
+		    		</ul>
+		    	</div>
+		    	
+		    
+		     
+		    	<div class="three-module fadeIn animated" style="animation-delay:1.5s;">
+		    		
+		    		<div class="swiper-container baguetteBoxOne">
+		    			<div class="three-pic swiper-wrapper" id="detailRoom">
+		    			    
+			    	    	<c:forEach items="${tProductDetails}" var="msg">
+			    	    	<div class="smpic swiper-slide">			    	    		
+			    	    		<a href="${pageContext.request.contextPath}/${msg.fPicture}" data-caption="${msg.fProductName}/${msg.fProductCode}">
+			    	    			<img src="${pageContext.request.contextPath}/${msg.fPicture64}" class="threeimg" >
+			    	    		</a>			    	    		
+			    	    	</div>
+			    	    	</c:forEach>
+		    	        </div>
+		    	         <!-- <div class="swiper-pagination"></div> -->
+		    		</div>		
+		    	</div>
+		   	</div>
+		   	
+    	    <!--footer-->
+            <div class="foot-box">
+    	    	<ul>
+    	    		  <li>
+    	    		    <p class="historyBtn">
+    	    		    <i class="icon iconfont icon-lishijilu" style="font-size:18px;"></i>
+    	    		          历史记录</button>
+							<input type="hidden" id="stringbuffer" value="${stringbuffer}" >
+			          	    <div class="history-con">
+			          	       <p class="closeBtn"></p>
+			          	       <ul class="history-ul">
+			          	         
+						    	</ul>
+					    	    
+			          	    </div>
+    	    		</li>
+    	    		<li onclick="goIndex()"><p class="back-home"><i class="icon iconfont icon-home"></i>返回主界面</button></li>
+    	    		<li>
+	    	    		 <p class="download" style="width:208px;" onclick="onLoad()">
+	    	    		 	<i class="icon iconfont icon-download"></i>下载全部
+	    	    		 </p>
+    	    		</li>
+    	    	</ul>
+    	    </div>
+    	    </form>
+ <!--二维码弹框-->
+ <input type="hidden" id="Status" value="${Status}">
+			 <div class="md-modal zxl2" >
+			    <div class="bg-close"></div>
+				 <div class="content">
+				        <div class="code-content">
+							<div class="left-code" ><img src="${pageContext.request.contextPath}/awebStyle/images/code-bg.jpg"></div>
+							<div class="right-code">
+								<!-- <div class="close"><i class="icon iconfont icon-close"></i></div> -->
+								<div class="code-logo"><img style="height: 47px" src="${pageContext.request.contextPath}/awebStyle/images/code-logo.png"></div>
+								<p class="code-txt">用手机微信扫描二维码</p>
+								<div class="code-border">
+									<div class="code" id="qrcode" style="text-align: center;padding-top: 5px"><img src="${pageContext.request.contextPath}/awebStyle/images/code.png"></div>
+								</div>
+							</div>
+						</div>
+						 <button class="md-close" style="display: none;">Close me!</button> 
+					</div>
+		      </div>	
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 3,
+        slidesPerGroup :3,
+        slidesPerColumn: 2,
+        paginationType: 'fraction',
+        slidesPerColumnFill : 'row',
+        paginationClickable: true,
+        spaceBetween:20,
+        freeModeMomentumRatio :100,
+        observer:true,
+        observeParents:true
+    });
+    function onLoad(){	
+    	var url='${nowUrl}';
+		var fId=$("input[name='fId2']:checked").serialize();
+		$("#qrcode").empty();
+		$("#qrcode").qrcode(
+				   	 {
+				   		  text:url+"/index/loadProduct.action?"+fId+"",
+				   		  height: 130,
+				   		  width: 130,
+				   		  src: ''
+				   	 }
+		);			
+		$('.zxl2').fadeIn();
+		$(".content-box").addClass('container');
+
+	}
+    $(function(){
+		$('.bg-close').click(function(){
+			$('.zxl2').fadeOut();
+			$(".content-box").removeClass('container');
+		})
+	})	
+    </script>
+    </body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+        <title>产品详情</title>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
+    
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/swiper.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/head-foot.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/list-style.css">
+
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jquery-1.10.2.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/baguetteBox.css">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/baguetteBox.js"></script>
+        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/swiper.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jqthumb.min.js"></script>
+
+        <script type="text/javascript">
+        //点击图片变大
+     	window.onload = function() {
+			    baguetteBox.run('.baguetteBoxOne');
+			};
+			
+			
+        	//缩略图不变形
+        	$(function(){
+				$('.img').jqthumb({
+					width:190,
+					height:140,
+				})				
+			});
+			$(function(){
+				$('.det-pic').jqthumb({
+					width:610,
+					height:610,
+					position: { top: '100%', left: '0%' },
+				})				
+			});
+			function loadingHistory(){
+				//url = document.referrer;
+				//lsjlFid = getCookie("lsjl");
+				//url = url.substring(0,url.indexOf("lsjl=")+5)+lsjlFid;
+				//window.location.href=url;
+				var gcookie = getCookie("lsjl");
+				var stringbuffer=$("#stringbuffer").val();
+				if(gcookie != ""){
+					stringbuffer=encodeURI(encodeURI(stringbuffer));
+					window.location.href="${pageContext.request.contextPath}/index/list.action?stringbuffer="+stringbuffer+"&lsjl="+gcookie+"";	
+				}else{
+					stringbuffer=encodeURI(encodeURI(stringbuffer));
+					window.location.href="${pageContext.request.contextPath}/index/list.action?stringbuffer="+stringbuffer+"";
+				} 
+			}
+			function getCookie(c_name){
+		     	if (document.cookie.length>0){ 
+		     		c_start=document.cookie.indexOf(c_name + "=")
+		     		if (c_start!=-1){ 
+		     			c_start=c_start + c_name.length+1 
+		     			c_end=document.cookie.indexOf(";",c_start)
+		     			if (c_end==-1) c_end=document.cookie.length
+		     			return unescape(document.cookie.substring(c_start,c_end))
+		     		}
+		     	}
+		     	return ""
+		     }
+
+
+          </script>
+    </head>
+    <body>        
+      <input type="hidden" id="stringbuffer" value="${stringbuffer}" >
+    
+
+    	  <div class="content-box list-bg fadeInRightBig animated">
+		        <div class="top-header">
+		    		<div class="left-back" onclick="window.history.go(-1);"><i class="icon iconfont icon-fanhui" style="font-size:22px;"></i></div>
+		    		<div class="con-text">商品详情</div>
+		    	</div>
+		   
+		    	<div class="pic-content">
+		    	    <div class="details-left">
+		    	    	<div class="det-box"><img src="${pageContext.request.contextPath}/${tProducts.fPicturepath}" class="img"></div>
+		    	    	<div class="det-text">
+		    	    	   <table class="table">
+		    	    	   	   <tr>
+		    	    	   	   	   <td width="25%">名称：</td>
+		    	    	   	   	   <td width="75%">${tProducts.fName}</td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>型号：</td>
+		    	    	   	   	   <td>${tProducts.fCode}</td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>售价：</td>
+		    	    	   	   	   <td style="color:#f49c20">${tProducts.fPrice}元</td>
+		    	    	   	   </tr>
+		    	    	   	   
+		    	    	   	    <tr>
+		    	    	   	   	   <td>品类：</td>
+		    	    	   	   	   <td>${tProducts.fProductTypeName}</td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>颜色：</td>
+		    	    	   	   	   <td>${tProducts.fColor}</td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>规格：</td>
+		    	    	   	   	   <td><p>${tProducts.fSpec}</p></td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>工艺：</td>
+		    	    	   	   	   <td> <p>${tProducts.fGongyi}</p></td>
+		    	    	   	   </tr>
+		    	    	   	    <tr>
+		    	    	   	   	   <td>空间：</td>
+		    	    	   	   	   <td>
+		    	    	   	   	     <p class="guige">
+			    	    	   	   	   <c:forEach items="${tProductRooms}" var="msg" varStatus="index">
+			    	    	   	   	   	  <c:if test="${index.count==1}"><c:forEach items="${tRoomTypes}" var="msg1"><c:if test="${msg.fRoomId==msg1.fId}">${msg1.fName}</c:if></c:forEach></c:if>
+			    	    	   	   	   	   <c:if test="${index.count>1}"><c:forEach items="${tRoomTypes}" var="msg1"><c:if test="${msg.fRoomId==msg1.fId}">/&nbsp;${msg1.fName}</c:if></c:forEach></c:if>
+			    	    	   	   	   </c:forEach>
+		    	    	   	   	     </p>
+		    	    	   	   	   </td>
+		    	    	   	   </tr>
+		    	    	   	     <tr>
+		    	    	   	   	   <td>风格：</td>
+		    	    	   	   	   <td>
+			    	    	   	   	   <p class="guige">
+			    	    	   	   	      <c:forEach items="${tProductStyles}" var="msg" varStatus="index">
+			    	    	   	   	         <c:if test="${index.count==1}"><c:forEach items="${tStyles}" var="msg1"><c:if test="${msg.fStyleId==msg1.fId}">${msg1.fName}</c:if></c:forEach></c:if>
+			    	    	   	   	          <c:if test="${index.count>1}"><c:forEach items="${tStyles}" var="msg1"><c:if test="${msg.fStyleId==msg1.fId}">/&nbsp;${msg1.fName}</c:if></c:forEach></c:if>
+			    	    	   	   	      </c:forEach>
+			    	    	   	   	   </p>
+		    	    	   	   	   </td>
+		    	    	   	   </tr>
+		    	    	   </table>
+		      		    </div>
+		      		    <div class="add-text">
+		      		   <p> ${tProducts.fMartistic}</p>
+		      		    </div>
+		    	    </div>
+		    	    <div class="details-right">
+		    	    	<div class="detpicbox">
+			    	    	<div class="swiper-container swiper-pic baguetteBoxOne">
+				                <div class="swiper-wrapper">
+				                	<c:if test="${empty tProductDetails }">				                	
+				                	<div class="swiper-slide">
+				                	  <img src="${pageContext.request.contextPath}/${tProducts.fPicture}" class="det-pic">
+				                	</div>
+				                	</c:if>
+				                	 <c:forEach items="${tProductDetails}" var="msg">
+				                	<div class="swiper-slide">
+				                	      <a href="${pageContext.request.contextPath}/${msg.fPicture}" data-caption="${tProducts.fName}/${tProducts.fCode}">
+				                	          <img src="${pageContext.request.contextPath}/${msg.fPicture3}" class="det-pic">
+				                	       </a>
+				                	</div>
+				                	</c:forEach>
+				                </div>
+				                 <div class="swiper-pagination"></div>
+				            </div>
+				        </div>
+		    	    </div>	     
+			    </div>    
+    	</div> 
+    <script>
+    //详情
+    var swiper = new Swiper('.swiper-pic', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        spaceBetween:20,
+    });
+    </script>
+
+    </body>
+</html>

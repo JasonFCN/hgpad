@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+        <title>关于圣象</title>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/head-foot.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/list-style.css">
+
+    </head>
+    <body>
+       	<div class="introduce-content fadeInLeftBig animated"> 
+       	     <div class="top-header">
+		    		<div class="left-back" onclick="javascript:history.go(-1)"><i class="icon iconfont icon-fanhui" style="font-size:22px;"></i></div>
+		    		<div class="con-text">关于圣象</div>
+		    		<!-- <div class="right-txt"><i class="icon iconfont icon-zhongzhi"></i>重置</div> -->
+		     </div>
+		     <div class="text-content">
+	       		<div class="text-pic"><img src="${pageContext.request.contextPath}/${tAboutPowerDekor.fPicture}" style="height:234px"></div>
+	       	    ${tAboutPowerDekor.fContent}
+	         </div>
+       	</div>
+    </body>
+</html>

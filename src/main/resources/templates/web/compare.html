@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>比较</title>
+    
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/list-style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/compare.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/head-foot.css">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jqthumb.min.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/barCode/utf.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/barCode/jquery.qrcode.js"></script> 
+        <style type="text/css">
+        	.com-icon .icon {
+          /* 通过设置 font-size 来改变图标大小 */
+          width: 1em; height: 1em;
+          /* 图标和文字相邻时，垂直对齐 */
+          vertical-align: -0.15em;
+          /* 通过设置 color 来改变 SVG 的颜色/fill */
+          fill: currentColor;
+          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+             normalize.css 中也包含这行 */
+          overflow: hidden;
+        }
+        .youhui{
+    	width:600px;
+    	height:285px;
+	    background:transparent;
+	    position: absolute;
+	    top:48%;
+	    left: 50%;
+	    margin: -142.5px 0 0 -300px;
+    }
+    .code-content{
+    	text-align:center;
+    }
+    .youhui img{
+       width:100%;
+       height:100%;
+    }
+
+        </style>
+        <script type="text/javascript">
+        	//缩略图不变形
+        	$(function(){
+				$('.img').jqthumb({
+					width:253,
+					height:170,
+				})
+				
+			});
+        	//点击底部保存跳页面
+			function kongjian(){
+        		var fProductId=$("#fProductId").val();
+        		var lsjl = getCookie("lsjl");
+        		var Status = '1';
+        		if(lsjl != "" && lsjl != null){
+        			var url="../index/kongjian.action?fProductId="+fProductId+"&lsjl="+lsjl+"&Status="+Status+"";
+    				document.forms["form1"].action=url;
+    				document.forms["form1"].submit(); // 提交表单
+        		}else{
+        			var url="../index/kongjian.action?fProductId="+fProductId+"&lsjl="+""+"&Status="+Status+"";
+    				document.forms["form1"].action=url;
+    				document.forms["form1"].submit(); // 提交表单
+        		}
+			}
+     		function setCookie(c_name,value,expiredays){
+		     	var exdate=new Date();
+		     	exdate.setDate(exdate.getDate()+expiredays)
+		     	document.cookie=c_name+ "=" +escape(value)+
+		     	((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+		     }
+     		function getCookie(c_name){
+		     	if (document.cookie.length>0){ 
+		     		c_start=document.cookie.indexOf(c_name + "=")
+		     		if (c_start!=-1){ 
+		     			c_start=c_start + c_name.length+1 
+		     			c_end=document.cookie.indexOf(";",c_start)
+		     			if (c_end==-1) c_end=document.cookie.length
+		     			return unescape(document.cookie.substring(c_start,c_end))
+		     		} 
+		     	}
+		     	return ""
+		     }
+     		function goIndex(){
+        		/* var fId = "";
+				<c:forEach items="${tProducts}" var="msg">
+					fId += ","+'${msg.fId}';
+				</c:forEach>
+				var ss = fId.substring(1);
+				var gcookie = getCookie("lsjl");
+				if(gcookie != ""){
+					window.location.href="../index/index.action?fId="+ss+"&lsjl="+gcookie+"";
+					setCookie("lsjl",ss,7);
+				}else{
+					window.location.href="../index/index.action?fId="+ss+"";
+					setCookie("lsjl",ss,7);
+				} */
+     			var fProductId=$("#fProductId").val();
+        		var sdf=$("input.fIds");
+        		var str = "";
+        		//alert(sdf[0].value);
+        		for(var i=0;i<sdf.length;i++){
+        			str +=","+ sdf[i].value;
+        		} 
+        		str = str.substring(1);
+        		var lsjl= getCookie("lsjl");
+     			window.location.href="../index/index.action?fId="+str+"&lsjl="+lsjl;
+			}
+			function goDetail(e){
+				window.location.href="${pageContext.request.contextPath}/index/productDetail.action?fId="+e+"";
+			}
+			function goback(){
+				
+				url = document.referrer;
+				/* var fProductId=$("#fProductId").val();
+        		var sdf=$("input.fIds");
+        		var str = "";
+        		//alert(sdf[0].value);
+        		for(var i=0;i<sdf.length;i++){
+        			str +=","+ sdf[i].value;
+        		} 
+        		str = str.substring(1);
+        		if(url.substring(url.indexOf("lsjl="+5))!=""){
+        			url+=","+str;
+        		}else{
+        			url+=str;
+        		} */
+				//window.location.href=url;
+				//var cook=getCookie("lsjl");
+				if(url.search("kongjian")>0){
+					url = "${pageContext.request.contextPath}/index/hostList.action";
+				}
+				window.location.href=url;
+				
+				
+				
+				/* var fId = "";
+				<c:forEach items="${tProducts}" var="msg">
+					fId += ","+'${msg.fId}';
+				</c:forEach>
+				var ss = fId.substring(1);
+				var gcookie = getCookie("lsjl");
+				var stringbuffer=$("#stringbuffer").val();
+				if(gcookie != ""){
+					stringbuffer=encodeURI(encodeURI(stringbuffer));
+					window.location.href="${pageContext.request.contextPath}/index/list.action?fId="+ss+"&stringbuffer="+stringbuffer+"&lsjl="+gcookie+"";	
+				}else{
+					stringbuffer=" 1=1";
+					stringbuffer=encodeURI(encodeURI(stringbuffer));
+					window.location.href="${pageContext.request.contextPath}/index/list.action?fId="+ss+"&stringbuffer="+stringbuffer+"";
+				}  */
+		 }
+        </script>
+    </head>
+    <body>
+          <input type="hidden" id="stringbuffer" value="${stringbuffer}" >
+    	  <div class="content-box compare-bg fadeInLeftBig animated" style="background-image:url(${pageContext.request.contextPath}/${tBackgroundPic.fPicture}) !important;">
+		        <div class="top-header">
+		    		<div class="left-back" onclick="goback()"><i class="icon iconfont icon-fanhui" style="font-size:22px;"></i></div>
+		    		<div class="con-text">比较</div>
+		    		<!-- <div class="right-txt"><i class="icon iconfont icon-zhongzhi"></i>重置</div> -->
+		    	</div>
+		   		<form  id="form1" name="form1" method="post">		   	   
+		    	<div class="pic-content compare-content fadeIn animated" style="animation-delay:1s;">
+		    	       <div class="compare-ul">
+		    	   	       <c:forEach items="${tProducts}" var="msg" varStatus="index">
+		    	   	       <c:if test="${index.count<=3}">
+		    	   	       	  <input name="fId" value="${msg.fId}" type="hidden" class="fIds">
+		    	   	       	  <input name="fId2" value="${msg.fCode}" checked="checked" type="checkbox">
+		    	   	       <c:if test="${index.count==1}">
+		    	   	       		<input type="hidden" id="fProductId" value="${msg.fId}" name="">
+		    	   	       </c:if>
+		    	   	       <div class="com-list">
+		    	   	   		    <div class="image-box" ><img src="${pageContext.request.contextPath}/${msg.fPicturepath}" class="img"> </div>
+			    	   	   		<div class="tool-box compare-box">
+						           <ul class="one-ul">
+						            	<li class="name">${msg.fName}</li>
+						            	<li class="price">${msg.fPrice}元</li>
+						            	</ul>
+						            <div class="sm-ul">
+						                <table class="table">
+					    	    	   	   <tr>
+					    	    	   	   	   <td width="18%">型号：</td>
+					    	    	   	   	   <td width="82%">${msg.fCode}</td>
+					    	    	   	   </tr>
+					    	    	   	   <tr>
+					    	    	   	   	   <td>品类：</td>
+					    	    	   	   	   <td>${msg.fName}</td>
+					    	    	   	   </tr>
+					    	    	   	   <tr>
+					    	    	   	   	   <td>颜色：</td>
+					    	    	   	   	   <td>${msg.fColor}</td>
+					    	    	   	   </tr>
+					    	    	   	   <tr>
+					    	    	   	   	   <td>规格：</td>
+					    	    	   	   	   <td><p>${msg.fSpec}</p></td>
+					    	    	   	   </tr>
+					    	    	   	   <tr>
+					    	    	   	   	   <td>工艺：</td>
+					    	    	   	   	   <td> <p>${msg.fGongyi}</p></td>
+					    	    	   	   </tr>
+					    	    	   	   <tr>
+					    	    	   	   	   <td>销量：</td>
+					    	    	   	   	   <td>${msg.fSaled}</td>
+					    	    	   	   </tr>
+					    	    	   	</table>
+						            </div>			
+								</div>
+		    	   	        </div>
+		    	   	        </c:if>
+		    	   	        </c:forEach>
+		    	   	       
+		    	        </div>
+    			</div>
+    			</form>
+    			<div class="middle-box fadeIn animated" style="animation-delay:1.4s;">
+    				<ul >
+    					<li class="fadeInUp animated" style="animation-delay:1.6s;">
+    						<div class="com-icon rotateIn animated" style="animation-delay:1.6s;">
+    							<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-yunyingguanli"></use>
+			                    </svg>
+    						</div>
+    						<p>客服</p>
+    					</li>
+    					<li class="fadeInUp animated" style="animation-delay:2s;" onclick="kongjian()">
+    						<div class="com-icon rotateIn animated" style="animation-delay:2s;">
+    							 <svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-lipintongzhi"></use>
+			                    </svg>
+    						</div>
+    						<p>空间应用</p>
+    					</li>
+    					<li class="fadeInUp animated" style="animation-delay:2.4s;" onclick="onLoad()">
+    						<div class="com-icon rotateIn animated" style="animation-delay:2.4s;">
+    							<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-wuliaoxiazai"></use>
+			                    </svg>
+    						</div>
+    						<p>下载全部地板</p>
+    					</li>
+    					<li class="fadeInUp animated" style="animation-delay:2.8s;">
+    						<div class="com-icon rotateIn animated md-trigger" style="animation-delay:2.8s;" id="code-btn">
+    							<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-youhuishezhi"></use>
+			                    </svg>
+    						</div>
+    						<p>优惠促销</p>
+    					</li>
+    				</ul>
+    			</div>
+          	</div>
+    	    <!--footer-->
+    	    <div class="foot-box">
+    	    	<ul>   	    	
+    	    		<li onclick="goIndex()">
+	    	    		 <button class="back-home" style="width:820px;"><i class="icon iconfont icon-home"></i>返回主界面</button>	    	    		  
+	    	    	</li>    	    	   
+    	    	</ul>
+    	    </div>
+   	
+  <!--优惠券弹框-->
+	<div class="md-modal zxl1">
+		<div class="bg-close"></div>
+			<div class="content youhui">
+					<div class="code-content">
+                           <img src="${pageContext.request.contextPath}/${tCoupon.fPicture}" class="youhui">
+						</div>
+						 <button class="md-close" style="display: none;">Close me!</button>
+			</div>
+	</div>
+	 <!--二维码弹框-->
+			 <div class="md-modal zxl2" >
+			    <div class="bg-close"></div>
+				 <div class="content">
+				        <div class="code-content">
+							<div class="left-code" ><img src="${pageContext.request.contextPath}/awebStyle/images/code-bg.jpg"></div>
+							<div class="right-code">
+								<!-- <div class="close"><i class="icon iconfont icon-close"></i></div> -->
+								<div class="code-logo"><img style="height: 47px" src="${pageContext.request.contextPath}/awebStyle/images/code-logo.png"></div>
+								<p class="code-txt">用手机微信扫描二维码</p>
+								<div class="code-border">
+									<div class="code" id="qrcode" style="text-align: center;padding-top: 5px"><img src="${pageContext.request.contextPath}/awebStyle/images/code.png"></div>
+								</div>
+							</div>
+						</div>
+						 <button class="md-close" style="display: none;">Close me!</button> 
+					</div>
+		      </div>	
+<script type="text/javascript">
+	$(function(){
+
+		$('#code-btn').click(function() {
+			$('.zxl1').fadeIn();
+			$(".content-box").addClass('container');
+		});
+		$('.bg-close').click(function(){
+			$('.zxl1').fadeOut();
+			$('.zxl2').fadeOut();
+			$(".content-box").removeClass('container');
+		})
+	})	
+	function onLoad(){								
+					var url='${nowUrl}';
+					var fId=$("input[name='fId2']:checked").serialize();
+					$("#qrcode").empty();
+					$("#qrcode").qrcode(
+							   	 {
+							   		  text:url+"/index/loadProduct.action?"+fId+"",
+							   		  height: 130,
+							   		  width: 130,
+							   		  src: ''
+							   	 }		
+					);			
+				$('.zxl2').fadeIn();
+			}
+</script>		      
+    </body>
+</html>

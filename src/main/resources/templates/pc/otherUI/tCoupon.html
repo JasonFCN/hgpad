@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优惠券</title>
+    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/up-images.css">
+    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
+     <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
+     <style type="text/css">
+      .goods-pre{
+      height:auto;
+      max-width:600px;}
+     .goods-pre img{
+     width: 100%;
+     height: auto;}
+     
+     </style>
+    <script type="text/javascript">
+        //缩略图不变形
+       /**
+        $(document).ready(function() {
+          $('.goods-img').jqthumb({
+          width:248,
+          height:140,
+      		  });
+         
+          $('.upmorepic').jqthumb({
+              width:480,
+              height:280,
+          		  });
+      	});
+        **/
+        function reLoadWindow(){
+ 		   window.location.reload();
+ 	    }
+       
+      //上传图片预览
+     	function previewImage(file){
+     		//alert("1231");	
+     		var objUrl = getObjectURL(file.files[0]);
+     		//alert(numb);
+     	    $("#uploadPreview").attr("src", objUrl);
+     	    //$("#img7").attr("src", objUrl);
+     	    $("#picPath").val($("#fileField").val());  
+     	}
+     	//建立一個可存取到該file的url
+     	function getObjectURL(file) {
+     		var url = null ; 
+     		if (window.createObjectURL!=undefined) { // basic
+     			url = window.createObjectURL(file) ;
+     		} else if (window.URL!=undefined) { // mozilla(firefox)
+     			url = window.URL.createObjectURL(file) ;
+     		} else if (window.webkitURL!=undefined) { // webkit or chrome
+     			url = window.webkitURL.createObjectURL(file) ;
+     		}
+     		if(url!="" || url!=null)
+     		{
+     			$("#uploadPreview").css("display","block");	
+     		}
+     		return url ;	
+     	}    	
+     	function submitData(){
+	  		 var url = "${pageContext.request.contextPath}/other/save2.action";
+			 document.forms["form2"].action = url; 			 
+			 document.forms["form2"].submit(); // 提交表单	菜单 
+     	}   
+    </script>
+</head>
+<body class="gray-bg">
+<div class="container-fluid">
+   <div class="header-fixed">                   
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">其他配置</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+                <li class="active">优惠券</li>
+            </ul><!--.breadcrumb-->
+        </div><!--#breadcrumbs-->
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>
+                    <span class="btn btn-blue btn-xs" onclick="submitData()"><i class="fa fa-share-square-o" style="margin-right:2px; font-size:12px;"></i>提交</span>
+                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+   
+    <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+    <div class="page-content-main">
+        <div id="page-content">
+         <div class="panel-box">
+               <div class="title-text">
+                <span class="title-con">优惠券</span><span style="color:#f03;font-size:14px;margin-left:10px;">尺寸：1300*600</span>
+               </div>
+               <div class="panel-body">
+                     <div class="form-horizontal">
+                          <div class="row-fluid row-margin">
+                            <div class="col-sm-3">
+                                  <div class="form-group">
+                                          <label class="control-label">上传图片</label>
+                                          <div class="col-sm-9">
+                                             <div class="file-box goodspic-up">
+                                               <input type="text" class="txt" id="picPath" readonly="readonly"> 
+
+                                                <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
+                                                <input type="button" class="bttn" value="上传">    
+                                            </div>
+                                          </div>
+                                  </div>
+                              </div>
+                             </div>
+                            <div class="row-fluid row-margin">
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                          <label class="control-label"><!--上传的图片显示--></label>
+                                          <div class="col-sm-9">
+                                             <div class="goods-pre">
+                                                <img src="${pageContext.request.contextPath}/${tCoupon.fPicture}" id="uploadPreview"  class="goods-img" style="display:block;">
+                                             </div>
+                                          </div>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+                </div>
+        </div>       
+      </div>
+    </div>
+    <input type="hidden" name="fId" id="fId" value="${tCoupon.fId}"/>   
+    <input type="hidden" name="fPicture" value="${tCoupon.fPicture}"/>
+    </form>
+</div>
+
+
+
+    <!-- 全局js -->
+    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
+    <script type="text/javascript">
+
+      //分页/
+      $(function(){
+         $('.pagination ul li').click(function() {
+              $(this).addClass('active').siblings().removeClass('active');
+         });
+      });
+      
+   </script>
+
+ <script type="text/javascript">
+  
+  $('#btn').on('click', function () {
+    $('#newadd-Modal').modal('show');
+  });
+  $('#newadd-Modal').modal({
+    show:false,
+    keyboard :false,
+     });
+
+</script>
+    
+
+</body>
+
+</html>

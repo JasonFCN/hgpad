@@ -1,0 +1,108 @@
+body{
+	font-family:"Microsoft YaHei";
+}
+/*µÇÂ¼ÌáÊ¾Ò³Ãæ*/
+.lo_mask_box{
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:2147483;
+	top:0;
+	left:0;
+	right:0;
+	background:rgba(0,0,0,0.5);
+	-webkit-transition: all 0.3s ease-in;
+    -ms-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+	}
+.lo_mask_box .content-tan{
+	width:380px;
+	background:#fff;
+	position:absolute;
+	top:10%;
+	left:50%;
+	margin:0 0 0 -180px;
+	border-radius: 4px;
+	}
+	
+.lo_mask_box .title_txt{
+	width:100%;
+	color:#ec6c00;
+	border-bottom:1px solid #eee;
+	line-height:20px;
+	padding:10px;
+	font-size:16px;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.lo_mask_box .txt_content{
+	width:100%;
+	line-height:1rem;
+	text-align:center;
+	padding:20px;
+	font-size: 16px;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.button_btn{
+	width:100%;
+	margin:0 auto;
+	text-align:center;
+	background:#f2f2f2;
+	border-top:1px solid #e4e9ee;
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+	padding: 10px 15px 10px;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+/*
+.button_btn .button{
+	width:5.8rem;
+	height:1.3rem;
+	color:#fff;
+	text-align:center;
+	line-height:1.3rem;
+	letter-spacing:0.2rem;
+	border:none;
+	}
+.button_btn .ti_left_btn{
+	background:#74c4d4;
+	margin-right:4%;
+	}
+.button_btn .ti_right_btn{
+	background:#bbb;
+	}
+
+*/
+
+	
+/* confirm title*/	
+.mask_box .title_txt{
+	width:100%;
+	color:#4c98ff;
+	height:1.1rem;
+	border-bottom:1px solid #dcdcdc;
+	}	
+.text-txt{
+	width:100%;
+	display:block;
+	font-size:14px;
+	font-family: Microsoft YaHei;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}

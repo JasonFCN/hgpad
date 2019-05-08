@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品大类列表</title>
+    <link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+
+    <link href="/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+     <link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+    
+    <script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
+    <!-- 自定义js -->
+    <script src="/bgStyle/js/content.js?v=1.0.0"></script>
+    <script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script> 
+       <script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script> 
+    <style type="text/css">
+    .preview{
+      width:160px !important;
+           height:160px;
+    }
+    </style>
+    <script type="text/javascript">
+       //缩略图不变形
+       $(document).ready(function() {
+           $('.td-img').jqthumb({
+           width:60,
+           height:60,
+       }); 
+       $('.modal-img').jqthumb({
+           width:160,
+           height:160,
+       });            
+       });
+ 	   function reLoadWindow(){
+		   window.location.reload();
+	   }
+ 	   $(document).ready(function() { 	       
+ 	   });	   
+ 	  function closeShow(){
+    	  $('#newadd-Modal').modal('hide');
+    	  $('#newadd-Modal2').modal('hide');
+      } 	  	
+ 	//删除banner
+ 	function deleteData(e){
+ 		 $.MsgBox.Confirm("温馨提示", "确定删除？", function () {
+ 			$.ajax({
+	            type:"POST",
+	            url :"/tProductType/delete?id="+e,
+	            data:{},
+	            dataType:"json",
+	            success:function(data){
+ 	            	if(data==1){
+    				   window.location.href="/tProductType/list";
+ 	            	}	
+ 	            	else if(data==0){
+ 	            		$.MsgBox.Alert("温馨提示","用户未登录！");
+	    				return false;
+ 	            	}
+ 	            	
+ 	            },
+ 	            error:function(){
+ 	            	$.MsgBox.Alert("温馨提示","请稍后再试！");
+ 	            	return false;
+ 	            }
+		 });
+		}) 
+ 	}
+	function editUI(e){
+ 		$.ajax({
+            type:"POST",
+            url :"/tProductType/getTProductTypeById?id="+e,
+            data:{},
+            dataType:"json",
+            success:function(data){
+            	
+            	$("#no2").val(data.no);            	
+            	$("#name2").val(data.name);            	
+            	$("#code2").val(data.code);  
+            	$("#fCodeOld").val(data.code);  
+            	$("#id2").val(data.id);
+            	$("#picture2").val(data.picture);
+            	
+            	if(data.status==1){                	
+            		$("#radio5").prop("checked",true);
+            		$("#radio6").prop("checked",false);
+            	}else{
+            		$("#radio5").prop("checked",false);
+            		$("#radio6").prop("checked",true);
+            	}
+            	$("#uploadPreview2").attr("src","/myImage/"+data.picture);
+     			$("#uploadPreview2").css("display","block");
+            }
+        });
+		$('#newadd-Modal2').modal('show');
+ 	}
+    function addShow(){
+		  $("#radio7").prop("checked",true);
+		  $("#radio8").prop("checked",false);
+  	      $('#newadd-Modal').modal('show');
+  	}
+    //新增
+    function submitData(){
+
+    	var fileName=$("#name").val();
+ 		 if(fileName==null || fileName=="")
+ 			{
+ 			$.MsgBox.Alert("温馨提示","大类名称不能为空");
+ 			  return false;
+ 		 }	
+   		 var fCode=$("#code").val();
+ 		 if(fCode==null || fCode=="")
+ 			{
+ 			$.MsgBox.Alert("温馨提示","大类编码不能为空");
+ 			 return false;
+ 		 }	
+		 $.ajax({
+            type:"POST",
+            url :"/tProductType/checkCode?code="+fCode+"",
+            data:{},
+            dataType:"json",
+            success:function(data){
+	            	if(data==1){
+	            		$.MsgBox.Alert("温馨提示","该编号已存在");
+   				   		return false;	
+	            	}	
+	            	else if(data==0){
+            	    	 var url = "/tProductType/saveData";
+            			 document.forms["form2"].action = url; 			 
+            			 document.forms["form2"].submit(); // 提交表单	菜单 
+	            	}
+	            	else{
+	            		$.MsgBox.Alert("温馨提示","请稍后再试！");
+    				   	return false;
+	            	}
+	            	
+	            },
+	            error:function(){
+	            	$.MsgBox.Alert("温馨提示","请稍后再试！");
+	            	return false;
+	            }
+		 });
+		 
+	}
+    //编辑
+    function submitData2(){
+
+    	var fileName=$("#name2").val();
+ 		 if(fileName==null || fileName=="")
+ 			{
+ 			$.MsgBox.Alert("温馨提示","大类名称不能为空");
+ 			  return false;
+ 		 }	
+   		 var fCode=$("#code2").val();
+ 		 if(fCode==null || fCode=="")
+ 			{
+ 			$.MsgBox.Alert("温馨提示","大类编码不能为空");
+ 			  return false;
+ 		 }	
+		
+	   	     
+	     var fCodeOld=$("#fCodeOld").val();
+		 if(fCode==fCodeOld){
+	    	 var url = "/tProductType/update";
+			 document.forms["form3"].action = url; 
+			 document.forms["form3"].submit(); // 提交表单	菜单 
+		 }else{
+			 $.ajax({
+		            type:"POST",
+		            url :"/tProductType/checkCode?code="+code,
+		            data:{},
+		            dataType:"json",
+		            success:function(data){
+	 	            	if(data==1){
+	 	            		$.MsgBox.Alert("温馨提示","该编号已存在");
+	    				   return false;	
+	 	            	}	
+	 	            	else if(data==0){
+		 	            	    	 var url = "/tProductType/update";
+		 	            			 document.forms["form3"].action = url; 
+		 	            			 document.forms["form3"].submit(); // 提交表单	菜单 
+		 	            	    
+	 	            	}
+	 	            	else{
+	 	            		$.MsgBox.Alert("温馨提示","请稍后再试！");
+		    				   return false;
+	 	            	}
+	 	            	
+	 	            },
+	 	            error:function(){
+	 	            	$.MsgBox.Alert("温馨提示","请稍后再试！");
+	 	            	return false;
+	 	            }
+			 });
+		 }
+	}
+	function gotoPage( pageNum ){
+	$("#pageId").val(pageNum);
+	// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
+	//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
+	//alert();
+	document.forms[0].submit(); // 提交表单
+	}
+	function setZro(text1){
+ 		var msize=$(text1).val();
+ 		
+ 		if(!isNaN(msize)){
+ 			var dot = msize.indexOf(".");
+ 	        if(dot != -1){
+ 	            var dotCnt = msize.substring(dot+1,msize.length);
+ 	            if(dotCnt.length >0){
+ 	            	$.MsgBox.Alert("温馨提示","不能有小数点！");
+ 	                $(text1).val("99");
+ 	                return false;
+ 	            }
+ 	        }
+ 		}else{
+ 			
+ 			$(text1).val("99");
+ 			return false;
+ 		}
+ 		
+ 		if(msize==""||msize==null){
+ 			$(text1).val("99");
+ 			return false;
+ 		}
+ 		if(measureSize==null||measureSize==""){
+ 			$(text1).val("99");
+ 		
+ 		}
+ 		
+ 	}
+	function onsearch1(){
+  		document.forms["form1"].submit(); // 提交表单
+
+  	}
+	$(function(){
+		$("#fStateZxl").change(function(){
+			document.forms["form1"].submit(); // 提交表单
+		})
+		
+		
+	})
+	//上传图片预览
+ 	function previewImage(file){
+ 		//alert("1231");	
+ 		var objUrl = getObjectURL(file.files[0]);
+ 		//alert(numb);
+ 	    $("#uploadPreview").attr("src", objUrl);
+ 	    //$("#img7").attr("src", objUrl);
+ 	    $("#picPath").val($("#fileField").val());  
+ 	}
+ 	//建立一個可存取到該file的url
+ 	function getObjectURL(file) {
+ 		var url = null ; 
+ 		if (window.createObjectURL!=undefined) { // basic
+ 			url = window.createObjectURL(file) ;
+ 		} else if (window.URL!=undefined) { // mozilla(firefox)
+ 			url = window.URL.createObjectURL(file) ;
+ 		} else if (window.webkitURL!=undefined) { // webkit or chrome
+ 			url = window.webkitURL.createObjectURL(file) ;
+ 		}
+ 		if(url!="" || url!=null)
+ 		{
+ 			$("#uploadPreview").css("display","block");	
+ 		}
+ 		return url ;	
+ 	}
+	//上传图片预览
+ 	function previewImage2(file){
+ 		//alert("1231");	
+ 		var objUrl = getObjectURL2(file.files[0]);
+ 		//alert(numb);
+ 	    $("#uploadPreview2").attr("src", objUrl);
+ 	    //$("#img7").attr("src", objUrl);
+ 	    $("#picPath2").val($("#fileField2").val());  
+ 	}
+ 	//建立一個可存取到該file的url
+ 	function getObjectURL2(file) {
+ 		var url = null ; 
+ 		if (window.createObjectURL!=undefined) { // basic
+ 			url = window.createObjectURL(file) ;
+ 		} else if (window.URL!=undefined) { // mozilla(firefox)
+ 			url = window.URL.createObjectURL(file) ;
+ 		} else if (window.webkitURL!=undefined) { // webkit or chrome
+ 			url = window.webkitURL.createObjectURL(file) ;
+ 		}
+ 		if(url!="" || url!=null)
+ 		{
+ 			$("#uploadPreview2").css("display","block");	
+ 		}
+ 		return url ;	
+ 	}
+    </script>
+
+</head>
+
+<body class="gray-bg">
+<input type="hidden" id="fCodeOld"/>
+	
+
+<form action="/tProductType/list" method="post" name="form1">
+<div class="container-fluid">
+
+   <div class="header-fixed">                   
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">参数管理</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+                <li class="active">商品大类列表</li>
+            </ul><!--.breadcrumb-->
+        </div><!--#breadcrumbs-->
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>                  
+                    <span class="btn btn-blue btn-xs"  onclick="addShow()" ><i class="fa fa-plus" style="margin-right:2px; font-size:12px;"></i>新增</span>                    
+                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
+			<div class="page-content-main">
+				<div id="page-content">
+					<div class="panel-box">
+						<div class="title-text">
+							<span class="title-con">商品大类列表</span> <span
+								style="color: #f03; font-size: 14px; margin-left: 10px;">icon尺寸：80*80</span>
+						</div>
+						<div class="panel-body">
+							<div class="form-horizontal" th:object="${productType}">
+								<div class="row-fluid">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">大类名称</label>
+											<div class="col-sm-9">
+												<input type="text" name="name" th:value="*{name}"
+													placeholder="请输入大类名称" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">大类编码</label>
+											<div class="col-sm-9">
+												<input type="text" name="code" th:value="*{code}"
+													placeholder="请输入大类编码" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<input type="button" onclick="onsearch1()"
+												class="btn btn-green btn-sm" value="查询" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<table class="table table-hover">
+								<tr>
+									<th width="5%">序号</th>
+									<th width="20%">大类名称</th>
+									<th width="10%">编码</th>
+									<th width="10%">icon</th>
+									<th width="20%">
+										<select class="table-sel" id="fStateZxl" name="status">
+												<option value="">全部</option>
+												<option value="1" th:selected="${productType.status==1}">有效</option>
+												<option value="0" th:selected="${productType.status==0}">无效</option>
+										</select> 
+										<input type="hidden" id="pageId" value="1" name="pageNum" />
+									</th>
+									<th width="20%">操作</th>
+								</tr>
+								<tr th:if="${page.totalPages>0}" th:each="msg : ${page.content}">
+									<td th:text="${msg.no}"></td>
+									<td th:text="${msg.name}"></td>
+									<td th:text="${msg.code}"></td>
+									<td><img th:src="|/myImage/${msg.picture}|" style="width: 40px; height: auto;"></td>
+									<td>
+										<span th:if="${msg.state==1}" th:style="'color:green;'" th:text="有效"></span> 
+										<span th:if="${msg.state==0}" th:style="'color:red;'" th:text="无效"></span>
+									</td>
+									<td style="border-left: 1px solid #e7eaec;">
+										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick="|editUI(${msg.id})|" value="编辑"> 
+										<input type="button" class="btn btn-danger btn-xs btn-outline" th:onclick="javascript:deleteData([[${msg.id}]])" value="删除">
+									</td>
+								</tr>
+							</table>
+							<div th:if="${page.totalPages>0}" class="pagination" style="margin-top: 0px; text-align: right; margin-bottom: 0;">
+								<div class="page-left">
+									<p>
+										页次:<span style="color: #6faed9;" th:text="${pageNum}"></span>&nbsp;&nbsp;每页显示：<span style="color: #6faed9;" th:text="${page.pageable.pageSize}"></span>条&nbsp;&nbsp;总记录数：<span style="color: #6faed9;" th:text="${page.totalElements}"></span>条
+									</p>
+									<input type="hidden" th:value="${pageNum}" id="nowPageNum" />
+								</div>
+								<ul>
+									<a href="javascript: gotoPage(1)"><li>
+											<i class="fa fa-angle-double-left" style="font-size: 16px;"></i>
+										</li></a>
+									<a th:each="num : ${#numbers.sequence(1,page.totalPages)}">
+										<li th:text="${num}" th:style="${num==pageNum}?'background:#0786e7;color:#fff;'"></li>
+									</a>
+									<a href="javascript: void();" th:onclick="'javascript: gotoPage('+${page.totalPages}+')'">
+										<li>
+											<i class="fa fa-angle-double-right" style="font-size: 16px;"></i>
+										</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+ </form>
+<!-- 新增图片 -->
+<div class="modal fade" id="newadd-Modal" >
+  <!-- 窗口声明 -->
+   <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+   
+  <div class="modal-dialog">
+    <!-- 内容声明 -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title" id="showTitle">新增大类</h4>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-horizontal">
+                     <div class="row-fluid row-margin">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">序号</label>
+                                <div class="col-sm-9">
+                                <input type="number" name="no"  onblur="setZro(this)" value="99" class="form-control input-box"> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">大类名称</label>
+                                   <div class="col-sm-9">
+                                  <input type="text" id="name" name="name" placeholder="请输入大类名称" class="form-control input-box">
+                                  </div>
+                            </div>
+                        </div>                       
+                    </div>
+                    <div class="row-fluid row-margin">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">大类编码</label>
+                                   <div class="col-sm-9">
+                                  <input type="text" id="code" name="code" placeholder="请输入大类编码" class="form-control input-box">
+                                  </div>
+                            </div>
+                        </div>
+                         <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">有效性</label>
+                                   <div class="col-sm-9">
+                                  <label class="radio radio-info" style="margin-right:20px;">
+                                       <input type="radio" name="state" id="radio7" value="1">
+                                       <label for="radio7">有效</label>
+                                  </label>
+                                  <label class="radio radio-info">
+                                    	<input type="radio" name="state" id="radio8" value="0">
+                                       <label for="radio8">无效</label>
+                                  </label>
+                                  </div>
+                            </div>
+                        </div>   
+                  <div class="row-fluid row-margin" style="margin-bottom:0;">
+                     <div class="col-sm-12" style="margin-top:10px !important;">
+                        <div class="form-group">
+                         <label class="control-label">上传icon</label>
+                         <div class="file-box">
+                            <input type="text" class="txt" placeholder="图片路径"  id="picPath" > 
+ 
+                            <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
+                            <input type="button" class="bttn" value="上传">    
+                          </div>
+                        </div>
+                        <div class="preview" style="width:50px !important;height:80px;">
+                          <img src="" id="uploadPreview" class="modal-img" style="width:100%; height:auto;">
+                       </div>
+                     </div>
+                  </div>                    
+                    </div>     
+                </div>                              
+      </div>         
+      <div class="modal-footer">
+        <input type="hidden"  name="status"  value="1"/>
+        <input type="hidden"  name="picture" id="picture2" value=""/>
+        <input type="button" class="btn btn-blue" onclick="submitData()" value="确认"/>
+        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
+      </div>
+    </div>
+  </div>
+ </form>
+</div>
+<!-- 编辑 -->
+<div class="modal fade" id="newadd-Modal2" >
+  <!-- 窗口声明 -->
+   <form action="" name="form3" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+   
+  <div class="modal-dialog">
+    <!-- 内容声明 -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title" id="showTitle">编辑大类</h4>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-horizontal">
+                     <div class="row-fluid row-margin">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">序号</label>
+                                <div class="col-sm-9">
+                                <input type="number" name="no" id="no2" onblur="setZro(this)" value="99" class="form-control input-box"> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">大类名称</label>
+                                   <div class="col-sm-9">
+                                  <input type="text" id="name2" name="name" placeholder="请输入大类名称" class="form-control input-box">
+                                  </div>
+                            </div>
+                        </div>                       
+                    </div>
+                    <div class="row-fluid row-margin">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">大类编码</label>
+                                   <div class="col-sm-9">
+                                  <input type="text" id="code2" name="code" placeholder="请输入大类编码" class="form-control input-box">
+                                  </div>
+                            </div>
+                        </div>
+                         <div class="col-sm-6">
+                            <div class="form-group">
+                                  <label class="control-label">有效性</label>
+                                   <div class="col-sm-9">
+                                  <label class="radio radio-info" style="margin-right:20px;">
+                                       <input type="radio" name="fstatus" id="radio5" value="1">
+                                       <label for="radio5">有效</label>
+                                  </label>
+                                  <label class="radio radio-info">
+                                    <input type="radio" name="fstatus" id="radio6" value="0">
+                                       <label for="radio6">无效</label>
+                                  </label>
+                                  </div>
+                            </div>
+                        </div>     
+                  <div class="row-fluid row-margin" style="margin-bottom:0;margin-top: 10px">
+                     <div class="col-sm-12" style="margin-top:10px !important;">
+                        <div class="form-group">
+                         <label class="control-label">上传icon</label>
+                         <div class="file-box">
+                            <input type="text" class="txt" readonly="readonly" placeholder="图片路径"  id="picPath2" > 
+ 
+                            <input type="file"   name="file" id="file2" class="file" onchange="previewImage2(this)">
+                            <input type="button" class="bttn" value="上传">    
+                          </div>
+                        </div>
+                        <div class="preview" style="width:50px !important;height:80px;">
+                          <img src="" id="uploadPreview2" class="modal-img" style="width:100%; height:auto;">
+                       </div>
+                     </div>
+                  </div>                  
+                    </div>     
+                </div>                              
+      </div>         
+      <div class="modal-footer">
+        <input type="hidden"  name="id" id="id2" value=""/>      
+        <input type="button" class="btn btn-blue" onclick="submitData2()" value="确认"/>
+        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
+      </div>
+    </div>
+  </div>
+ </form>
+</div>
+
+
+    <script type="text/javascript">
+
+      //分页/
+      $(function(){
+         $('.pagination ul li').click(function() {
+              $(this).addClass('active').siblings().removeClass('active');
+         });
+      });
+      
+   </script>
+
+
+</body>
+
+</html>

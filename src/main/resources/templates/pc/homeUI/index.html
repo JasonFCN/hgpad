@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<title th:text="${BGTitleName}"></title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/bgStyle/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+    <script type="text/javascript">
+    	function goindex(){
+    		window.open("/index/index");
+    	}
+ 
+    </script>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element" onclick="goindex()">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="font-size:16px; text-align: center;">  
+                                        HGWebPad<br/>后台管理
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">HGWeb Pad</div>
+                    </li>                   
+                   
+                    <li>
+                        <a href="#"><i class="fa fa-map"></i> <span class="nav-label">商品管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="/tProduct/list">商品列表</a></li>
+                        </ul>
+                    </li>                   
+                    <li>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">用户中心</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="/tEmployee/list">用户列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                     <a href="#"><i class="fa fa-bookmark"></i><span class="nav-label"> 参数管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="/tMenu/list">菜单配置</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="/tColor/list">颜色类型</a>
+                            </li>
+                            
+                            <li>
+                                <a class="J_menuItem" href="/tPrice/list">价格区间</a>
+                            </li>
+                            
+                            <li>
+                                <a class="J_menuItem" href="/tProductType/list">商品大类</a>
+                            </li>
+                            
+                            <li>
+                                <a class="J_menuItem" href="/tRoomType/list">空间类型</a>
+                            </li>
+                            
+                            <li>
+                                <a class="J_menuItem" href="/tStyle/list">风格类型</a>
+                            </li>
+                            
+                        </ul>					 		 					  
+					</li>			
+                    <li>
+                     <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">其他配置</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="/other/addview">首页壁纸</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="/other/editUI">关于圣象</a>
+                                <a class="J_menuItem" href="/other/editUI2">优惠券</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="/other/getConfigMassage">配置信息</a>
+                            </li>
+                        </ul>					 		 					  
+					</li>			
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 " href="#"><i class="fa fa-bars"></i> </a> </div>
+                    <ul class="nav navbar-top-links navbar-right notification-menu">
+                        <li class="dropdown">
+                            <a href="#" class="btn btn-default dropdown-toggle user-name" data-toggle="dropdown" th:utext="|用户-${session.loginInfo.loginUser.name}<span class='caret'></span>|">
+                               </a>
+                            <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                <li><a href="/tEmployee/Employee" target="right"><i class="fa fa-user"></i>个人信息</a></li>                               
+                                <li><a href="/exitLogin"><i class="fa fa-sign-out"></i>退出</a></li>
+                            </ul>                         
+                        </li>                  
+                    </ul>
+                </nav>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe id="J_iframe" name="right" width="100%" height="100%" src="/welcome" frameborder="0" data-id="" seamless></iframe>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+    <!-- 全局js -->
+    <script src="/bgStyle/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/bgStyle/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/bgStyle/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/bgStyle/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="/bgStyle/js/hAdmin.js?v=4.1.0"></script>
+    <script type="text/javascript" src="/bgStyle/js/index.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="/bgStyle/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript">
+	    $(function(){
+	        $(".nav > li >.nav-second-level li a").click(function(){
+	            $(".nav > li >.nav-second-level li a").removeClass('actived');
+	            $(this).addClass('actived');
+	        })
+	    })
+    </script>
+</body>
+
+</html>

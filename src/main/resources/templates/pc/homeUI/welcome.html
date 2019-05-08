@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body style="">
+	<p style="margin-left: 20px;font-size:26px;color: #70b070">欢迎使用HGWebPad图片展示后台管理</p>
+	<p style="margin-left: 20px;font-size:16px;color:#666" th:text="|登录次数:${session.loginInfo.loginUser.loginNum}|"></p>
+	<p style="margin-left: 20px;font-size:16px;color:#666" th:text="|登录IP::${session.loginInfo.loginUser.lastLoginIp} ,  登录时间：${session.loginInfo.loginUser.lastLoginDate}|"></p>
+</body>
+</html>

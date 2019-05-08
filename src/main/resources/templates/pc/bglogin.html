@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" xmlns:th="http://www.thymeleaf.org">
+<title th:text="${BGTitleName}"></title>
+    <link href="/bgStyle/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="/bgStyle/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+    <link href="/bgStyle/css/login.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+    <script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    
+     <script type="text/javascript">
+           //function submitForm(){
+           //     $.MsgBox.Confirm("温馨提示", "是否提交！");
+           //     flage=false;
+           // }
+           $(document).ready(function(){ 
+         	  if(window.parent!=window){
+         		    window.parent.location.reload(true);
+         		} 	   
+             	var loginName=getCookie('loginName')       	
+             	if (loginName!=null && loginName!="")
+             	{		
+             		$("#loginName").val(loginName);	
+             	}	
+             	var rememberMe=getCookie("frontRememberMe");
+             	var myPassword=getCookie("myPassword");
+            	if(rememberMe!='""'&&rememberMe!=null){
+            		if(rememberMe=="yes"){
+            			$("#rememberMeId").attr("checked",true);
+            			if(myPassword!='""'&&myPassword!=null){
+            				$("#myPassword").val(myPassword);
+            			}
+            		}else{
+            			$("#rememberMeId").attr("checked",false);
+            			$("#myPassword").val("");
+            		}
+            	}		             	
+            });     
+     function submitForm1(){
+     	var loginName=$("#loginName").val();
+     	var myPassword=$("#myPassword").val();
+     	var checkNumber=$("#checkNumId").val();
+     	var cnsId=$("#cnsId").val();	
+         if(checkNumber==""||checkNumber==null){
+     			$("#errormsg").text("验证码不能为空");
+     			return false;
+     	}
+     	//CHECK_NUMBER_KEY
+     	if(loginName==""||loginName==null){
+     		$("#errormsg").text("用户名不能为空!");
+     	
+     		return false;
+     	}
+     	if(myPassword==""){
+     		$("#errormsg").text("密码不能为空!");
+     		//alert("密码不能为空!");
+     		return false;
+     	}
+     	setCookie('loginName',loginName,7);
+     	
+     	if($("#rememberMeId").is(':checked')){
+    		setCookie('frontRememberMe','yes',7);
+    		setCookie('myPassword',myPassword,7);
+    	}
+    	else{
+    		setCookie('frontRememberMe','no',7);
+    		setCookie('myPassword',myPassword,7);
+    	}	
+     	document.forms[0].submit(); // 提交表单
+     }
+     function reset() {
+     	$("#loginName").val("");
+     	$("#myPassword").val("");
+     	$("#checkNumId").val("");
+     	
+     }       
+     function getCookie(c_name)
+     {
+     	if (document.cookie.length>0)
+     	{ 
+     		c_start=document.cookie.indexOf(c_name + "=")
+     		if (c_start!=-1)
+     		{ 
+     			c_start=c_start + c_name.length+1 
+     			c_end=document.cookie.indexOf(";",c_start)
+     			if (c_end==-1) c_end=document.cookie.length
+     			return unescape(document.cookie.substring(c_start,c_end))
+     		} 
+     	}
+     	return ""
+     }
+     function setCookie(c_name,value,expiredays)
+     {
+     	var exdate=new Date()
+     	exdate.setDate(exdate.getDate()+expiredays)
+     	document.cookie=c_name+ "=" +escape(value)+
+     	((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+     }
+     function goindex(){
+    	 window.location.href="/index/index";
+     }
+     </script>
+</head>
+
+<body class="signin">
+
+
+    <div class="signinpanel">
+            <div class="box-login">
+                <form action="/login" method="post" onkeydown="if(event.keyCode==13)this.submit();"> 
+                
+                    <p class="m-t-md" onclick="goindex()">HGWebPad后台管理系统</p>
+                    <center ><label id="errormsg" style="color: red" th:text="${error}"></label></center>
+                     <div class="code">
+                         <input type="text" class="form-control uname"  id="loginName" name="loginName"  placeholder="用户名" />
+                     </div>
+                     <div class="code">
+                         <input type="password" class="form-control pword "  id="myPassword" name="passWord"  placeholder="密码" />
+                    </div>
+                    <div class="code">
+                         <input type="text" class="form-control m-b"  id="checkNumId" name="checkNum"  placeholder="验证码" style="width:70%;margin-bottom:2px;" />
+                         <span class="code-pic"><img alt="验证码" onclick = "this.src='/defaultKaptcha?d='+new Date()*1" src="/defaultKaptcha" style="width: 100%" /></span>
+                    </div>
+                    <div class="code">
+                      <div class="code-left">
+                        <label>
+                            <input name="form-field-checkbox" id="rememberMeId" class="ace-checkbox-2" type="checkbox" style="margin-top:0; margin-top:-2px;width:16px;">
+                            <span class="lbl">&nbsp;记住密码 </span>
+                        </label>
+                       </div>
+                       <div class="code-right">
+                           <a href=""></a>
+                      </div>                  
+                    </div>
+                    <span class="btn btn-blue btn-block" onclick="submitForm1()" style="width:288px;margin:0 auto; margin-top:15px;">登录</span>
+                  </form>
+            </div>
+    </div>
+    <script src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script>
+</body>
+
+</html>
