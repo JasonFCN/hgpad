@@ -35,7 +35,7 @@ public class TProductDetailRoomServiceImp implements TProductDetailRoomService{
 
 	@Override
 	public TProductDetailRoom getById(String id) {
-		return productDetailRoomDao.getOne(id);
+		return productDetailRoomDao.findById(id).get();
 	}
 
 	@Override
@@ -51,5 +51,11 @@ public class TProductDetailRoomServiceImp implements TProductDetailRoomService{
 	@Override
 	public List<TProductDetailRoom> findByProductId(String productId) {
 		return productDetailRoomDao.findByProductId(productId);
+	}
+
+	@Override
+	public List<TProductDetailRoom> findByProductIdAndStatusOrderByNoAsc(String productId, Integer status) {
+		// TODO Auto-generated method stub
+		return productDetailRoomDao.findByProductIdAndStatusOrderByNoAsc(productId,status);
 	}
 }

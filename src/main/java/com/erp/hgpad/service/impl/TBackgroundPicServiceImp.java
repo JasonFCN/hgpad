@@ -30,7 +30,7 @@ public class TBackgroundPicServiceImp implements TBackgroundPicService{
 	TBackgroundPicDao tBackgroundPicDao;
 	@Override
 	public TBackgroundPic getById(String id) {
-		return tBackgroundPicDao.getOne(id);
+		return tBackgroundPicDao.findById(id).get();
 	}
 
 	@Override

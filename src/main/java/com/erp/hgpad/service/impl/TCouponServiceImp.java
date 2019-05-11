@@ -30,7 +30,7 @@ public class TCouponServiceImp implements TCouponService{
 	TCouponDao tCouponDao;
 	@Override
 	public TCoupon getById(String id) {
-		return tCouponDao.getOne(id);
+		return tCouponDao.findById(id).get();
 	}
 
 	@Override

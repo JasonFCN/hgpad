@@ -2,731 +2,690 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>菜单类型列表</title>
-    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>菜单类型列表</title>
+<link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
 
-    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
-     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
-    
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
-    <!-- 自定义js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
-       <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
-    <style type="text/css">
-    .preview{
-      width:160px !important;
-           height:160px;
-           float: left;
-    }
-    </style>
-    <script type="text/javascript">
-       //缩略图不变形
-       $(document).ready(function() {
-           $('.td-img').jqthumb({
-           width:60,
-           height:60,
-       }); 
-       $('.modal-img').jqthumb({
-           width:160,
-           height:160,
-       });            
-       });
- 	   function reLoadWindow(){
-		   window.location.reload();
-	   }
- 	   $(document).ready(function() { 	       
- 	   });	   
- 	  function closeShow(){
-    	  $('#newadd-Modal').modal('hide');
-    	  $('#newadd-Modal2').modal('hide');
-      } 	  	
- 	//删除banner
- 	function deleteData(e){
- 		 $.MsgBox.Confirm("温馨提示", "确定删除？", function () {
- 			$.ajax({
-	            type:"POST",
-	            url :"../tMenu/delete.action?fId="+e+"",
-	            data:{},
-	            dataType:"json",
-	            success:function(data){
- 	            	if(data==1){
- 	            	  
-    				   window.location.href="../tMenu/list.action?pageNum=1";
- 	            	}	
- 	            	else if(data==0){
- 	            		
- 	            		$.MsgBox.Alert("温馨提示","用户未登录！");
-	    				return false;
- 	            	}
- 	            	
- 	            },
- 	            error:function(){
- 	            	$.MsgBox.Alert("温馨提示","请稍后再试！");
- 	            	return false;
- 	            }
-		 });
-		}) 
- 	}
-	function editUI(e){
- 		$.ajax({
-            type:"POST",
-            url :"../tMenu/getTMenuById.action?f_Id="+e+"",
-            data:{},
-            dataType:"json",
-            success:function(data){
-            	
-            	$("#fNo2").val(data.fNo);            	
-            	$("#fName2").val(data.fName);            	
-            	
-            	$("#fStatus2").val(data.fStatus);           	
-            	$("#fId2").val(data.fId);
-            	$("#fIcon").val(data.fIcon1);
-            	$("#fIcon2").val(data.fIcon2);
-            	$("#fCode2").val(data.fCode);
-            	$("#fOldCode").val(data.fCode);
-            	if(data.fState==1){          	
-            		$("input[name='fState']").attr("checked",false); 
-            		$("input[name='fState']").get(0).checked=true; 
-            	}
-            	else{
-            		$("input[name='fState']").attr("checked",false); 
-            		$("input[name='fState']").get(1).checked=true; 
-            	}
-            	//$("input[name='fState'][value="+data.fState+"]").attr("checked",true); 
-            	$("#uploadPreview3").attr("src","${pageContext.request.contextPath}/"+data.fIcon1+"");
-            	$("#uploadPreview4").attr("src","${pageContext.request.contextPath}/"+data.fIcon2+"");
-     			$("#uploadPreview3").css("display","block");
-     			$("#uploadPreview4").css("display","block");
-            }
-        });
+<link href="/bgStyle/css/animate.css" rel="stylesheet">
+<link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+
+<script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+<script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="/bgStyle/js/content.js?v=1.0.0"></script>
+<script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script>
+<script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script>
+<style type="text/css">
+.preview {
+	width: 160px !important;
+	height: 160px;
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	//缩略图不变形
+	$(document).ready(function() {
+		$('.td-img').jqthumb({
+			width : 60,
+			height : 60,
+		});
+		$('.modal-img').jqthumb({
+			width : 160,
+			height : 160,
+		});
+	});
+	function reLoadWindow() {
+		window.location.reload();
+	}
+	$(document).ready(function() {
+	});
+	function closeShow() {
+		$('#newadd-Modal').modal('hide');
+		$('#newadd-Modal2').modal('hide');
+	}
+	//删除banner
+	function deleteData(e) {
+		$.MsgBox.Confirm("温馨提示", "确定删除？", function() {
+			$.ajax({
+				type : "POST",
+				url : "/tMenu/delete?fId=" + e + "",
+				data : {},
+				dataType : "json",
+				success : function(data) {
+					if (data == 1) {
+						window.location.href = "/tMenu/list?pageNum=1";
+					} else if (data == 0) {
+						$.MsgBox.Alert("温馨提示", "用户未登录！");
+						return false;
+					}
+				},
+				error : function() {
+					$.MsgBox.Alert("温馨提示", "请稍后再试！");
+					return false;
+				}
+			});
+		})
+	}
+	function editUI(e) {
+		$.ajax({
+			type : "POST",
+			url : "/tMenu/getTMenuById?f_Id=" + e + "",
+			data : {},
+			dataType : "json",
+			success : function(data) {
+				$("#fNo2").val(data.no);
+				$("#fName2").val(data.name);
+				$("#fStatus2").val(data.status);
+				$("#fId2").val(data.id);
+				$("#fIcon").val(data.icon1);
+				$("#fIcon2").val(data.icon2);
+				$("#fCode2").val(data.code);
+				$("#fOldCode").val(data.code);
+				if (data.state == 1) {
+					$("#radio5").prop("checked",true);
+					$("#radio6").prop("checked",false);
+				} else {
+					$("#radio5").prop("checked",false);
+					$("#radio6").prop("checked",true);
+				}
+				//$("input[name='fState'][value="+data.fState+"]").attr("checked",true); 
+				$("#uploadPreview3").attr("src", "/myImage/" + data.icon1 );
+				$("#uploadPreview4").attr("src", "/myImage/" + data.icon2 );
+				$("#uploadPreview3").css("display", "block");
+				$("#uploadPreview4").css("display", "block");
+			}
+		});
 		$('#newadd-Modal2').modal('show');
- 	}
-    function addShow(){
-    	  $("#picPath").val("");  
-    	  $("#picPath2").val("");  
-    	  $("#uploadPreview").attr("src","");
-      	  $("#uploadPreview2").attr("src","");
-    	  $("input[name='fState']").attr("checked",false); 
-		  $("input[name='fState']").get(2).checked=true; 
-  	      $('#newadd-Modal').modal('show');
-  	}
-    //新增
-    function submitData(){
+	}
+	function addShow() {
+		$("#picPath").val("");
+		$("#picPath2").val("");
+		$("#uploadPreview").attr("src", "");
+		$("#uploadPreview2").attr("src", "");
+		$("#radio7").prop("checked",true);
+		$("#radio8").prop("checked",false);
+		$('#newadd-Modal').modal('show');
+	}
+	//新增
+	function submitData() {
+		var fileName = $("#fName").val();
+		var fCode = $("#fCode").val();
+		if (fCode == null || fCode == "") {
+			$.MsgBox.Alert("温馨提示", "编号不能为空");
+			return false;
+		}
+		if (fileName == null || fileName == "") {
+			$.MsgBox.Alert("温馨提示", "类型名称不能为空");
+			return false;
+		}
+		$.ajax({
+			type : "POST",
+			url : "/tMenu/checkCode?fCode=" + fCode + "",
+			data : {},
+			dataType : "json",
+			success : function(data) {
+				if (data == 1) {
+					$.MsgBox.Alert("温馨提示", "编号已存在");
+					return false;
+				} else {
+					var url = "/tMenu/saveData";
+					document.forms["form2"].action = url;
+					document.forms["form2"].submit(); // 提交表单	菜单 
 
-    	var fileName=$("#fName").val();
-    	var fCode=$("#fCode").val();
- 		if(fCode==null || fCode=="")
- 			{
- 			$.MsgBox.Alert("温馨提示","编号不能为空");
- 			  return false;
- 		}	
- 		if(fileName==null || fileName=="")
- 			{
- 			$.MsgBox.Alert("温馨提示","类型名称不能为空");
- 			  return false;
- 		}	
- 		
- 			$.ajax({
- 	            type:"POST",
- 	            url :"../tMenu/checkCode.action?fCode="+fCode+"",
- 	            data:{},
- 	            dataType:"json",
- 	            success:function(data){
- 	            	if(data==1){
- 	            		$.MsgBox.Alert("温馨提示","编号已存在");
- 	      			    return false;
- 	            	}
- 	            	else{
- 	            		var url = "../tMenu/saveData.action";
- 	           			document.forms["form2"].action = url; 			 
- 	           			document.forms["form2"].submit(); // 提交表单	菜单 
- 	           	      	            	    	
- 	            	}
- 	            }
- 			})		
+				}
+			}
+		})
 	}
-    //编辑
-    function submitData2(){
-    	var fileName=$("#fName").val();
-    	var fCode=$("#fCode2").val();
-    	var fOldCode=$("#fOldCode").val();
- 		if(fCode==null || fCode=="")
- 			{
- 			$.MsgBox.Alert("温馨提示","编号不能为空");
- 			  return false;
- 		}	
-    	var fileName=$("#fName2").val();
- 		 if(fileName==null || fileName=="")
- 			{
- 			$.MsgBox.Alert("温馨提示","类型名称不能为空");
- 			  return false;
- 		 }	
- 		if(fCode==fOldCode){
- 			 var url = "${pageContext.request.contextPath}/tMenu/update.action";
- 	 		 document.forms["form3"].action = url; 
- 	 	     document.forms["form3"].submit(); // 提交表单	菜单 
- 		      	            	    	
- 		}
- 		else{
- 			$.ajax({
- 	            type:"POST",
- 	            url :"../tMenu/checkCode.action?fCode="+fCode+"",
- 	            data:{},
- 	            dataType:"json",
- 	            success:function(data){
- 	            	if(data==1){
- 	            		$.MsgBox.Alert("温馨提示","编号已存在");
- 	      			    return false;
- 	            	}
- 	            	else{
- 	            	 var url = "${pageContext.request.contextPath}/tMenu/update.action";
- 	           		 document.forms["form3"].action = url; 
- 	        	     document.forms["form3"].submit(); // 提交表单	菜单  
- 	           	      	            	    	
- 	            	}
- 	            }
- 			})
- 		}
-		
-	}
-	function gotoPage( pageNum ){
-	$("#pageId").val(pageNum);
-	// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
-	//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
-	//alert();
-	document.forms[0].submit(); // 提交表单
-	}
-	function setZro(text1){
- 		var msize=$(text1).val();
- 		
- 		if(!isNaN(msize)){
- 			var dot = msize.indexOf(".");
- 	        if(dot != -1){
- 	            var dotCnt = msize.substring(dot+1,msize.length);
- 	            if(dotCnt.length >0){
- 	            	$.MsgBox.Alert("温馨提示","不能有小数点！");
- 	                $(text1).val("99");
- 	                return false;
- 	            }
- 	        }
- 		}else{
- 			
- 			$(text1).val("99");
- 			return false;
- 		}
- 		
- 		if(msize==""||msize==null){
- 			$(text1).val("99");
- 			return false;
- 		}
- 		if(measureSize==null||measureSize==""){
- 			$(text1).val("99");
- 		
- 		}
- 		
- 	}
-	function onsearch1(){
-  		document.forms["form1"].submit(); // 提交表单
+	//编辑
+	function submitData2() {
+		var fileName = $("#fName").val();
+		var fCode = $("#fCode2").val();
+		var fOldCode = $("#fOldCode").val();
+		if (fCode == null || fCode == "") {
+			$.MsgBox.Alert("温馨提示", "编号不能为空！");
+			return false;
+		}
+		var fileName = $("#fName2").val();
+		if (fileName == null || fileName == "") {
+			$.MsgBox.Alert("温馨提示", "类型名称不能为空");
+			return false;
+		}
+		if (fCode == fOldCode) {
+			document.forms["form3"].submit(); // 提交表单	菜单 
+		} else {
+			$.ajax({
+				type : "POST",
+				url : "/tMenu/checkCode?fCode=" + fCode + "",
+				data : {},
+				dataType : "json",
+				success : function(data) {
+					if (data == 1) {
+						$.MsgBox.Alert("温馨提示", "编号已存在");
+						return false;
+					} else {
+						document.forms["form3"].submit(); // 提交表单	菜单  
+					}
+				}
+			})
+		}
 
-  	}
-	$(function(){
-		$("#fStateZxl").change(function(){
-			var e=$('#fStateZxl option:selected').val();
+	}
+	function gotoPage(pageNum) {
+		$("#pageId").val(pageNum);
+		// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
+		//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
+		//alert();
+		document.forms[0].submit(); // 提交表单
+	}
+	function setZro(text1) {
+		var msize = $(text1).val();
+
+		if (!isNaN(msize)) {
+			var dot = msize.indexOf(".");
+			if (dot != -1) {
+				var dotCnt = msize.substring(dot + 1, msize.length);
+				if (dotCnt.length > 0) {
+					$.MsgBox.Alert("温馨提示", "不能有小数点！");
+					$(text1).val("99");
+					return false;
+				}
+			}
+		} else {
+
+			$(text1).val("99");
+			return false;
+		}
+
+		if (msize == "" || msize == null) {
+			$(text1).val("99");
+			return false;
+		}
+		/* if (measureSize == null || measureSize == "") {
+			$(text1).val("99");
+
+		} */
+
+	}
+	function onsearch1() {
+		document.forms["form1"].submit(); // 提交表单
+
+	}
+	$(function() {
+		$("#fStateZxl").change(function() {
+			var e = $('#fStateZxl option:selected').val();
 			document.forms["form1"].submit(); // 提交表单
 		})
 	})
 	//上传图片预览
- 	function previewImage(file){
- 		//alert("1231");	
- 		var objUrl = getObjectURL(file.files[0]);
- 		//alert(numb);
- 	    $("#uploadPreview").attr("src", objUrl);
- 	    //$("#img7").attr("src", objUrl);
- 	    $("#picPath").val($("#fileField").val());  
- 	}
- 	//建立一個可存取到該file的url
- 	function getObjectURL(file) {
- 		var url = null ; 
- 		if (window.createObjectURL!=undefined) { // basic
- 			url = window.createObjectURL(file) ;
- 		} else if (window.URL!=undefined) { // mozilla(firefox)
- 			url = window.URL.createObjectURL(file) ;
- 		} else if (window.webkitURL!=undefined) { // webkit or chrome
- 			url = window.webkitURL.createObjectURL(file) ;
- 		}
- 		if(url!="" || url!=null)
- 		{
- 			$("#uploadPreview").css("display","block");	
- 		}
- 		return url ;	
- 	}
+	function previewImage(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath").val($("#fileField").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview").css("display", "block");
+		}
+		return url;
+	}
 	//上传图片预览
- 	function previewImage2(file){
- 		//alert("1231");	
- 		var objUrl = getObjectURL2(file.files[0]);
- 		//alert(numb);
- 	    $("#uploadPreview2").attr("src", objUrl);
- 	    //$("#img7").attr("src", objUrl);
- 	    $("#picPath2").val($("#fileField2").val());  
- 	}
- 	//建立一個可存取到該file的url
- 	function getObjectURL2(file) {
- 		var url = null ; 
- 		if (window.createObjectURL!=undefined) { // basic
- 			url = window.createObjectURL(file) ;
- 		} else if (window.URL!=undefined) { // mozilla(firefox)
- 			url = window.URL.createObjectURL(file) ;
- 		} else if (window.webkitURL!=undefined) { // webkit or chrome
- 			url = window.webkitURL.createObjectURL(file) ;
- 		}
- 		if(url!="" || url!=null)
- 		{
- 			$("#uploadPreview2").css("display","block");	
- 		}
- 		return url ;	
- 	}
+	function previewImage2(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL2(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview2").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath2").val($("#fileField2").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL2(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview2").css("display", "block");
+		}
+		return url;
+	}
 	//上传图片预览
- 	function previewImage3(file){
- 		//alert("1231");	
- 		var objUrl = getObjectURL3(file.files[0]);
- 		//alert(numb);
- 	    $("#uploadPreview3").attr("src", objUrl);
- 	    //$("#img7").attr("src", objUrl);
- 	    $("#picPath3").val($("#fileFiel3").val());  
- 	}
- 	//建立一個可存取到該file的url
- 	function getObjectURL3(file) {
- 		var url = null ; 
- 		if (window.createObjectURL!=undefined) { // basic
- 			url = window.createObjectURL(file) ;
- 		} else if (window.URL!=undefined) { // mozilla(firefox)
- 			url = window.URL.createObjectURL(file) ;
- 		} else if (window.webkitURL!=undefined) { // webkit or chrome
- 			url = window.webkitURL.createObjectURL(file) ;
- 		}
- 		if(url!="" || url!=null)
- 		{
- 			$("#uploadPreview3").css("display","block");	
- 		}
- 		return url ;	
- 	}
+	function previewImage3(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL3(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview3").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath3").val($("#fileFiel3").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL3(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview3").css("display", "block");
+		}
+		return url;
+	}
 	//上传图片预览
- 	function previewImage4(file){
- 		//alert("1231");	
- 		var objUrl = getObjectURL4(file.files[0]);
- 		//alert(numb);
- 	    $("#uploadPreview4").attr("src", objUrl);
- 	    //$("#img7").attr("src", objUrl);
- 	    $("#picPath4").val($("#fileField4").val());  
- 	}
- 	//建立一個可存取到該file的url
- 	function getObjectURL4(file) {
- 		var url = null ; 
- 		if (window.createObjectURL!=undefined) { // basic
- 			url = window.createObjectURL(file) ;
- 		} else if (window.URL!=undefined) { // mozilla(firefox)
- 			url = window.URL.createObjectURL(file) ;
- 		} else if (window.webkitURL!=undefined) { // webkit or chrome
- 			url = window.webkitURL.createObjectURL(file) ;
- 		}
- 		if(url!="" || url!=null)
- 		{
- 			$("#uploadPreview4").css("display","block");	
- 		}
- 		return url ;	
- 	}
+	function previewImage4(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL4(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview4").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath4").val($("#fileField4").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL4(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview4").css("display", "block");
+		}
+		return url;
+	}
 	//上传图片预览
- 	function previewImage2(file){
- 		//alert("1231");	
- 		var objUrl = getObjectURL2(file.files[0]);
- 		//alert(numb);
- 	    $("#uploadPreview2").attr("src", objUrl);
- 	    //$("#img7").attr("src", objUrl);
- 	    $("#picPath2").val($("#fileField2").val());  
- 	}
- 	//建立一個可存取到該file的url
- 	function getObjectURL2(file) {
- 		var url = null ; 
- 		if (window.createObjectURL!=undefined) { // basic
- 			url = window.createObjectURL(file) ;
- 		} else if (window.URL!=undefined) { // mozilla(firefox)
- 			url = window.URL.createObjectURL(file) ;
- 		} else if (window.webkitURL!=undefined) { // webkit or chrome
- 			url = window.webkitURL.createObjectURL(file) ;
- 		}
- 		if(url!="" || url!=null)
- 		{
- 			$("#uploadPreview2").css("display","block");	
- 		}
- 		return url ;	
- 	}
- 	function set0(e){
- 		$(e).val("");
- 	}
-    </script>
-
+	function previewImage2(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL2(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview2").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath2").val($("#fileField2").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL2(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview2").css("display", "block");
+		}
+		return url;
+	}
+	function set0(e) {
+		$(e).val("");
+	}
+</script>
 </head>
-
 <body class="gray-bg">
-<input type="hidden" id="fOldCode"/>
-	
+	<input type="hidden" id="fOldCode" />
+	<form action="/tMenu/list" method="post" name="form1">
+		<div class="container-fluid">
+			<div class="header-fixed">
+				<div id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="fa fa-home" style="font-size: 16px;"></i>
+							<a href="#">参数管理</a>
+							<span class="divider">
+								<i class="icon-angle-right"></i>
+							</span>
+						</li>
+						<li class="active">菜单类型列表</li>
+					</ul>
+					<!--.breadcrumb-->
+				</div>
+				<!--#breadcrumbs-->
+				<div id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<span class="btn btn-blue btn-xs" onclick="history.go(-1)">
+								<i class="fa fa-reply" style="margin-right: 2px; font-size: 12px;"></i>
+								返回
+							</span>
+							<span class="btn btn-blue btn-xs" onclick="addShow()">
+								<i class="fa fa-plus" style="margin-right: 2px; font-size: 12px;"></i>
+								新增
+							</span>
+							<span class="btn btn-blue btn-xs" onclick="reLoadWindow()">
+								<i class="fa fa-refresh" style="margin-right: 2px; font-size: 12px;"></i>
+								刷新
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
+			<div class="page-content-main">
+				<div id="page-content">
+					<div class="panel-box">
+						<div class="title-text">
+							<span class="title-con">菜单列表</span>
+							<span style="color: #f03; font-size: 14px; margin-left: 10px;">icon尺寸：200*200</span>
+						</div>
+						<div class="panel-body">
+							<div class="form-horizontal">
+								<div class="row-fluid">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">类型名称</label>
+											<div class="col-sm-9">
+												<input type="text" name="name" th:value="${menu.name}" placeholder="请输入类型名称" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<input type="button" onclick="onsearch1()" class="btn btn-green btn-sm" value="查询" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<table class="table table-hover">
+								<tr>
+									<th width="5%">序号</th>
+									<th width="20%">类型名称</th>
+									<th width="20%">编号</th>
+									<th width="10%">icon</th>
+									<!-- <th width="10%">icon2</th>   -->
 
-<form action="../tMenu/list.action" method="post" name="form1">
-<div class="container-fluid">
+									<th width="20%">
+										<select class="table-sel" id="fStateZxl" name="state">
+											<option value="" th:selected="${state==null}">状态</option>
+											<option value="1" th:selected="${state==1}">有效</option>
+											<option value="0" th:selected="${state==0}">无效</option>
+										</select>
+										<input type="hidden" id="pageId" value="1" name="pageNum" />
+									</th>
+									<th width="20%">操作</th>
+								</tr>
+								<tr th:each="msg:${page}">
+									<td th:text="${msg.no}"></td>
+									<td th:text="${msg.name}"></td>
+									<td th:text="${msg.code}"></td>
+									<td>
+										<img th:src="|/myImage/${msg.icon1}|" style="width: 40px; height: 40px">
+									</td>
+									<td>
+										<span th:style="${msg.state==1}?'color:green;' : 'color:red;'" th:text="${msg.state==1}? '有效' : '无效'"></span>
+									</td>
+									<td style="border-left: 1px solid #e7eaec;">
+										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick="editUI([[${msg.id}]])" value="编辑">
+										<input type="hidden" class="btn btn-danger btn-xs btn-outline" th:onclick="deleteData([[${msg.id}]])" value="删除">
+									</td>
+								</tr>
+							</table>
+							<div th:if="${page.totalPages>0}" class="pagination" style="margin-top: 0px; text-align: right; margin-bottom: 0;">
+								<div class="page-left">
+									<p>
+										页次:
+										<span style="color: #6faed9;" th:text="${pageNum}"></span>
+										&nbsp;&nbsp;每页显示：
+										<span style="color: #6faed9;" th:text="${page.pageable.pageSize}"></span>
+										条&nbsp;&nbsp;总记录数：
+										<span style="color: #6faed9;" th:text="${page.totalElements}"></span>
+										条
+									</p>
+									<input type="hidden" th:value="${pageNum}" id="nowPageNum" />
+								</div>
+								<ul>
+									<a href="javascript: gotoPage(1)">
+										<li>
+											<i class="fa fa-angle-double-left" style="font-size: 16px;"></i>
+										</li>
+									</a>
+									<a th:each="num : ${#numbers.sequence(1,page.totalPages)}">
+										<li th:text="${num}" th:style="${num==pageNum}?'background:#0786e7;color:#fff;'"></li>
+									</a>
+									<a href="javascript: void();" th:onclick="'javascript: gotoPage('+${page.totalPages}+')'">
+										<li>
+											<i class="fa fa-angle-double-right" style="font-size: 16px;"></i>
+										</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
-   <div class="header-fixed">                   
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">参数管理</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-                <li class="active">菜单类型列表</li>
-            </ul><!--.breadcrumb-->
-        </div><!--#breadcrumbs-->
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>                  
-                    <span class="btn btn-blue btn-xs"  onclick="addShow()" ><i class="fa fa-plus" style="margin-right:2px; font-size:12px;"></i>新增</span>                    
-                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
-    <div class="page-content-main">
-        <div id="page-content">
-         <div class="panel-box">
-               <div class="title-text">
-                 <span class="title-con">菜单列表</span> <span style="color:#f03;font-size:14px;margin-left:10px;">icon尺寸：200*200</span>
-               </div>
-               <div class="panel-body">
-                 <div class="form-horizontal">
-                     <div class="row-fluid">
-                    	 <div class="col-sm-3">
-                                  <div class="form-group">
-                                      <label class="control-label">类型名称</label>
-                                      <div class="col-sm-9">
-                                          <input type="text" name="ptName" value="${ptName}" placeholder="请输入类型名称" class="form-control"/> 
-                                      </div>
-                                  </div>
-                              </div>                     
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                    <input type="button"  onclick="onsearch1()" class="btn btn-green btn-sm" value="查询"/>
-                                  </div>
-                              </div>                                                   
-                    </div>
-                 </div>
-                 <table class="table table-hover">              
-                        <tr>                          
-                            <th width="5%">序号</th>
-                            <th width="20%">类型名称</th>
-                            <th width="20%">编号</th>
-                            <th width="10%">icon</th>  
-                            <!-- <th width="10%">icon2</th>   -->                                                 
-                                                                             
-                            <th width="20%">
-                               <select class="table-sel" id="fStateZxl" name="fState">
-                                 <option <c:if test="${fState==3}">selected="selected"</c:if> value="3">状态</option>
-                                 <option <c:if test="${fState==1}">selected="selected"</c:if> value="1">有效</option>
-                                 <option <c:if test="${fState==0}">selected="selected"</c:if> value="0">无效</option>
-                               </select>
-                               <input type="hidden" id="pageId" value="1" name="pageNum"/>                              
-                            </th>
-                            <th width="20%">操作</th>
-                        </tr>
-                      
-                       <c:if test="${!empty pageBeanList}">
-						<c:forEach items="${pageBeanList.recordList}" var="msg">
-                        <tr>                           
-                            <td>${msg.fNo}</td>                                                   
-                            <td>${msg.fName}</td>
-                            <td>${msg.fCode}</td>
-                            <td><img src="${pageContext.request.contextPath}/${msg.fIcon1}" style="width: 40px;height: 40px"></td> 
-                            <!--<td><img src="${pageContext.request.contextPath}/${msg.fIcon2}" style="width: 40px;height: 40px"></td>  -->                          							
-                                                       							
-                            <td><span style="color:green;"><c:if test="${msg.fState==1}">有效</c:if></span>
-                            <span style="color:red;"><c:if test="${msg.fState==0}">无效</c:if></span>
-                            </td>
-                            <td style="border-left:1px solid #e7eaec;">
-                                <input type="button"  class="btn btn-orange btn-xs btn-outline" onclick="editUI('${msg.fId}')" value="编辑">
-                                <input type="hidden"  class="btn btn-danger btn-xs btn-outline" onclick="deleteData('${msg.fId}')" value="删除">
-                            </td>
-                        </tr>
-                        </c:forEach>
-                       </c:if>                       
-                    </table>
-                  
-                   		<c:if test="${pageBeanList.recordCount>0}">
-							             <div class="pagination" style="margin-top:0px; text-align:right;margin-bottom:0;">
-							               <div class="page-left">
-							        	         <p>页次:<span style="color:#6faed9;">${pageBeanList.currentPage}/${pageBeanList.pageCount}</span>&nbsp;&nbsp;每页显示：<span style="color:#6faed9;">${pageBeanList.pageSize}</span>条&nbsp;&nbsp;总记录数：<span style="color:#6faed9;">${pageBeanList.recordCount}</span>条</p>
-							        	   </div>
-							              <ul>
-							                <a href="javascript: gotoPage(1)"><li><i class="fa fa-angle-double-left" style="font-size:16px;"></i></li></a>
-							                <c:forEach  begin="${pageBeanList.beginPageIndex}" end="${pageBeanList.endPageIndex}" var="num">
-							                  <c:if test="${pageBeanList.currentPage==num}"><%-- 当前页 --%>
-							                      <a  href="javascript:gotoPage(${num});"> <li <c:if test="${pageBeanList.currentPage==num}">style="background:#0786e7;color:#fff;"</c:if>>${num}</li></a>
-							                  </c:if>
-							                  <c:if test="${pageBeanList.currentPage!=num}"><%-- 非当前页 --%>
-							                      <a href="javascript:gotoPage(${num});"> <li>${num}</li></a>
-							                  </c:if>
-							                </c:forEach>
-							               <a href="javascript: gotoPage(${pageBeanList.pageCount})"> <li><i class="fa fa-angle-double-right" style="font-size:16px;"></i></li></a>
-							              </ul>
-							            </div>
-				       			 	</c:if>
-		
+	<!-- 新增图片 -->
+	<div class="modal fade" id="newadd-Modal2">
+		<!-- 窗口声明 -->
+		<form action="/tMenu/update" name="form3" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
 
-            </div>
-        </div>
-      </div>
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle">编辑菜单</h4>
+					</div>
 
-    </div>
-</div>
-</form>
- 
- <!-- 新增图片 -->
-<div class="modal fade" id="newadd-Modal2" >
-  <!-- 窗口声明 -->
-   <form action="" name="form3" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
-   
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle">编辑菜单</h4>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">序号</label>
-                                <div class="col-sm-9">
-                                <input type="number" name="fNo"  onfocus="set0(this)"   id="fNo2" onblur="setZro(this)" value="99" class="form-control input-box"> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">菜单名称</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fName2" name="fName" placeholder="请输入菜单名称" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>                       
-                    </div>
-                    <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">编号</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fCode2" name="fCode" placeholder="请输入菜单编号" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>     
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">有效性</label>
-                                   <div class="col-sm-9">
-                                  <label class="radio radio-info" style="margin-right:20px;">
-                                       <input type="radio" checked="checked" name="fState" id="radio5" value="1">
-                                       <label for="radio5">有效</label>
-                                  </label>
-                                  <label class="radio radio-info">
-                                    <input type="radio" name="fState" id="radio6" value="0">
-                                       <label for="radio6">无效</label>
-                                  </label>
-                                  </div>
-                            </div>
-                        </div>
-                   
-                    </div>      
-                  <div class="row-fluid row-margin" style="margin-bottom:0;margin-top: 10px">
-                     <div class="col-sm-12" style="margin-top:10px !important;">
-                        <div class="form-group">
-                         <label class="control-label">上传icon</label>
-                         <div class="file-box">
-                            <input type="text" class="txt" readonly="readonly" placeholder="图片路径"  id="picPath3" > 
- 
-                            <input type="file"   name="file" id="fileField3" class="file" onchange="previewImage3(this)">
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>
-                        
-                     </div>
-                  </div>
-                    <div class="row-fluid row-margin" style="margin-bottom:0;margin-top: 10px">
-                         <div class="col-sm-12" >
-		                    <div class="preview">
-		                        <img src="" id="uploadPreview3" class="modal-img">
-		                    </div>
-		                 </div>
-                    </div>           
-                     <!-- 
-                        <div class="form-group">
-                         <label class="control-label">上传icon2</label>
-                         <div class="file-box">
-                            <input type="text" class="txt" readonly="readonly" placeholder="图片路径"  id="picPath4" >  
-                            <input type="file"   name="file2" id="fileField4" class="file" onchange="previewImage4(this)">
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">序号</label>
+										<div class="col-sm-9">
+											<input type="number" name="no" onfocus="set0(this)" id="fNo2" onblur="setZro(this)" value="99" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">菜单名称</label>
+										<div class="col-sm-9">
+											<input type="text" id="fName2" name="name" placeholder="请输入菜单名称" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">编号</label>
+										<div class="col-sm-9">
+											<input type="text" id="fCode2" name="code" placeholder="请输入菜单编号" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">有效性</label>
+										<div class="col-sm-9">
+											<label class="radio radio-info" style="margin-right: 20px;">
+												<input type="radio" checked="checked" name="state" id="radio5" value="1">
+												<label for="radio5">有效</label>
+											</label>
+											<label class="radio radio-info">
+												<input type="radio" name="state" id="radio6" value="0">
+												<label for="radio6">无效</label>
+											</label>
+										</div>
+									</div>
+								</div>
 
-                        <div class="preview">
-                          <img src="" id="uploadPreview4" class="modal-img">
-                       </div> 
-                   -->       
-                     
-                </div>                              
-      </div>         
-      <div class="modal-footer">
-        <input type="hidden"  id="sign" value="0"/>
-        <input type="hidden"  name="fId" id="fId2" value=""/>      
-        <input type="hidden"  name="fIcon1" id="fIcon" value=""/>      
-        <input type="hidden"  name="fIcon2" id="fIcon2" value=""/>      
-        <input type="hidden"  name="fStatus" id="fStatus2" value="1"/>
-        <input type="button" class="btn btn-blue" onclick="submitData2()" value="确认"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-  </div>
- </form>
-</div>
-<!-- 新增图片 -->
-<div class="modal fade" id="newadd-Modal" >
-  <!-- 窗口声明 -->
-   <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
-   
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle">新增菜单</h4>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">序号</label>
-                                <div class="col-sm-9">
-                                <input type="number" name="fNo" onfocus="set0(this)"  onblur="setZro(this)" value="99" class="form-control input-box"> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">菜单名称</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fName" name="fName" placeholder="请输入菜单名称" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>                       
-                    </div>
-                    <div class="row-fluid row-margin">
-                       <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">编号</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fCode" name="fCode" placeholder="请输入菜单编号" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>     
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">有效性</label>
-                                   <div class="col-sm-9">
-                                  <label class="radio radio-info" style="margin-right:20px;">
-                                       <input type="radio" checked="checked" name="fState" id="radio7" value="1">
-                                       <label for="radio7">有效</label>
-                                  </label>
-                                  <label class="radio radio-info">
-                                    <input type="radio" name="fState" id="radio8" value="0">
-                                       <label for="radio8">无效</label>
-                                  </label>
-                                  </div>
-                            </div>
-                        </div>
-                   </div>   
-                  <div class="row-fluid row-margin" style="margin-bottom:0;">
-                     <div class="col-sm-12" style="margin-top:10px !important;">
-                        <div class="form-group">
-                         <label class="control-label">上传icon</label>
-                         <div class="file-box">
-                            <input type="text" readonly="readonly" class="txt" placeholder="图片路径"  id="picPath" > 
- 
-                            <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>
-                        
-                     </div>
-                  </div>   
-                 
-                 <div class="row-fluid row-margin" style="margin-bottom:0;">
-                  <div class="col-sm-12" style="margin-top:10px !important;"> 
-                     <div class="preview">
-                          <img src="" id="uploadPreview" class="modal-img">
-                       </div>
-                       
-                      <!-- 
-                        <div class="form-group">
-                         <label class="control-label">上传icon2</label>
-                         <div class="file-box">
-                            <input type="text" readonly="readonly" class="txt" placeholder="图片路径"  id="picPath2" >  
-                            <input type="file"   name="file2" id="fileField2" class="file" onchange="previewImage2(this)">
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>                    
-                        <div class="preview">
-                          <img src="" id="uploadPreview2" class="modal-img">
-                       </div>
-                        --> 
-                       
-                     </div>
-                  </div>  
-                  
-                                  
-          </div>     
-      </div>                              
-              
-      <div class="modal-footer">
-        <input type="hidden"  name="fStatus"  value="1"/>
-        <input type="button" class="btn btn-blue" onclick="submitData()" value="确认"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-  </div>
- </form>
-</div>
+							</div>
+							<div class="row-fluid row-margin" style="margin-bottom: 0; margin-top: 10px">
+								<div class="col-sm-12" style="margin-top: 10px !important;">
+									<div class="form-group">
+										<label class="control-label">上传icon</label>
+										<div class="file-box">
+											<input type="text" class="txt" readonly="readonly" placeholder="图片路径" id="picPath3">
+
+											<input type="file" name="file" id="fileField3" class="file" onchange="previewImage3(this)">
+											<input type="button" class="bttn" value="上传">
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="row-fluid row-margin" style="margin-bottom: 0; margin-top: 10px">
+								<div class="col-sm-12">
+									<div class="preview">
+										<img src="" id="uploadPreview3" class="modal-img">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="sign" value="0" />
+						<input type="hidden" name="id" id="fId2" value="" />
+						<input type="hidden" name="icon1" id="fIcon" value="" />
+						<input type="hidden" name="icon2" id="fIcon2" value="" />
+						<input type="hidden" name="status" id="fStatus2" value="1" />
+						<input type="button" class="btn btn-blue" onclick="submitData2()" value="确认" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- 新增图片 -->
+	<div class="modal fade" id="newadd-Modal">
+		<!-- 窗口声明 -->
+		<form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle">新增菜单</h4>
+					</div>
+
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">序号</label>
+										<div class="col-sm-9">
+											<input type="number" name="no" onfocus="set0(this)" onblur="setZro(this)" value="99" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">菜单名称</label>
+										<div class="col-sm-9">
+											<input type="text" id="fName" name="name" placeholder="请输入菜单名称" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">编号</label>
+										<div class="col-sm-9">
+											<input type="text" id="fCode" name="code" placeholder="请输入菜单编号" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">有效性</label>
+										<div class="col-sm-9">
+											<label class="radio radio-info" style="margin-right: 20px;">
+												<input type="radio" checked="checked" name="state" id="radio7" value="1">
+												<label for="radio7">有效</label>
+											</label>
+											<label class="radio radio-info">
+												<input type="radio" name="state" id="radio8" value="0">
+												<label for="radio8">无效</label>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin" style="margin-bottom: 0;">
+								<div class="col-sm-12" style="margin-top: 10px !important;">
+									<div class="form-group">
+										<label class="control-label">上传icon</label>
+										<div class="file-box">
+											<input type="text" readonly="readonly" class="txt" placeholder="图片路径" id="picPath">
+
+											<input type="file" name="file" id="fileField" class="file" onchange="previewImage(this)">
+											<input type="button" class="bttn" value="上传">
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row-fluid row-margin" style="margin-bottom: 0;">
+								<div class="col-sm-12" style="margin-top: 10px !important;">
+									<div class="preview">
+										<img src="" id="uploadPreview" class="modal-img">
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<input type="hidden" name="fStatus" value="1" />
+						<input type="button" class="btn btn-blue" onclick="submitData()" value="确认" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 
 
 
-    <script type="text/javascript">
-
-      //分页/
-      $(function(){
-         $('.pagination ul li').click(function() {
-              $(this).addClass('active').siblings().removeClass('active');
-         });
-      });
-      
-   </script>
+	<script type="text/javascript">
+		//分页/
+		$(function() {
+			$('.pagination ul li').click(function() {
+				$(this).addClass('active').siblings().removeClass('active');
+			});
+		});
+	</script>
 
 
 </body>

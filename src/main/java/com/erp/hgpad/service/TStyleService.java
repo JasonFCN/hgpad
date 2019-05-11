@@ -8,6 +8,9 @@ package com.erp.hgpad.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TStyle;
 
 
@@ -25,4 +28,5 @@ public interface TStyleService{
 	public void delete(String id);
 	public List<TStyle> findByStatus(Integer status);
 	public List<TStyle> findByStatusOrderByNoAsc(Integer status);
+	public Page<TStyle> getRoomTypesPage(TStyle style, Integer pageNum, Integer size, Sort sort);
 }

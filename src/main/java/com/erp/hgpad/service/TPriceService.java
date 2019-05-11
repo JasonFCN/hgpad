@@ -6,6 +6,9 @@
  */
 package com.erp.hgpad.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TPrice;
 
 
@@ -21,4 +24,5 @@ public interface TPriceService{
 	public TPrice getById(String id);
 	public void save(TPrice tPrice);
 	public void delete(String id);
+	public Page<TPrice> getRoomTypesPage(TPrice price, Integer pageNum, int pageSize, Sort sort);
 }

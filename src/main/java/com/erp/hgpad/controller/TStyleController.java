@@ -9,11 +9,17 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.erp.hgpad.entity.TRoomType;
 import com.erp.hgpad.entity.TStyle;
 import com.erp.hgpad.service.TStyleService;
 import com.erp.hgpad.util.LoginInfo;
@@ -36,23 +42,16 @@ public class TStyleController {
 	
 	//菜单列表
 	@RequestMapping(value = "list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list(int pageNum ,HttpServletRequest request) {
-		try { 
-			
-			PageBean pageBeanList = new HqlHelper(TStyle.class, "c")			
-			.addOrder("fNo",true)
-			.addCondition(true,"  fStatus=1 ")					
-				
-			.buildPageBeanForStruts2(pageNum,tStyleService);
-			request.setAttribute("pageBeanList", pageBeanList);						
-			logger.info("显示风格列表");	
-			return "pc/StyleUI/list";
-				
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error(e.getMessage());
-			return "pc/bglogin";
-		}
+	public String list(@RequestParam(defaultValue = "1")Integer pageNum ,HttpServletRequest request,TStyle style) {
+		style.setStatus(1);
+		Order order = new Order(Direction.ASC, "no");
+		Sort sort = Sort.by(order);
+		Page<TStyle> page = tStyleService.getRoomTypesPage(style,pageNum,13,sort);
+		request.setAttribute("page", page);
+		request.setAttribute("style", style);
+		request.setAttribute("pageNum", pageNum);
+		logger.info("显示风格列表");	
+		return "pc/StyleUI/list";
 		
 	}
 	@RequestMapping(value = "add", method = { RequestMethod.GET, RequestMethod.POST })
@@ -65,15 +64,15 @@ public class TStyleController {
 				tStyle.setStatus(1);
 				tStyleService.save(tStyle);
 		        logger.info("添加风格");
-				return "redirect:../tStyle/list.action?pageNum=1";
+				return "redirect:/tStyle/list";
 			}
 			else{
 				logger.info("添加风格,未登录");
-				return "redirect:../loginUI.action";
+				return "redirect:/loginUI";
 			}
 		} catch (Exception e){
 			logger.error(e.getMessage());
-			return "redirect:../loginUI.action";
+			return "redirect:/loginUI";
 		}
 	}
 	@RequestMapping(value = "deleteDate", method = { RequestMethod.GET, RequestMethod.POST })
@@ -86,15 +85,15 @@ public class TStyleController {
 				TStyle tStyle=tStyleService.getById(fId);
 				tStyleService.delete(fId);
 				logger.info("删除风格");
-				return "redirect:../tStyle/list.action?pageNum=1";
+				return "redirect:/tStyle/list";
 			}
 			else{
 				logger.info("删除风格,未登录");
-				return "redirect:../loginUI.action";
+				return "redirect:/loginUI";
 			}
 		} catch (Exception e){
 			logger.error(e.getMessage());
-			return "redirect:../loginUI.action";
+			return "redirect:/loginUI";
 		}
 	}
 	@RequestMapping(value = "update", method = { RequestMethod.GET, RequestMethod.POST })
@@ -107,15 +106,15 @@ public class TStyleController {
 				tStyle.setStatus(1);
 				tStyleService.save(tStyle);
 		        logger.info("更新风格");
-				return "redirect:../tStyle/list.action?pageNum=1";
+				return "redirect:/tStyle/list";
 			}
 			else{
 				logger.info("更新风格,未登录");
-				return "redirect:../loginUI.action";
+				return "redirect:/loginUI";
 			}
 		} catch (Exception e){
 			logger.error(e.getMessage());
-			return "redirect:../loginUI.action";
+			return "redirect:/loginUI";
 		}
 	}
 	

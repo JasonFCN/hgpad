@@ -6,6 +6,8 @@
  */
 package com.erp.hgpad.service;
 
+import java.util.List;
+
 import com.erp.hgpad.entity.TProductStyle;
 
 
@@ -22,4 +24,5 @@ public interface TProductStyleService{
 	public void save(TProductStyle tProductRoom);
 	public TProductStyle getById(String id);
 	public void delete(String id);
+	public List<TProductStyle> findByStatusAndProductIdOrderByNoAsc(Integer status, String productId);
 }

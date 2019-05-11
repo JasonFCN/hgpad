@@ -25,4 +25,5 @@ public interface TProductDetailRoomService{
 	public void delete(String id);
 	public List<TProductDetailRoom> findByRoomIdAndProductIdAndStatusOrderByNoAsc(String roomId, String productId,Integer status);
 	public List<TProductDetailRoom> findByProductId(String productId);
+	public List<TProductDetailRoom> findByProductIdAndStatusOrderByNoAsc(String productId, Integer status);
 }

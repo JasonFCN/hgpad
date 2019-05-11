@@ -9,10 +9,18 @@ package com.erp.hgpad.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.erp.hgpad.dao.TStyleDao;
+import com.erp.hgpad.entity.TRoomType;
 import com.erp.hgpad.entity.TStyle;
 import com.erp.hgpad.service.TStyleService;
 
@@ -30,7 +38,7 @@ public class TStyleServiceImp implements TStyleService{
 	TStyleDao tStyleDao;
 	@Override
 	public TStyle getById(String id) {
-		return tStyleDao.getOne(id);
+		return tStyleDao.findById(id).get();
 	}
 
 	@Override
@@ -51,6 +59,18 @@ public class TStyleServiceImp implements TStyleService{
 	@Override
 	public List<TStyle> findByStatusOrderByNoAsc(Integer status) {
 		return tStyleDao.findByStatusOrderByNoAsc(status);
+	}
+
+	@Override
+	public Page<TStyle> getRoomTypesPage(TStyle style, Integer pageNum, Integer size, Sort sort) {
+		Pageable pageable = PageRequest.of(pageNum-1, size, sort);
+		//创建匹配器，即如何使用查询条件
+		ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+				.withMatcher("name",GenericPropertyMatchers.contains())
+				.withMatcher("status", GenericPropertyMatchers.exact());
+		Example<TStyle> ex = Example.of(style, exampleMatcher); 
+		
+		return tStyleDao.findAll(ex, pageable);
 	}
 	
 }

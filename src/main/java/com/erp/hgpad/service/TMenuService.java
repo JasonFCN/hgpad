@@ -8,6 +8,9 @@ package com.erp.hgpad.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TMenu;
 
 
@@ -24,4 +27,6 @@ public interface TMenuService{
 	public void save(TMenu tMenu);
 	public void delete(String id);
 	public List<TMenu> findByStatusAndStateOrderByNoAsc(Integer status, Integer state);
+	public Page<TMenu> getRoomTypesPage(TMenu menu, Integer pageNum, int pageSize, Sort sort);
+	public List<TMenu> findByStatusAndStateAndCodeOrderByNoAsc(Integer status, Integer state, String fCode);
 }

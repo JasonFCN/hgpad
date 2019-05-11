@@ -2,326 +2,298 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>价格区间列表</title>
-    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>价格区间列表</title>
+<link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
 
-    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
+<link href="/bgStyle/css/animate.css" rel="stylesheet">
+<link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
 
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
-    <!-- 自定义js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
-    
-      <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
-    <script type="text/javascript">
-       
- 	   function reLoadWindow(){
-		   window.location.reload();
-	   }
- 	   $(document).ready(function() {
+<script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+<script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="/bgStyle/js/content.js?v=1.0.0"></script>
+<script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
 
- 	       
- 	    });
- 	   
- 	  function closeShow(){
-    	  $('#newadd-Modal').modal('hide');
-   	  }
- 	  
-	function checkForm(){
-	     var sign=$("#sign").val();
-	     if(sign==1){
-	    	 var url = "${pageContext.request.contextPath}/tPrice/update.action";
-			 document.forms["form2"].action = url; 
-			 document.forms["form2"].submit(); // 提交表单	菜单 
-	     }
-	     else{
-	    	 var fileName=$("#fUp").val();
-	  		 if(fileName==null || fileName=="")
-	  			{
-	  			  alert("请输入上下限");
-	  			  return false;
-	  		 }	
-	    	 var fileName=$("#fDown").val();
-	  		 if(fileName==null || fileName=="")
-	  			{
-	  			  alert("请输入上下限");
-	  			  return false;
-	  		 }	
-	    	 var url = "${pageContext.request.contextPath}/tPrice/add.action";
-			 document.forms["form2"].action = url; 			 
-			 document.forms["form2"].submit(); // 提交表单	菜单 
-	     }		 	
+<script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script>
+<script type="text/javascript">
+	function reLoadWindow() {
+		window.location.reload();
 	}
- 	function setZro(text1){
- 		var msize=$(text1).val(); 		
- 		if(!isNaN(msize)){
- 			var dot = msize.indexOf(".");
- 	        if(dot != -1){
- 	            var dotCnt = msize.substring(dot+1,msize.length);
- 	            if(dotCnt.length >0){
- 	                alert("不能有小数点！");
- 	                $(text1).val("99");
- 	                return false;
- 	            }
- 	        }
- 		}else{
- 			
- 			$(text1).val("99");
- 			return false;
- 		}
- 		
- 		if(msize==""||msize==null){
- 			$(text1).val("99");
- 			return false;
- 		}
- 		if(measureSize==null||measureSize==""){
- 			$(text1).val("99");
- 		
- 		}
- 		
- 	}
- 	function editUI(e){
- 		$.ajax({
-            type:"POST",
-            url :"../tPrice/editMsg.action?fId="+e+"",
-            data:{},
-            dataType:"json",
-            success:function(data){
-            	$("#fId").attr("disabled", false);
-            	$("#fNo").val(data.fNo);            	
-            	      	
-            	$("#fStatus").val(data.fStatus);           	
-            	
-            	$("#fId").val(data.fId);
-            	$("#fDown").val(data.fDown);
-            	$("#fUp").val(data.fUp);
-            }
-        });
-			 
+	$(document).ready(function() {
+
+	});
+
+	function closeShow() {
+		$('#newadd-Modal').modal('hide');
+	}
+
+	function checkForm() {
+		var sign = $("#sign").val();
+		if (sign == 1) {
+			var url = "/tPrice/update";
+			document.forms["form2"].action = url;
+			document.forms["form2"].submit(); // 提交表单	菜单 
+		} else {
+			var fileName = $("#fUp").val();
+			if (fileName == null || fileName == "") {
+				alert("请输入上下限");
+				return false;
+			}
+			var fileName = $("#fDown").val();
+			if (fileName == null || fileName == "") {
+				alert("请输入上下限");
+				return false;
+			}
+			var url = "/tPrice/add";
+			document.forms["form2"].action = url;
+			document.forms["form2"].submit(); // 提交表单	菜单 
+		}
+	}
+	function setZro(text1) {
+		var msize = $(text1).val();
+		if (!isNaN(msize)) {
+			var dot = msize.indexOf(".");
+			if (dot != -1) {
+				var dotCnt = msize.substring(dot + 1, msize.length);
+				if (dotCnt.length > 0) {
+					alert("不能有小数点！");
+					$(text1).val("99");
+					return false;
+				}
+			}
+		} else {
+
+			$(text1).val("99");
+			return false;
+		}
+
+		if (msize == "" || msize == null) {
+			$(text1).val("99");
+			return false;
+		}
+		if (measureSize == null || measureSize == "") {
+			$(text1).val("99");
+
+		}
+
+	}
+	function editUI(e) {
+		$.ajax({
+			type : "POST",
+			url : "/tPrice/editMsg?fId=" + e + "",
+			data : {},
+			dataType : "json",
+			success : function(data) {
+				$("#fId").attr("disabled", false);
+				$("#fNo").val(data.no);
+				$("#fStatus").val(data.status);
+				$("#fId").val(data.id);
+				$("#fDown").val(data.down);
+				$("#fUp").val(data.up);
+			}
+		});
+
 		$("#sign").val(1);
 		$("#showTitle").text("编辑价格区间");
 		$('#newadd-Modal').modal('show');
- 	}
- 	//删除价格区间
- 	function deleteData(e){
-		 $.MsgBox.Confirm("温馨提示", "确定删除？", function () {
-				
-			  window.location.href = "../tPrice/deleteDate.action?fId="+e+"";
-		   	  return true;
-		 })  
- 	}
-
-    function addShow(e){
-    	$("#fNo").val(99);            	
-      	
-    	$("#fStatus").val(1);           	
-    	
-    	$("#fId").val("");
-    	$("#fName").val("");
-    	$("#fCode").val("");
-		
-	  	  if(e==1){
-				
-				 $("#showTitle").text("编辑价格区间");
-				 $("#sign").val(1);
-	  	  }
-	  	  else{
-	  		  $("#fId").attr("disabled", true);
-	  		  $("#showTitle").text("新增价格区间");
-	  		  $("#sign").val(0);
-	  	  }
-  	      $('#newadd-Modal').modal('show');
-  	 }
-	
-	function gotoPage( pageNum ){
-	$("#pageId").val(pageNum);
-	
-	document.forms[0].submit(); // 提交表单
 	}
-    </script>
+	//删除价格区间
+	function deleteData(e) {
+		$.MsgBox.Confirm("温馨提示", "确定删除？", function() {
+			window.location.href = "/tPrice/deleteDate?fId=" + e + "";
+			return true;
+		})
+	}
 
+	function addShow(e) {
+		$("#fNo").val(99);
+		$("#fStatus").val(1);
+		$("#fId").val("");
+		$("#fName").val("");
+		$("#fCode").val("");
+		if (e == 1) {
+			$("#showTitle").text("编辑价格区间");
+			$("#sign").val(1);
+		} else {
+			$("#fId").attr("disabled", true);
+			$("#showTitle").text("新增价格区间");
+			$("#sign").val(0);
+		}
+		$('#newadd-Modal').modal('show');
+	}
+	function gotoPage(pageNum) {
+		$("#pageId").val(pageNum);
+		document.forms[0].submit(); // 提交表单
+	}
+</script>
 </head>
-
 <body class="gray-bg">
+	<form action="/tPrice/list" method="post" name="form1">
+		<input type="hidden" id="pageId" value="1" name="pageNum" />
+	</form>
+	<div class="container-fluid">
+		<div class="header-fixed">
+			<div id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<i class="fa fa-home" style="font-size: 16px;"></i>
+						<a href="#">参数配置</a>
+						<span class="divider">
+							<i class="icon-angle-right"></i>
+						</span>
+					</li>
+					<li class="active">价格区间列表</li>
+				</ul>
+				<!--.breadcrumb-->
+			</div>
+			<!--#breadcrumbs-->
+			<div id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<span class="btn btn-blue btn-xs" onclick="history.go(-1)">
+							<i class="fa fa-reply" style="margin-right: 2px; font-size: 12px;"></i>
+							返回
+						</span>
+						<span class="btn btn-blue btn-xs" onclick="reLoadWindow()">
+							<i class="fa fa-refresh" style="margin-right: 2px; font-size: 12px;"></i>
+							刷新
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
 
-	
-<form action="../tPrice/list.action" method="post" name="form1">
-<input type="hidden" id="pageId" value="1" name="pageNum"/>                                                                                                               
-
-   </form>
-
-<div class="container-fluid">
-
-   <div class="header-fixed">                   
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">参数配置</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-                <li class="active">价格区间列表</li>
-            </ul><!--.breadcrumb-->
-        </div><!--#breadcrumbs-->
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>                  
-                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-   
-    <!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
-    <div class="page-content-main">
-        <div id="page-content">
-         <div class="panel-box">
-               <div class="title-text">
-                 <span class="title-con">价格区间列表</span> 
-               </div>
-               <div class="panel-body">
-                 <div class="form-horizontal">
-                     <div class="row-fluid">
-                         <div class="col-sm-3">
-                            <div class="form-group">
-                                  <button class="btn btn-blue btn-sm" onclick="addShow()">新建</button>
-                            </div>
-                        </div>       
-                    </div>
-                </div>
-                
-                 <table class="table table-hover">
-                        <tr>                          
-                            <th width="4%">序号</th>
-                            <th width="18%">价格区间</th>
-                            <th width="12%">操作</th>
-                        </tr>                         
-                       <c:if test="${!empty pageBeanList}">
-						<c:forEach items="${pageBeanList.recordList}" var="msg">
-                        <tr>
-                           
-                            <td>${msg.fNo}</td>
-                          
-                           
-                            <td>${msg.fDown} ~ ${msg.fUp} 元</td>
-                          
-                            <td style="border-left:1px solid #e7eaec;">
-                                <button class="btn btn-orange btn-xs btn-outline" onclick="editUI('${msg.fId}')">编辑</button>
-                                <button class="btn btn-danger btn-xs btn-outline" onclick="deleteData('${msg.fId}')">删除</button>
-                            </td>
-                        </tr>
-                        </c:forEach>
-                       </c:if>                       
-                    </table>
-                  
-                   			<c:if test="${pageBeanList.recordCount>0}">
-							             <div class="pagination" style="margin-top:0px; text-align:right;margin-bottom:0;">
-							               <div class="page-left">
-							        	         <p>页次:<span style="color:#6faed9;">${pageBeanList.currentPage}/${pageBeanList.pageCount}</span>&nbsp;&nbsp;每页显示：<span style="color:#6faed9;">${pageBeanList.pageSize}</span>条&nbsp;&nbsp;总记录数：<span style="color:#6faed9;">${pageBeanList.recordCount}</span>条</p>
-							        	   </div>
-							              <ul>
-							                <a href="javascript: gotoPage(1)"><li><i class="fa fa-angle-double-left" style="font-size:16px;"></i></li></a>
-							                <c:forEach  begin="${pageBeanList.beginPageIndex}" end="${pageBeanList.endPageIndex}" var="num">
-							                  <c:if test="${pageBeanList.currentPage==num}"><%-- 当前页 --%>
-							                      <a  href="javascript:gotoPage(${num});"> <li <c:if test="${pageBeanList.currentPage==num}">style="background:#0786e7;color:#fff;"</c:if>>${num}</li></a>
-							                  </c:if>
-							                  <c:if test="${pageBeanList.currentPage!=num}"><%-- 非当前页 --%>
-							                      <a href="javascript:gotoPage(${num});"> <li>${num}</li></a>
-							                  </c:if>
-							                </c:forEach>
-							               <a href="javascript: gotoPage(${pageBeanList.pageCount})"> <li><i class="fa fa-angle-double-right" style="font-size:16px;"></i></li></a>
-							              </ul>
-							            </div>
-				       			 	</c:if>
-
-            </div>
-        </div>
-      </div>
-      
-
-    </div>
-</div>
-
-<!-- 新增图片 -->
-<div class="modal fade" id="newadd-Modal" >
-  <!-- 窗口声明 -->
-   <form action="" name="form2" method="post" onsubmit="return checkForm()" >
-   
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle"></h4>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">次序</label>
-                                <input type="number" name="fNo" id="fNo" onblur="setZro(this)" value="99" class="form-control input-box"> 
-                            </div>
-                        </div>
-                       
-                       
-                   
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">区间下限</label>
-                                  <input type="number" id="fDown" name="fDown" class="form-control input-box">
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <div class="row-fluid row-margin">
-                        
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">区间上限</label>
-                                  <input type="number" id="fUp" name="fUp" class="form-control input-box">
-                            </div>
-                        </div>
-                    </div>                               
-                  </div>
-                </div>
-               
-                
-    
-         
-      <div class="modal-footer">
-       <input type="hidden"  id="sign" value="0"/>
-       <input type="hidden"  id="fId" name="fId" value=""/>     
-       <input type="hidden"  name="fStatus" id="fStatus" value="1"/>
-         <input type="submit" class="btn btn-blue" onclick="" value="确认"/>
-         <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-    </div>
- </form>
-</div>
-
-
-    <script type="text/javascript">
-
-      //分页/
-      $(function(){
-         $('.pagination ul li').click(function() {
-              $(this).addClass('active').siblings().removeClass('active');
-         });
-      });
-      
-   </script>
-
-
+		<!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
+		<div class="page-content-main">
+			<div id="page-content">
+				<div class="panel-box">
+					<div class="title-text">
+						<span class="title-con">价格区间列表</span>
+					</div>
+					<div class="panel-body">
+						<div class="form-horizontal">
+							<div class="row-fluid">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<button class="btn btn-blue btn-sm" onclick="addShow()">新建</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<table class="table table-hover">
+							<tr>
+								<th width="4%">序号</th>
+								<th width="18%">价格区间</th>
+								<th width="12%">操作</th>
+							</tr>
+							<tr th:each="msg:${page}">
+								<td th:text="${msg.no}"></td>
+								<td th:text="|${msg.down} ~ ${msg.up} 元|"></td>
+								<td style="border-left: 1px solid #e7eaec;">
+									<button class="btn btn-orange btn-xs btn-outline" th:onclick="editUI([[${msg.id}]])">编辑</button>
+									<button class="btn btn-danger btn-xs btn-outline" th:onclick="deleteData([[${msg.id}]])">删除</button>
+								</td>
+							</tr>
+						</table>
+						<div th:if="${page.totalPages>0}" class="pagination" style="margin-top: 0px; text-align: right; margin-bottom: 0;">
+							<div class="page-left">
+								<p>
+									页次:
+									<span style="color: #6faed9;" th:text="${pageNum}"></span>
+									&nbsp;&nbsp;每页显示：
+									<span style="color: #6faed9;" th:text="${page.pageable.pageSize}"></span>
+									条&nbsp;&nbsp;总记录数：
+									<span style="color: #6faed9;" th:text="${page.totalElements}"></span>
+									条
+								</p>
+								<input type="hidden" th:value="${pageNum}" id="nowPageNum" />
+							</div>
+							<ul>
+								<a href="javascript: gotoPage(1)">
+									<li>
+										<i class="fa fa-angle-double-left" style="font-size: 16px;"></i>
+									</li>
+								</a>
+								<a th:each="num : ${#numbers.sequence(1,page.totalPages)}">
+									<li th:text="${num}" th:style="${num==pageNum}?'background:#0786e7;color:#fff;'"></li>
+								</a>
+								<a href="javascript: void();" th:onclick="'javascript: gotoPage('+${page.totalPages}+')'">
+									<li>
+										<i class="fa fa-angle-double-right" style="font-size: 16px;"></i>
+									</li>
+								</a>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 新增图片 -->
+	<div class="modal fade" id="newadd-Modal">
+		<!-- 窗口声明 -->
+		<form action="/tPrice/add" name="form2" method="post" onsubmit="return checkForm()">
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">次序</label>
+										<input type="number" name="no" id="fNo" onblur="setZro(this)" value="99" class="form-control input-box">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">区间下限</label>
+										<input type="number" id="fDown" name="down" class="form-control input-box">
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">区间上限</label>
+										<input type="number" id="fUp" name="up" class="form-control input-box">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="sign" value="0" />
+						<input type="hidden" id="fId" name="id" value="" />
+						<input type="hidden" name="status" id="status" value="1" />
+						<input type="submit" class="btn btn-blue" onclick="" value="确认" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		//分页/
+		$(function() {
+			$('.pagination ul li').click(function() {
+				$(this).addClass('active').siblings().removeClass('active');
+			});
+		});
+	</script>
 </body>
-
 </html>

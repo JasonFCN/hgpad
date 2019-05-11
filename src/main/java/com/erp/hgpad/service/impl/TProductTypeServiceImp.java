@@ -38,7 +38,7 @@ public class TProductTypeServiceImp implements TProductTypeService{
 	TProductTypeDao tProductTypeDao;
 	@Override
 	public TProductType getById(String id) {
-		return tProductTypeDao.getOne(id);
+		return tProductTypeDao.findById(id).get();
 	}
 
 	@Override

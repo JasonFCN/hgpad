@@ -11,6 +11,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TEmployee;
 
 /**
@@ -25,4 +28,6 @@ public interface TEmployeeService{
 	public TEmployee getById(String id);
 	public void delete(String id);
 	public List<TEmployee> findByAccount(String acount,String password);
+	public Page<TEmployee> getRoomTypesPage(TEmployee employee, Integer pageNum, int pageSize, Sort sort);
+	public List<TEmployee> findByMobOrAccount(String fMob, String Account);
 }

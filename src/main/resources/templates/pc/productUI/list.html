@@ -42,14 +42,14 @@
 	function deleteData(e) {
 		pageNum = $("#nowPageNum").val();
 		$.MsgBox.Confirm("温馨提示", "确定删除？", function() {
-			window.location.href = "/tProduct/delete.action?fId=" + e
+			window.location.href = "/tProduct/delete?fId=" + e
 					+ "&pageNum=" + pageNum + "";
 			return true;
 		})
 	}
 	function editUI(e, a) {
 		pageNum = $("#nowPageNum").val();
-		window.location.href = "/tProduct/updateview.action?fId=" + e
+		window.location.href = "/tProduct/updateview?fId=" + e
 				+ "&tTypeId=" + a + "&pageNum=" + pageNum + "";
 	}
 	function addShow() {
@@ -57,7 +57,7 @@
 	}
 	function gotoPage(pageNum) {
 		$("#pageId").val(pageNum);
-		// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
+		// window.location.href = "forumAction_show?id=${id}&pageNum=" + pageNum;
 		//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
 		//alert();
 		document.forms[0].submit(); // 提交表单
@@ -166,9 +166,9 @@
 								<tr>
 									<th width="4%">序号</th>
 									<th width="10%">
-										<select class="table-sel" id="typeId" name="typeId">
-											<option value="">大类</option>
-											<option th:each="type : ${tProductTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${type.id==*{typeId}}"></option>
+										<select class="table-sel" id="typeId" name="productTypeId">
+											<option value="" th:selected="*{productTypeId==null}">大类</option>
+											<option th:each="type : ${tProductTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${type.id==product.productTypeId}"></option>
 										</select>
 									</th>
 									<th width="10%">名称</th>
@@ -212,8 +212,8 @@
 										<span th:utext="${msg.state==1}?'有效' : '无效'"></span>
 									</td>
 									<td style="border-left: 1px solid #e7eaec;">
-										<input type="button" class="btn btn-orange btn-xs btn-outline" onclick="editUI('${msg.fId}')" value="编辑">
-										<input type="button" class="btn btn-danger btn-xs btn-outline" onclick="deleteData('${msg.fId}')" value="删除">
+										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick="editUI([[${msg.id}]])" value="编辑">
+										<input type="button" class="btn btn-danger btn-xs btn-outline" th:onclick="deleteData([[${msg.id}]])" value="删除">
 									</td>
 								</tr>
 							</table>
@@ -238,41 +238,6 @@
 									</a>
 								</ul>
 							</div>
-							<!-- <c:if test="${pageBeanList.recordCount>0}">
-								<div class="pagination" style="margin-top: 0px; text-align: right; margin-bottom: 0;">
-									<div class="page-left">
-										<p>
-											页次:<span style="color: #6faed9;">${pageBeanList.currentPage}/${pageBeanList.pageCount}</span>&nbsp;&nbsp;每页显示：<span style="color: #6faed9;">${pageBeanList.pageSize}</span>条&nbsp;&nbsp;总记录数：<span style="color: #6faed9;">${pageBeanList.recordCount}</span>条
-										</p>
-										<input type="hidden" value="${pageBeanList.currentPage}" id="nowPageNum" />
-									</div>
-									<ul>
-										<a href="javascript: gotoPage(1)"><li>
-												<i class="fa fa-angle-double-left" style="font-size: 16px;"></i>
-											</li></a>
-										<c:forEach begin="${pageBeanList.beginPageIndex}" end="${pageBeanList.endPageIndex}" var="num">
-											<c:if test="${pageBeanList.currentPage==num}"><%-- 当前页 --%>
-							                      <a href="javascript:gotoPage(${num});">
-													<li
-														<c:if test="${pageBeanList.currentPage==num}">style="background:#0786e7;color:#fff;"</c:if>
-														>${num}
-													</li>
-												</a>
-											</c:if>
-											<c:if test="${pageBeanList.currentPage!=num}"><%-- 非当前页 --%>
-							                      <a href="javascript:gotoPage(${num});">
-													<li>${num}</li>
-												</a>
-											</c:if>
-										</c:forEach>
-										<a href="javascript: gotoPage(${pageBeanList.pageCount})">
-											<li>
-												<i class="fa fa-angle-double-right" style="font-size: 16px;"></i>
-											</li>
-										</a>
-									</ul>
-								</div>
-							</c:if> -->
 						</div>
 					</div>
 				</div>
@@ -310,7 +275,7 @@
 									<div class="form-group">
 										<label class="control-label">名称</label>
 										<div class="col-sm-9">
-											<input type="text" id="fName" name="fName" placeholder="请输入名称" class="form-control input-box">
+											<input type="text" id="fName" name="name" placeholder="请输入名称" class="form-control input-box">
 										</div>
 									</div>
 								</div>
@@ -320,7 +285,7 @@
 									<div class="form-group">
 										<label class="control-label">编码</label>
 										<div class="col-sm-9">
-											<input type="text" id="fCode" name="fCode" placeholder="请输入编码" class="form-control input-box">
+											<input type="text" id="fCode" name="code" placeholder="请输入编码" class="form-control input-box">
 										</div>
 									</div>
 								</div>
@@ -329,11 +294,11 @@
 										<div class="col-sm-9">
 											<label class="control-label">有效性</label>
 											<label class="radio radio-info" style="margin-right: 20px;">
-												<input type="radio" checked="checked" name="fState" id="radio5" value="1">
+												<input type="radio" checked="checked" name="state" id="radio5" value="1">
 												<label for="radio5">有效</label>
 											</label>
 											<label class="radio radio-info">
-												<input type="radio" name="fState" id="radio6" value="0">
+												<input type="radio" name="state" id="radio6" value="0">
 												<label for="radio6">无效</label>
 											</label>
 										</div>
@@ -344,8 +309,8 @@
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" id="sign" value="0" />
-						<input type="hidden" name="fId" id="fId" />
-						<input type="hidden" name="fStatus" id="fStatus" value="1" />
+						<input type="hidden" name="id" id="fId" />
+						<input type="hidden" name="status" id="fStatus" value="1" />
 						<input type="submit" class="btn btn-blue" onclick="" value="确认" />
 						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
 					</div>

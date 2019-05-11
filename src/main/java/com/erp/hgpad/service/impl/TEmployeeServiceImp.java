@@ -14,11 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.erp.hgpad.dao.TEmployeeDao;
 import com.erp.hgpad.entity.TEmployee;
+import com.erp.hgpad.entity.TRoomType;
 import com.erp.hgpad.service.TEmployeeService;
 import com.erp.hgpad.util.LoginInfo;
 
@@ -84,7 +92,7 @@ public class TEmployeeServiceImp implements TEmployeeService{
 	}
 	@Override
 	public TEmployee getById(String id) {
-		return employeeDao.getOne(id);
+		return employeeDao.findById(id).get();
 	}
 	@Override
 	public List<TEmployee> findByAccount(String acount,String password) {
@@ -93,6 +101,23 @@ public class TEmployeeServiceImp implements TEmployeeService{
 	@Override
 	public void delete(String id) {
 		employeeDao.deleteById(id);
+	}
+	@Override
+	public Page<TEmployee> getRoomTypesPage(TEmployee employee, Integer pageNum, int pageSize, Sort sort) {
+		Pageable pageable = PageRequest.of(pageNum-1, pageSize, sort);
+		//创建匹配器，即如何使用查询条件
+		ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+				.withMatcher("name",GenericPropertyMatchers.contains())
+				.withMatcher("mob",GenericPropertyMatchers.contains())
+				.withMatcher("status", GenericPropertyMatchers.exact());
+		Example<TEmployee> ex = Example.of(employee, exampleMatcher); 
+		
+		return employeeDao.findAll(ex, pageable);
+	}
+	@Override
+	public List<TEmployee> findByMobOrAccount(String fMob, String Account) {
+		// TODO Auto-generated method stub
+		return employeeDao.findByMobOrAccount(fMob,Account);
 	}
 	
 }

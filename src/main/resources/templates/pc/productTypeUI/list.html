@@ -54,8 +54,8 @@
  		 $.MsgBox.Confirm("温馨提示", "确定删除？", function () {
  			$.ajax({
 	            type:"POST",
-	            url :"/tProductType/delete?id="+e,
-	            data:{},
+	            url :"/tProductType/delete",
+	            data:{id:e},
 	            dataType:"json",
 	            success:function(data){
  	            	if(data==1){
@@ -77,8 +77,8 @@
 	function editUI(e){
  		$.ajax({
             type:"POST",
-            url :"/tProductType/getTProductTypeById?id="+e,
-            data:{},
+            url :"/tProductType/getTProductTypeById",
+            data:{id:e},
             dataType:"json",
             success:function(data){
             	
@@ -89,7 +89,7 @@
             	$("#id2").val(data.id);
             	$("#picture2").val(data.picture);
             	
-            	if(data.status==1){                	
+            	if(data.state==1){                	
             		$("#radio5").prop("checked",true);
             		$("#radio6").prop("checked",false);
             	}else{
@@ -371,10 +371,10 @@
 									<th width="10%">编码</th>
 									<th width="10%">icon</th>
 									<th width="20%">
-										<select class="table-sel" id="fStateZxl" name="status">
+										<select class="table-sel" id="fStateZxl" name="state">
 												<option value="">全部</option>
-												<option value="1" th:selected="${productType.status==1}">有效</option>
-												<option value="0" th:selected="${productType.status==0}">无效</option>
+												<option value="1" th:selected="${productType.state==1}">有效</option>
+												<option value="0" th:selected="${productType.state==0}">无效</option>
 										</select> 
 										<input type="hidden" id="pageId" value="1" name="pageNum" />
 									</th>
@@ -390,8 +390,8 @@
 										<span th:if="${msg.state==0}" th:style="'color:red;'" th:text="无效"></span>
 									</td>
 									<td style="border-left: 1px solid #e7eaec;">
-										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick="|editUI(${msg.id})|" value="编辑"> 
-										<input type="button" class="btn btn-danger btn-xs btn-outline" th:onclick="javascript:deleteData([[${msg.id}]])" value="删除">
+										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick='editUI([[${msg.id}]])' value="编辑"> 
+										<input type="button" class="btn btn-danger btn-xs btn-outline" th:onclick="deleteData([[${msg.id}]])" value="删除">
 									</td>
 								</tr>
 							</table>
@@ -555,11 +555,11 @@
                                   <label class="control-label">有效性</label>
                                    <div class="col-sm-9">
                                   <label class="radio radio-info" style="margin-right:20px;">
-                                       <input type="radio" name="fstatus" id="radio5" value="1">
+                                       <input type="radio" name="state" id="radio5" value="1">
                                        <label for="radio5">有效</label>
                                   </label>
                                   <label class="radio radio-info">
-                                    <input type="radio" name="fstatus" id="radio6" value="0">
+                                    <input type="radio" name="state" id="radio6" value="0">
                                        <label for="radio6">无效</label>
                                   </label>
                                   </div>

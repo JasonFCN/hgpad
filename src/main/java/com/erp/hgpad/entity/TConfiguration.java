@@ -24,8 +24,7 @@ public class TConfiguration {
 	private String value;// 字段值
 	@Column(length = 20)
 	private String typeOfKey;// 字段所属类型
-	@Column(length = 10)
-	private String status;
+	private Integer status;
 	
 	@Id
 	@Column(length = 32)
@@ -61,10 +60,10 @@ public class TConfiguration {
 	public void setTypeOfKey(String typeOfKey) {
 		this.typeOfKey = typeOfKey;
 	}
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}// 是否可用
 

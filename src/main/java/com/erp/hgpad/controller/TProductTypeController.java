@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.erp.hgpad.entity.TProductType;
 import com.erp.hgpad.service.TProductTypeService;
 import com.erp.hgpad.util.CommonUtil;
+import com.erp.hgpad.util.ImageUtil;
 import com.erp.hgpad.util.LoginInfo;
 /**
  * 产品大类
@@ -47,6 +49,7 @@ public class TProductTypeController {
 	Log logger = LogFactory.getLog( this .getClass());
 	@Value("${myConfig.basePath}")
     private String basepath;
+	private static String pathImg="proTypeImg";
 	//private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 	
 	//菜单列表
@@ -67,33 +70,9 @@ public class TProductTypeController {
 	@RequestMapping(value="saveData",method={RequestMethod.GET,RequestMethod.POST})
 	public String saveData(HttpServletResponse response,HttpServletRequest request,TProductType tProductType,@RequestParam(value = "file", required = false) MultipartFile file){	
 		TProductType tProductType2=new TProductType();
-		Calendar calendar=Calendar.getInstance();
-		String pathImg="proTypeImg";
-		String uploadImgs="uploadImgs";
-		int iyear=calendar.get(Calendar.YEAR);
-		int imouth=calendar.get(Calendar.MONTH)+1;			
-		System.out.println("开始上传...");  				
-	    //String path = request.getSession().getServletContext().getRealPath("upload"); 
-		
-	    
 	    if(!file.isEmpty()){
-	    	String filepathName = uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-	    	String filePath = basepath + filepathName;
-	    	File f = new File(filePath);
-	    	if(!f.exists()) {
-	    		f.mkdirs();
-	    	}
-	    	String fileName = file.getOriginalFilename();
-	    	try {
-				byte[] bytes = file.getBytes();
-				Path path = Paths.get(filepathName+fileName);
-				Files.write(path, bytes);
-				tProductType2.setPicture(filepathName+fileName);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	    	tProductType2.setPicture(ImageUtil.uploadImage(file, pathImg, false));
 		}
-	    
 		tProductType2.setState(tProductType.getState());
 		tProductType2.setNo(tProductType.getNo());
 		tProductType2.setStatus(1);
@@ -104,35 +83,17 @@ public class TProductTypeController {
 	}
 	@RequestMapping(value="update",method={RequestMethod.GET,RequestMethod.POST})
 	public String update(HttpServletResponse response,HttpServletRequest request,TProductType tProductType,@RequestParam(value = "file", required = false) MultipartFile file){
-		Calendar calendar=Calendar.getInstance();
-		String pathImg="proTypeImg";
-		String uploadImgs="uploadImgs";
-		int iyear=calendar.get(Calendar.YEAR);
-		int imouth=calendar.get(Calendar.MONTH)+1;			
-		System.out.println("开始上传...");  				
-	    //String path = request.getSession().getServletContext().getRealPath("upload"); 
-		
-	    
-	    if(!file.isEmpty()){
-	    	String oldpicture = tProductType.getPicture();
-	    	String filepathName = uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-	    	String filePath = basepath + filepathName;
-	    	File f = new File(filePath);
-	    	if(!f.exists()) {
-	    		f.mkdirs();
-	    	}
-	    	String fileName = file.getOriginalFilename();
-	    	try {
-				byte[] bytes = file.getBytes();
-				Path path = Paths.get(filepathName+fileName);
-				Files.write(path, bytes);
-				CommonUtil.deleteFile(basepath+oldpicture);
-				tProductType.setPicture(filepathName+fileName);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		TProductType byId = tProductTypeService.getById(tProductType.getId());
+		byId.setCode(tProductType.getCode());
+		byId.setName(tProductType.getName());
+		byId.setNo(tProductType.getNo());
+		byId.setStatus(1);
+		byId.setState(tProductType.getState());
+		if(!file.isEmpty()) {
+			if(StringUtils.isNotEmpty(byId.getPicture()))CommonUtil.deleteFile(basepath+byId.getPicture());
+			byId.setPicture(ImageUtil.uploadImage(file, pathImg, false));
 		}
-		tProductTypeService.save(tProductType);
+		tProductTypeService.save(byId);
 		return "redirect:/tProductType/list";
 	}
 	@RequestMapping(value="delete",method={RequestMethod.GET,RequestMethod.POST})
@@ -183,7 +144,9 @@ public class TProductTypeController {
 	  * @return
 	  */
 	 @RequestMapping(value="getTProductTypeById",method={RequestMethod.GET,RequestMethod.POST})
-	 public @ResponseBody TProductType getTProductTypeById(String id){
+	 @ResponseBody
+	 public TProductType getTProductTypeById(String id){
+		 //id = "'"+id+"'";
 		 TProductType TProductType=tProductTypeService.getById(id);
 		 return TProductType;
 	 }

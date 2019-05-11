@@ -72,8 +72,7 @@ public class TProductServiceImp implements TProductService{
 		//先删除对应风格空间
 		tProductRoomService.deleteByProductId(fProductId);
 		tProductStyleService.deleteByProductId(fProductId);
-		if(rooms!=null&&!"".equals(rooms)){
-			
+		if(rooms!=null){
 			for(int i=0;i<rooms.length;i++){
 				TProductRoom tProductRoom=new TProductRoom();
 				tProductRoom.setNo(1);
@@ -84,7 +83,7 @@ public class TProductServiceImp implements TProductService{
 				tProductRoomService.save(tProductRoom);
 			}
 		}
-		if(styles!=null&&!"".equals(styles)){				
+		if(styles!=null){				
 			for(int i=0;i<styles.length;i++){
 				TProductStyle tProductRoom=new TProductStyle();
 				tProductRoom.setNo(1);
@@ -123,7 +122,7 @@ public class TProductServiceImp implements TProductService{
 
 	@Override
 	public TProduct getById(String id) {
-		return tProductDao.getOne(id);
+		return tProductDao.findById(id).get();
 	}
 
 	@Override

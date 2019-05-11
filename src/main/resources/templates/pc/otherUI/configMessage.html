@@ -2,506 +2,516 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>配置信息表</title>
-    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>配置信息表</title>
+<link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
 
-    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
-     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
-    
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="${pageContext.request.contextPath}/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
-    <!-- 自定义js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
-       <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
-    <style type="text/css">
-    .preview{
-      width:160px !important;
-           height:160px;
-           float: left;
-    }
-    </style>
-    <script type="text/javascript">
-       //缩略图不变形
-       $(document).ready(function() {
-           $('.td-img').jqthumb({
-           width:60,
-           height:60,
-       }); 
-       $('.modal-img').jqthumb({
-           width:160,
-           height:160,
-       });            
-       });
- 	   function reLoadWindow(){
-		   window.location.reload();
-	   }
- 	   $(document).ready(function() { 	       
- 	   });	   
- 	  function closeShow(){
-    	  $('#newadd-Modal').modal('hide');
-    	  $('#newadd-Modal2').modal('hide');
-      } 	  	
- 	
- 	
- 	//异步初使化模态框
-	function editUI(e){
- 		$.ajax({
-            type:"POST",
-            url :"../other/getConfigurationById.action",
-            data:{fId:e},
-            dataType:"json",
-            success:function(data){
-            	$('#newadd-Modal2').modal('show');
-            	$("#fId").val(data.fId);
-            	$("#fKeyName").val(data.fKeyName);
-            	$("#fAlias").val(data.fAlias);
-            	$("#fValue").val(data.fValue);
-            	$("#fTypeOfKey").val(data.fTypeOfKey);
-            	if(data.fStatus==1){
-            		$("#fStatus1").val(1);
-            	}else{
-            		$("#fStatus1").val(0);
-            	}
-            }
-        });
-		
- 	}
+<link href="/bgStyle/css/animate.css" rel="stylesheet">
+<link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+
+<script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+<script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/bgStyle/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="/bgStyle/js/content.js?v=1.0.0"></script>
+<script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script>
+<script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script>
+<style type="text/css">
+.preview {
+	width: 160px !important;
+	height: 160px;
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	//缩略图不变形
+	$(document).ready(function() {
+		$('.td-img').jqthumb({
+			width : 60,
+			height : 60,
+		});
+		$('.modal-img').jqthumb({
+			width : 160,
+			height : 160,
+		});
+	});
+	function reLoadWindow() {
+		window.location.reload();
+	}
+	$(document).ready(function() {
+	});
+	function closeShow() {
+		$('#newadd-Modal').modal('hide');
+		$('#newadd-Modal2').modal('hide');
+	}
+
+	//异步初使化模态框
+	function editUI(e) {
+		$.ajax({
+			type : "POST",
+			url : "/other/getConfigurationById",
+			data : {
+				fId : e
+			},
+			dataType : "json",
+			success : function(data) {
+				$('#newadd-Modal2').modal('show');
+				$("#fId").val(data.id);
+				$("#fKeyName").val(data.keyName);
+				$("#fAlias").val(data.alias);
+				$("#fValue").val(data.value);
+				$("#fTypeOfKey").val(data.typeOfKey);
+				if (data.status == 1) {
+					$("#fStatus1").val(1);
+				} else {
+					$("#fStatus1").val(0);
+				}
+			}
+		});
+
+	}
 	//提交修改表单
-    function submitData2(){
-    	var fId = $("#fId").val();
-    	var fAlias = $("#fAlias").val();
-    	var fValue = $("#fValue").val();
-    	var fTypeOfKey = $("#fTypeOfKey").val();
-    	var fStatus = $("#fStatus1").val();
-    	if(fAlias==null || fAlias=="")
-			{
-			$.MsgBox.Alert("温馨提示","别名不能为空");
-			  return false;
+	function submitData2() {
+		var fId = $("#fId").val();
+		var fAlias = $("#fAlias").val();
+		var fValue = $("#fValue").val();
+		var fTypeOfKey = $("#fTypeOfKey").val();
+		var fStatus = $("#fStatus1").val();
+		if (fAlias == null || fAlias == "") {
+			$.MsgBox.Alert("温馨提示", "别名不能为空");
+			return false;
 		}
- 		if(fValue==null || fValue=="")
- 		{
- 			$.MsgBox.Alert("温馨提示","值不能为空");
- 			  return false;
- 		}
- 		if(fTypeOfKey==null || fTypeOfKey=="")
-			{
-			$.MsgBox.Alert("温馨提示","类型不能为空");
-			  return false;
+		if (fValue == null || fValue == "") {
+			$.MsgBox.Alert("温馨提示", "值不能为空");
+			return false;
 		}
- 		if(fStatus==null || fStatus=="")
-			{
-			$.MsgBox.Alert("温馨提示","请设置可用状态");
-			  return false;
-		}else{
- 			$.ajax({
- 	            type:"POST",
- 	            url :"../other/updataFiled.action",
- 	            data:{fId:fId,fAlias:fAlias,fValue:fValue,fTypeOfKey:fTypeOfKey,fStatus:fStatus},
- 	            dataType:"json",
- 	            success:function(data){
- 	            	if(data=="success"){
- 	            		closeShow();
-	 					reLoadWindow();
- 	            	}
- 	            }
- 			});
- 		}
-	}
-	
-    function addShow(){
-    	$('#newadd-Modal').modal('show');
-  	    $("input[name='fStatus2']").attr("checked",true);
-  	}
-    //提交新字段表单
-    function submitData(){
-    	var fKeyName = $("#fKeyName2").val();
-    	var fAlias = $("#fAlias2").val();
-    	var fValue = $("#fValue2").val();
-    	var fTypeOfKey = $("#fTypeOfKey2").val();
-    	var fStatus = $("#fStatus2").val();
-    	if(fAlias==null || fAlias=="")
-			{
-			$.MsgBox.Alert("温馨提示","配置别名不能为空");
-			  return false;
+		if (fTypeOfKey == null || fTypeOfKey == "") {
+			$.MsgBox.Alert("温馨提示", "类型不能为空");
+			return false;
 		}
- 		if(fKeyName==null || fKeyName=="")
- 			{
- 			$.MsgBox.Alert("温馨提示","配置名称不能为空");
- 			  return false;
- 		}
- 		if(fValue==null || fValue=="")
-			{
-			$.MsgBox.Alert("温馨提示","值不能为空");
-			  return false;
-		}
- 		if(fTypeOfKey==null || fTypeOfKey=="")
-			{
-			$.MsgBox.Alert("温馨提示","类型不能为空");
-			  return false;
-		}
- 		if(fStatus==null || fStatus=="")
-			{
-			$.MsgBox.Alert("温馨提示","可用状态不能为空");
-			  return false;
-		}else{
+		if (fStatus == null || fStatus == "") {
+			$.MsgBox.Alert("温馨提示", "请设置可用状态");
+			return false;
+		} else {
 			$.ajax({
- 	            type:"POST",
- 	            url :"../other/addFiled.action",
- 	            data:{fKeyName:fKeyName,fAlias:fAlias,fValue:fValue,fTypeOfKey:fTypeOfKey,fStatus:fStatus},
- 	            dataType:"json",
- 	            success:function(data){
- 	            	if(data=="success"){
- 	            		closeShow();
- 						reLoadWindow();
- 	            	}
- 	            }
- 			});
-		}			
+				type : "POST",
+				url : "/other/updataFiled",
+				data : {
+					id : fId,
+					alias : fAlias,
+					value : fValue,
+					typeOfKey : fTypeOfKey,
+					status : fStatus
+				},
+				success : function(data) {
+					if (data == "success") {
+						closeShow();
+						reLoadWindow();
+					}
+					closeShow();
+				}
+			});
+		}
 	}
-    
-	function gotoPage( pageNum ){
-	$("#pageId").val(pageNum);
-	// window.location.href = "forumAction_show.action?id=${id}&pageNum=" + pageNum;
-	//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
-	//alert();
-	document.forms[0].submit(); // 提交表单
-	}
-	function setZro(text1){
- 		var msize=$(text1).val();
- 		
- 		if(!isNaN(msize)){
- 			var dot = msize.indexOf(".");
- 	        if(dot != -1){
- 	            var dotCnt = msize.substring(dot+1,msize.length);
- 	            if(dotCnt.length >0){
- 	            	$.MsgBox.Alert("温馨提示","不能有小数点！");
- 	                $(text1).val("99");
- 	                return false;
- 	            }
- 	        }
- 		}else{
- 			
- 			$(text1).val("99");
- 			return false;
- 		}
- 		
- 		if(msize==""||msize==null){
- 			$(text1).val("99");
- 			return false;
- 		}
- 		if(measureSize==null||measureSize==""){
- 			$(text1).val("99");
- 		
- 		}
- 		
- 	}
-	function onsearch1(){
-  		document.forms["form1"].submit(); // 提交表单
 
-  	}
-	$(function(){
-		$("#fStateZxl").change(function(){
-			var e=$('#fStateZxl option:selected').val();
+	function addShow() {
+		$('#newadd-Modal').modal('show');
+		$("#fStatus2").val(1);
+	}
+	//提交新字段表单
+	function submitData() {
+		var fKeyName = $("#fKeyName2").val();
+		var fAlias = $("#fAlias2").val();
+		var fValue = $("#fValue2").val();
+		var fTypeOfKey = $("#fTypeOfKey2").val();
+		var fStatus = $("#fStatus2").val();
+		if (fAlias == null || fAlias == "") {
+			$.MsgBox.Alert("温馨提示", "配置别名不能为空");
+			return false;
+		}
+		if (fKeyName == null || fKeyName == "") {
+			$.MsgBox.Alert("温馨提示", "配置名称不能为空");
+			return false;
+		}
+		if (fValue == null || fValue == "") {
+			$.MsgBox.Alert("温馨提示", "值不能为空");
+			return false;
+		}
+		if (fTypeOfKey == null || fTypeOfKey == "") {
+			$.MsgBox.Alert("温馨提示", "类型不能为空");
+			return false;
+		}
+		if (fStatus == null || fStatus == "") {
+			$.MsgBox.Alert("温馨提示", "可用状态不能为空");
+			return false;
+		} else {
+			$.ajax({
+				type : "POST",
+				url : "/other/addFiled",
+				data : {
+					keyName : fKeyName,
+					alias : fAlias,
+					value : fValue,
+					typeOfKey : fTypeOfKey,
+					status : fStatus
+				},
+				success : function(data) {
+					if (data == "success") {
+						closeShow();
+						reLoadWindow();
+					}
+					closeShow();
+				}
+			});
+		}
+	}
+
+	function gotoPage(pageNum) {
+		$("#pageId").val(pageNum);
+		// window.location.href = "forumAction_show?id=${id}&pageNum=" + pageNum;
+		//$("#form1").append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>");
+		//alert();
+		document.forms[0].submit(); // 提交表单
+	}
+	function setZro(text1) {
+		var msize = $(text1).val();
+
+		if (!isNaN(msize)) {
+			var dot = msize.indexOf(".");
+			if (dot != -1) {
+				var dotCnt = msize.substring(dot + 1, msize.length);
+				if (dotCnt.length > 0) {
+					$.MsgBox.Alert("温馨提示", "不能有小数点！");
+					$(text1).val("99");
+					return false;
+				}
+			}
+		} else {
+
+			$(text1).val("99");
+			return false;
+		}
+
+		if (msize == "" || msize == null) {
+			$(text1).val("99");
+			return false;
+		}
+		if (measureSize == null || measureSize == "") {
+			$(text1).val("99");
+
+		}
+
+	}
+	function onsearch1() {
+		document.forms["form1"].submit(); // 提交表单
+
+	}
+	$(function() {
+		$("#fStateZxl").change(function() {
 			document.forms["form1"].submit(); // 提交表单
 		})
 	})
-	
- 	function set0(e){
- 		$(e).val("");
- 	}
-    </script>
+
+	function set0(e) {
+		$(e).val("");
+	}
+</script>
 
 </head>
 
 <body class="gray-bg">
-<input type="hidden" id="fOldCode"/>
-	
-
-<form action="../other/getConfigMassage.action" method="post" name="form1">
-<input type="hidden" id="pageId" value="1" name="pageNum"/>                              
-
-<div class="container-fluid">
-
-   <div class="header-fixed">                   
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">其他配置</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-                <li class="active">配置信息表</li>
-            </ul><!--.breadcrumb-->
-        </div><!--#breadcrumbs-->
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>                  
-                    <span class="btn btn-blue btn-xs"  onclick="addShow()" ><i class="fa fa-plus" style="margin-right:2px; font-size:12px;"></i>新增</span>                    
-                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
-    <div class="page-content-main">
-        <div id="page-content">
-		        <div class="panel-box">
-		         <div class="title-text">
-		           <span class="title-con">配置信息列表</span>
-		         </div>
-		            <div class="panel-body">
-		              <div class="form-horizontal">
-		                  <div class="row-fluid">
-		                 	 <div class="col-sm-3">
-		                               <div class="form-group">
-		                                   <label class="control-label">配置别名</label>
-		                                   <div class="col-sm-9">
-		                                       <input type="text" name="fAlias" value="${fAlias}" placeholder="请输入配置别名" class="form-control"/> 
-		                                   </div>
-		                               </div>
-		                           </div>                     
-		                           <div class="col-sm-3">
-		                               <div class="form-group">
-		                                 <input type="button"  onclick="onsearch1()" class="btn btn-green btn-sm" value="查询"/>
-		                               </div>
-		                           </div>                                                   
-		                 </div>
-		              </div>
-		              <table class="table table-hover">              
-		                     <tr>                       
-		                         <th width="20%">配置名</th>
-		                         <th width="20%">配置别名</th>
-		                         <th width="20%">配置值</th>
-		                         <th width="10%">配置类型</th>                                                                                                      
-		                         <th width="20%">
-		                            <select class="table-sel" id="fStateZxl" name="fStatus">
-		                              <option <c:if test="${fStatus==3}">selected="selected"</c:if> value="3">状态</option>
-		                              <option <c:if test="${fStatus==1}">selected="selected"</c:if> value="1">有效</option>
-		                              <option <c:if test="${fStatus==0}">selected="selected"</c:if> value="0">无效</option>
-		                            </select>
-		                         </th>
-		                         <th width="20%">操作</th>
-		                     </tr>
-		                   
-		                    <c:if test="${!empty pageBeanList}">
-					<c:forEach items="${pageBeanList.recordList}" var="msg">
-		                     <tr>                                                                             
-		                         <td>${msg.fKeyName}</td>
-		                         <td>${msg.fAlias}</td>
-		                         <td>${msg.fValue}</td>
-		                         <td>${msg.fTypeOfKey}</td> 							
-		                         <td>
-		                          <span style="color:green;"><c:if test="${msg.fStatus==1}">有效</c:if></span>
-		                          <span style="color:red;"><c:if test="${msg.fStatus==0}">无效</c:if></span>
-		                         </td>
-		                         <td style="border-left:1px solid #e7eaec;">
-		                             <input type="button"  class="btn btn-orange btn-xs btn-outline" onclick="editUI('${msg.fId}')" value="编辑">
-		                             <input type="hidden"  class="btn btn-danger btn-xs btn-outline" onclick="deleteData('${msg.fId}')" value="删除">
-		                         </td>
-		                     </tr>
-		                     </c:forEach>
-		                    </c:if>                       
-		                 </table>
-				<c:if test="${pageBeanList.recordCount>0}">
-							             <div class="pagination" style="margin-top:0px; text-align:right;margin-bottom:0;">
-							               <div class="page-left">
-							        	         <p>页次:<span style="color:#6faed9;">${pageBeanList.currentPage}/${pageBeanList.pageCount}</span>&nbsp;&nbsp;每页显示：<span style="color:#6faed9;">${pageBeanList.pageSize}</span>条&nbsp;&nbsp;总记录数：<span style="color:#6faed9;">${pageBeanList.recordCount}</span>条</p>
-							        	   </div>
-							              <ul>
-							                <a href="javascript: gotoPage(1)"><li><i class="fa fa-angle-double-left" style="font-size:16px;"></i></li></a>
-							                <c:forEach  begin="${pageBeanList.beginPageIndex}" end="${pageBeanList.endPageIndex}" var="num">
-							                  <c:if test="${pageBeanList.currentPage==num}"><%-- 当前页 --%>
-							                      <a  href="javascript:gotoPage(${num});"> <li <c:if test="${pageBeanList.currentPage==num}">style="background:#0786e7;color:#fff;"</c:if>>${num}</li></a>
-							                  </c:if>
-							                  <c:if test="${pageBeanList.currentPage!=num}"><%-- 非当前页 --%>
-							                      <a href="javascript:gotoPage(${num});"> <li>${num}</li></a>
-							                  </c:if>
-							                </c:forEach>
-							               <a href="javascript: gotoPage(${pageBeanList.pageCount})"> <li><i class="fa fa-angle-double-right" style="font-size:16px;"></i></li></a>
-							              </ul>
-							            </div>
-				       			 	</c:if>
+	<input type="hidden" id="fOldCode" />
+	<form action="/other/getConfigMassage" method="post" name="form1">
+		<input type="hidden" id="pageId" value="1" name="pageNum" />
+		<div class="container-fluid">
+			<div class="header-fixed">
+				<div id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="fa fa-home" style="font-size: 16px;"></i>
+							<a href="#">其他配置</a>
+							<span class="divider">
+								<i class="icon-angle-right"></i>
+							</span>
+						</li>
+						<li class="active">配置信息表</li>
+					</ul>
+					<!--.breadcrumb-->
+				</div>
+				<!--#breadcrumbs-->
+				<div id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<span class="btn btn-blue btn-xs" onclick="history.go(-1)">
+								<i class="fa fa-reply" style="margin-right: 2px; font-size: 12px;"></i>
+								返回
+							</span>
+							<span class="btn btn-blue btn-xs" onclick="addShow()">
+								<i class="fa fa-plus" style="margin-right: 2px; font-size: 12px;"></i>
+								新增
+							</span>
+							<span class="btn btn-blue btn-xs" onclick="reLoadWindow()">
+								<i class="fa fa-refresh" style="margin-right: 2px; font-size: 12px;"></i>
+								刷新
+							</span>
+						</li>
+					</ul>
+				</div>
 			</div>
-		   </div>
-      </div>
-    </div>
-</div>
-</form>
- 
- <!-- 修改配置模态框 -->
-<div class="modal fade" id="newadd-Modal2" >
-  <!-- 窗口声明 -->
-   <form action="" name="form3" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
-   
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle">修改菜单</h4>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-horizontal">
-                  <div class="row-fluid row-margin">
-        			<input type="hidden" id="fId" name="fId">
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段名称</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fKeyName" name="fKeyName" class="form-control input-box" readonly="readonly">
-                                  </div>
-                            </div>
-                        </div>                     
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段别名</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fAlias" name="fAlias" class="form-control input-box" >
-                                  </div>
-                            </div>
-                        </div> 
-                  </div>
-                  <div class="row-fluid row-margin">  
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段类型</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fTypeOfKey" name="fTypeOfKey" placeholder="请输入字段类型" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div> 
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">有效性</label>
-                                   <div class="col-sm-9">
-										<select name = "fStatus" id="fStatus1" class="sel-in  form-control">
-											<option value="0">无效</option>
-											<option value="1">有效</option>
-										</select>
+			<!--上面的固定按钮 如果存在的话。下面这个div的class就写成“page-content-main”，如果没有固定按钮的话。下面这个div的class就写成“page-content-main-small”-->
+			<div class="page-content-main">
+				<div id="page-content">
+					<div class="panel-box">
+						<div class="title-text">
+							<span class="title-con">配置信息列表</span>
+						</div>
+						<div class="panel-body">
+							<div class="form-horizontal">
+								<div class="row-fluid">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">配置别名</label>
+											<div class="col-sm-9">
+												<input type="text" name="alias" th:value="${tConfiguration.alias}" placeholder="请输入配置别名" class="form-control" />
+											</div>
+										</div>
 									</div>
-                            </div>
-                        </div>  
-                  </div>
-                   <div class="row-fluid row-margin">  
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段值</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fValue" name="fValue" placeholder="请输入字段值" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>
-                    
-                  </div>
-                </div>                              
-        </div>    
-      <div class="modal-footer">
-        <input type="button" class="btn btn-blue" onclick="submitData2()" value="确认"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-       </div> 
-    </div>
-  </div>
- </form>
-</div>
-<!-- 新增配置模态框 -->
-<div class="modal fade" id="newadd-Modal" >
-  <!-- 窗口声明 -->
-   <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
-   
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle">新增菜单</h4>
-      </div>
-      
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段名称</label>
-                                   <div class="col-sm-9">
-                                    <input type="text" id="fKeyName2" name="fKeyName" placeholder="请输入字段名" class="form-control input-box" >
-                                  </div>
-                            </div>
-                        </div> 
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段别名</label>
-                                   <div class="col-sm-9">
-                                    <input type="text" id="fAlias2" name="fAlias" placeholder="请输入字段别名" class="form-control input-box" >
-                                  </div>
-                            </div>
-                        </div> 
-                     </div>
-                     <div class="row-fluid row-margin"> 
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段类型</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fTypeOfKey2" name="fTypeOfKey" placeholder="请输入字段类型" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>     
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">有效性</label>
-                                   <div class="col-sm-9">
-										<select name = "fStatus" id="fStatus2" class="sel-in  form-control">
-											<option value="0">无效</option>
-											<option value="1">有效</option>
-										</select>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<input type="button" onclick="onsearch1()" class="btn btn-green btn-sm" value="查询" />
+										</div>
 									</div>
-                            </div>
-                        </div>   
-                      </div>
-                       <div class="row-fluid row-margin">                   
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                  <label class="control-label">字段值</label>
-                                   <div class="col-sm-9">
-                                  <input type="text" id="fValue2" name="fValue" placeholder="请输入字段值" class="form-control input-box">
-                                  </div>
-                            </div>
-                        </div>
-                       </div>
-                    </div>
-                </div>                              
-          
-      <div class="modal-footer">
-        <input type="button" class="btn btn-blue" onclick="submitData()" value="确认"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-  </div>
- </form>
-</div>
+								</div>
+							</div>
+							<table class="table table-hover">
+								<tr>
+									<th width="20%">配置名</th>
+									<th width="20%">配置别名</th>
+									<th width="20%">配置值</th>
+									<th width="10%">配置类型</th>
+									<th width="20%">
+										<select class="table-sel" id="fStateZxl" name="status">
+											<option value="">状态</option>
+											<option value="1" th:selected="${tConfiguration.status==1}">有效</option>
+											<option value="0" th:selected="${tConfiguration.status==0}">无效</option>
+										</select>
+									</th>
+									<th width="20%">操作</th>
+								</tr>
+								<tr th:each="msg:${page}">
+									<td th:text="${msg.keyName}"></td>
+									<td th:text="${msg.alias}"></td>
+									<td th:text="${msg.value}"></td>
+									<td th:text="${msg.typeOfKey}"></td>
+									<td>
+										<span th:style="${msg.status==1}? 'color:green;' : 'color:red;'" th:text="${msg.status==1}? '有效':'无效'"></span>
+									</td>
+									<td style="border-left: 1px solid #e7eaec;">
+										<input type="button" class="btn btn-orange btn-xs btn-outline" th:onclick="editUI([[${msg.id}]])" value="编辑">
+										<input type="hidden" class="btn btn-danger btn-xs btn-outline" th:onclick="deleteData([[${msg.id}]])" value="删除">
+									</td>
+								</tr>
+							</table>
+							<div th:if="${page.totalPages>0}" class="pagination" style="margin-top: 0px; text-align: right; margin-bottom: 0;">
+								<div class="page-left">
+									<p>
+										页次:
+										<span style="color: #6faed9;" th:text="${pageNum}"></span>
+										&nbsp;&nbsp;每页显示：
+										<span style="color: #6faed9;" th:text="${page.pageable.pageSize}"></span>
+										条&nbsp;&nbsp;总记录数：
+										<span style="color: #6faed9;" th:text="${page.totalElements}"></span>
+										条
+									</p>
+									<input type="hidden" th:value="${pageNum}" id="nowPageNum" />
+								</div>
+								<ul>
+									<a href="javascript: gotoPage(1)">
+										<li>
+											<i class="fa fa-angle-double-left" style="font-size: 16px;"></i>
+										</li>
+									</a>
+									<a th:each="num : ${#numbers.sequence(1,page.totalPages)}">
+										<li th:text="${num}" th:style="${num==pageNum}?'background:#0786e7;color:#fff;'"></li>
+									</a>
+									<a href="javascript: void();" th:onclick="'javascript: gotoPage('+${page.totalPages}+')'">
+										<li>
+											<i class="fa fa-angle-double-right" style="font-size: 16px;"></i>
+										</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
+	<!-- 修改配置模态框 -->
+	<div class="modal fade" id="newadd-Modal2">
+		<!-- 窗口声明 -->
+		<form action="" name="form3" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle">修改菜单</h4>
+					</div>
 
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<input type="hidden" id="fId" name="id">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段名称</label>
+										<div class="col-sm-9">
+											<input type="text" id="fKeyName" name="keyName" class="form-control input-box" readonly="readonly">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段别名</label>
+										<div class="col-sm-9">
+											<input type="text" id="fAlias" name="alias" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段类型</label>
+										<div class="col-sm-9">
+											<input type="text" id="fTypeOfKey" name="typeOfKey" placeholder="请输入字段类型" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">有效性</label>
+										<div class="col-sm-9">
+											<select name="status" id="fStatus1" class="sel-in  form-control">
+												<option value="0">无效</option>
+												<option value="1">有效</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段值</label>
+										<div class="col-sm-9">
+											<input type="text" id="fValue" name="value" placeholder="请输入字段值" class="form-control input-box">
+										</div>
+									</div>
+								</div>
 
-    <script type="text/javascript">
-
-      //分页/
-      $(function(){
-         $('.pagination ul li').click(function() {
-              $(this).addClass('active').siblings().removeClass('active');
-         });
-      });
-      
-   </script>
-
-
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-blue" onclick="submitData2()" value="确认" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- 新增配置模态框 -->
+	<div class="modal fade" id="newadd-Modal">
+		<!-- 窗口声明 -->
+		<form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle">新增菜单</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段名称</label>
+										<div class="col-sm-9">
+											<input type="text" id="fKeyName2" name="keyName" placeholder="请输入字段名" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段别名</label>
+										<div class="col-sm-9">
+											<input type="text" id="fAlias2" name="alias" placeholder="请输入字段别名" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段类型</label>
+										<div class="col-sm-9">
+											<input type="text" id="fTypeOfKey2" name="typeOfKey" placeholder="请输入字段类型" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">有效性</label>
+										<div class="col-sm-9">
+											<select name="status" id="fStatus2" class="sel-in  form-control">
+												<option value="0">无效</option>
+												<option value="1">有效</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">字段值</label>
+										<div class="col-sm-9">
+											<input type="text" id="fValue2" name="value" placeholder="请输入字段值" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-blue" onclick="submitData()" value="确认" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		//分页/
+		$(function() {
+			$('.pagination ul li').click(function() {
+				$(this).addClass('active').siblings().removeClass('active');
+			});
+		});
+	</script>
 </body>
-
 </html>
-	

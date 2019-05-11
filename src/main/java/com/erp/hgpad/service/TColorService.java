@@ -8,6 +8,9 @@ package com.erp.hgpad.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TColor;
 
 
@@ -24,4 +27,7 @@ public interface TColorService{
 	public void save(TColor tColor);
 	public void delete(String id);
 	public List<TColor> findByStatusOrderByNoAsc(Integer status);
+	
+	public void test(String id);
+	public Page<TColor> getRoomTypesPage(TColor color, Integer pageNum, Integer pageSize, Sort sort);
 }

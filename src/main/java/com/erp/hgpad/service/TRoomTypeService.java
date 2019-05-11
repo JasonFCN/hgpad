@@ -8,6 +8,9 @@ package com.erp.hgpad.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.erp.hgpad.entity.TRoomType;
 
 
@@ -24,4 +27,5 @@ public interface TRoomTypeService{
 	public void save(TRoomType tRoomType);
 	public void delete(String id);
 	public List<TRoomType> findByStatusAndStateOrderByNoAsc(Integer status, Integer state);
+	public Page<TRoomType> getRoomTypesPage(TRoomType roomType, int pageNum, int pageSize, Sort sort);
 }

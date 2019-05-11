@@ -30,4 +30,5 @@ public interface TProductDetailService{
 	public String deleteString2(String[] picId,String fProductId,HttpServletRequest request);//删除类型及明细
 	public String deleteString(String[] picId,HttpServletRequest request);//删除明细
 	public List<TProductDetail> findByRoomIdAndProductId(String roomId, String productId);
+	public List<TProductDetail> findByProductIdAndStatusOrderByNoAsc(String productId, Integer status);
 }

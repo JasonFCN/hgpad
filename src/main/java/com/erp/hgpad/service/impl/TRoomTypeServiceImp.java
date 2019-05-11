@@ -9,10 +9,18 @@ package com.erp.hgpad.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.erp.hgpad.dao.TRoomTypeDao;
+import com.erp.hgpad.entity.TProductType;
 import com.erp.hgpad.entity.TRoomType;
 import com.erp.hgpad.service.TRoomTypeService;
 
@@ -31,7 +39,7 @@ public class TRoomTypeServiceImp implements TRoomTypeService{
 	@Override
 	public TRoomType getById(String fRoomId) {
 		// TODO Auto-generated method stub
-		return roomTypeDao.getOne(fRoomId);
+		return roomTypeDao.findById(fRoomId).get();
 	}
 	@Override
 	public void save(TRoomType tRoomType) {
@@ -45,6 +53,18 @@ public class TRoomTypeServiceImp implements TRoomTypeService{
 	public List<TRoomType> findByStatusAndStateOrderByNoAsc(Integer status, Integer state) {
 		// TODO Auto-generated method stub
 		return roomTypeDao.findByStatusAndStateOrderByNoAsc(status,state);
+	}
+	@Override
+	public Page<TRoomType> getRoomTypesPage(TRoomType roomType, int pageNum, int pageSize, Sort sort) {
+		Pageable pageable = PageRequest.of(pageNum-1, pageSize, sort);
+		//创建匹配器，即如何使用查询条件
+		ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+				.withMatcher("keyName",GenericPropertyMatchers.contains())
+				.withMatcher("alias",GenericPropertyMatchers.contains())
+				.withMatcher("status", GenericPropertyMatchers.contains());
+		Example<TRoomType> ex = Example.of(roomType, exampleMatcher); 
+		
+		return roomTypeDao.findAll(ex, pageable);
 	}
 	
 }

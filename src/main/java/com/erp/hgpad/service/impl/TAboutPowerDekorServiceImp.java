@@ -30,7 +30,7 @@ public class TAboutPowerDekorServiceImp implements TAboutPowerDekorService{
 	TAboutPowerDekorDao tAboutPowerDekorDao;
 	@Override
 	public TAboutPowerDekor getById(String id) {
-		return tAboutPowerDekorDao.getOne(id);
+		return tAboutPowerDekorDao.findById(id).get();
 	}
 
 	@Override

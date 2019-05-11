@@ -5,28 +5,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于圣象</title>
-    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/up-images.css">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/bgStyle/kindEdit/themes/default/default.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/bgStyle/kindEdit/plugins/code/prettify.css" />
-	<script charset="utf-8" src="${pageContext.request.contextPath}/bgStyle/kindEdit/kindeditor-all.js"></script>
-	<script charset="utf-8" src="${pageContext.request.contextPath}/bgStyle/kindEdit/lang/zh-CN.js"></script>
-     <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
+    <link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/up-images.css">
+    <link href="/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+    <script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script> 
+    <link rel="stylesheet" href="/bgStyle/kindEdit/themes/default/default.css" />
+	<link rel="stylesheet" href="/bgStyle/kindEdit/plugins/code/prettify.css" />
+	<script charset="utf-8" src="/bgStyle/kindEdit/kindeditor-all.js"></script>
+	<script charset="utf-8" src="/bgStyle/kindEdit/lang/zh-CN.js"></script>
+     <script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script> 
     <script type="text/javascript">
     KindEditor.ready(function(K) {
-		var editor = K.create('textarea[name="fContent"]', {
-			cssPath : '../bgStyle/kindEdit/plugins/code/prettify.css',
-			uploadJson : '../bgStyle/kindEdit/jsp/upload_json.jsp',
-			fileManagerJson : '../bgStyle/kindEdit/jsp/file_manager_json.jsp',
+		var editor = K.create('textarea[name="content"]', {
+			cssPath : '/bgStyle/kindEdit/plugins/code/prettify.css',
+			uploadJson : '/bgStyle/kindEdit/jsp/upload_json.jsp',
+			fileManagerJson : '/bgStyle/kindEdit/jsp/file_manager_json.jsp',
 			allowFileManager : true,
 			afterBlur : function() {
 				this.sync();
@@ -43,7 +43,6 @@
         function reLoadWindow(){
  		   window.location.reload();
  	    }
-       
       //上传图片预览
      	function previewImage(file){
      		//alert("1231");	
@@ -70,7 +69,7 @@
      		return url ;	
      	}    	
      	function submitData(){
-	  		 var url = "${pageContext.request.contextPath}/other/update.action";
+	  		 var url = "/other/update";
 			 document.forms["form2"].action = url; 			 
 			 document.forms["form2"].submit(); // 提交表单	菜单 
      	}   
@@ -95,7 +94,6 @@
             </ul>
         </div>
     </div>
-   
     <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
     <div class="page-content-main">
         <div id="page-content">
@@ -112,7 +110,6 @@
                                           <div class="col-sm-9">
                                              <div class="file-box goodspic-up">
                                                <input type="text" class="txt" id="picPath" readonly="readonly"> 
-
                                                 <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
                                                 <input type="button" class="bttn" value="上传">    
                                             </div>
@@ -126,7 +123,7 @@
                                           <label class="control-label"><!--上传的图片显示--></label>
                                           <div class="col-sm-9">
                                              <div class="goods-pre">
-                                                <img src="${pageContext.request.contextPath}/${tAboutPowerDekor.fPicture}" id="uploadPreview"  class="goods-img" style="display:block;">
+                                                <img th:src="|/myImage/${tAboutPowerDekor.picture}|" id="uploadPreview"  class="goods-img" style="display:block;">
                                              </div>
                                           </div>
                                   </div>
@@ -137,42 +134,33 @@
 		                        <div class="form-group">
 		                         <label class="control-label">内容</label>
 		                          <div class="col-sm-9" style="padding-left:0px;">
-                                  <textarea class="" id="ke_demo" name="fContent" cols="140" rows="25" style="visibility:hidden;">${tAboutPowerDekor.fContent}</textarea>                                        
+                                  <textarea class="" id="ke_demo" name="content" cols="140" rows="25" style="visibility:hidden;" th:text="${tAboutPowerDekor.content}"></textarea>                                        
                                  </div>
 		                        </div>
 		                     </div>
 		                  </div> 
-                        
                     </div>
                 </div>
         </div>       
       </div>
     </div>
-    <input type="hidden" name="fId" id="fId" value="${tAboutPowerDekor.fId}"/>   
-    <input type="hidden" name="fPicture" value="${tAboutPowerDekor.fPicture}"/>
+    <input type="hidden" name="id" id="fId" th:value="${tAboutPowerDekor.id}"/>   
+    <input type="hidden" name="picture" th:value="${tAboutPowerDekor.picture}"/>
     </form>
 </div>
-
-
-
     <!-- 全局js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
-
+    <script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
     <!-- 自定义js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
+    <script src="/bgStyle/js/content.js?v=1.0.0"></script>
     <script type="text/javascript">
-
       //分页/
       $(function(){
          $('.pagination ul li').click(function() {
               $(this).addClass('active').siblings().removeClass('active');
          });
       });
-      
    </script>
-
  <script type="text/javascript">
-  
   $('#btn').on('click', function () {
     $('#newadd-Modal').modal('show');
   });
@@ -182,8 +170,5 @@
      });
 
 </script>
-    
-
 </body>
-
 </html>

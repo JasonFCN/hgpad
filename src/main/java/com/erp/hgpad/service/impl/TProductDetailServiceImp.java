@@ -161,7 +161,7 @@ public class TProductDetailServiceImp implements TProductDetailService {
 
 	@Override
 	public TProductDetail getById(String id) {
-		return productDetailDao.getOne(id);
+		return productDetailDao.findById(id).get();
 	}
 
 	@Override
@@ -177,5 +177,10 @@ public class TProductDetailServiceImp implements TProductDetailService {
 	@Override
 	public List<TProductDetail> findByRoomIdAndProductId(String getfRoomId, String fId) {
 		return productDetailDao.findByRoomIdAndProductIdOrderByNoAsc(getfRoomId, fId);
+	}
+
+	@Override
+	public List<TProductDetail> findByProductIdAndStatusOrderByNoAsc(String productId, Integer status) {
+		return productDetailDao.findByProductIdAndStatusOrderByNoAsc(productId,status);
 	}
 }

@@ -5,18 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>优惠券</title>
-    <link href="${pageContext.request.contextPath}/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/up-images.css">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bgStyle/css/body.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/js/jqthumb.min.js"></script> 
-     <script type="text/javascript" src="${pageContext.request.contextPath}/bgStyle/confirm/pc-confirm.js"></script> 
+    <link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/up-images.css">
+    <link href="/bgStyle/css/animate.css" rel="stylesheet">
+    <link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+    <link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+    <script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script> 
+     <script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script> 
      <style type="text/css">
       .goods-pre{
       height:auto;
@@ -71,7 +71,7 @@
      		return url ;	
      	}    	
      	function submitData(){
-	  		 var url = "${pageContext.request.contextPath}/other/save2.action";
+	  		 var url = "/other/save2";
 			 document.forms["form2"].action = url; 			 
 			 document.forms["form2"].submit(); // 提交表单	菜单 
      	}   
@@ -113,7 +113,6 @@
                                           <div class="col-sm-9">
                                              <div class="file-box goodspic-up">
                                                <input type="text" class="txt" id="picPath" readonly="readonly"> 
-
                                                 <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
                                                 <input type="button" class="bttn" value="上传">    
                                             </div>
@@ -127,7 +126,7 @@
                                           <label class="control-label"><!--上传的图片显示--></label>
                                           <div class="col-sm-9">
                                              <div class="goods-pre">
-                                                <img src="${pageContext.request.contextPath}/${tCoupon.fPicture}" id="uploadPreview"  class="goods-img" style="display:block;">
+                                                <img th:src="|/myImage/${tCoupon.picture}|" id="uploadPreview"  class="goods-img" style="display:block;">
                                              </div>
                                           </div>
                                   </div>
@@ -138,31 +137,23 @@
         </div>       
       </div>
     </div>
-    <input type="hidden" name="fId" id="fId" value="${tCoupon.fId}"/>   
-    <input type="hidden" name="fPicture" value="${tCoupon.fPicture}"/>
+    <input type="hidden" name="id" id="fId" th:value="${tCoupon.id}"/>   
+    <input type="hidden" name="picture" th:value="${tCoupon.picture}"/>
     </form>
 </div>
-
-
-
     <!-- 全局js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
-
+    <script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
     <!-- 自定义js -->
-    <script src="${pageContext.request.contextPath}/bgStyle/js/content.js?v=1.0.0"></script>
+    <script src="/bgStyle/js/content.js?v=1.0.0"></script>
     <script type="text/javascript">
-
       //分页/
       $(function(){
          $('.pagination ul li').click(function() {
               $(this).addClass('active').siblings().removeClass('active');
          });
       });
-      
    </script>
-
  <script type="text/javascript">
-  
   $('#btn').on('click', function () {
     $('#newadd-Modal').modal('show');
   });
@@ -170,10 +161,6 @@
     show:false,
     keyboard :false,
      });
-
 </script>
-    
-
 </body>
-
 </html>

@@ -1,1150 +1,1154 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品编辑</title>
-    <link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
-	<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
-    <link href="/bgStyle/css/animate.css" rel="stylesheet">
-    <link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
-    <link rel="stylesheet" type="text/css" href="/bgStyle/css/up-images.css">
-    <link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
-    <script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script> 
-     <script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品编辑</title>
+<link href="/bgStyle/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="/bgStyle/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/confirm/pc-confirm.css">
+<link href="/bgStyle/css/animate.css" rel="stylesheet">
+<link href="/bgStyle/css/style.css?v=4.1.0" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/style-main.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/up-images.css">
+<link rel="stylesheet" type="text/css" href="/bgStyle/css/body.css">
+<script type="text/javascript" src="/bgStyle/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/bgStyle/js/jqthumb.min.js"></script>
+<script type="text/javascript" src="/bgStyle/confirm/pc-confirm.js"></script>
 
-    <script type="text/javascript" src="/bgStyle/js/dealImg.js"></script> 
-    
-     <style type="text/css">
-       ul li{
-       list-style:none;
-       float: left;}
-     </style>
-    <script type="text/javascript">
-        //缩略图不变形
-       
-        $(document).ready(function() {
+<script type="text/javascript" src="/bgStyle/js/dealImg.js"></script>
 
-          $('.upmorepic').jqthumb({
-              width:120,
-              height:120,
-          		  });
-      	});
-        //提示工具
-        $(function(){
-       	 var x=10;
-       	 var y=20;
-       	 $(".tooltip1").mouseover(function(e){
-       		 this.myTitle=this.title;
-       		 this.title="";
-       		 var tooltip="<div id='tooltip1'>"+this.myTitle+"</div>";//创建div元素
-       		 $("body").append(tooltip);  //把div元素追加到文档中
-       		 $("#tooltip1").css({
-       			 "top":(e.pageY+y)+"px",
-       			 "left":(e.pageX+x)+"px"
-       			 }).show("fast"); //设置x和y的坐标，并且显示
-       		 }).mouseout(function(){
-       			 this.title=this.myTitle;
-       			 $("#tooltip1").remove();
-       			 
-       			 }).mousemove(function(e){  //获得鼠标指针在页面中的位置
-       				$("#tooltip1").css({
-       					 "top":(e.pageY+y)+"px",
-       					 "left":(e.pageX+x)+"px"
-       					 })
-       				 })
-       	 });
-        //图片图片遮罩-->		
-        $(function(e) {
-        	$(".content_pic").hide();
-        	
-        	$(".close_box").click(function(){
-        		$(".content_pic").fadeOut(200);
-        		$(this).fadeOut(200);
-        		});
-            $(".mask-hide").click(function(){
-            	$(".content_pic").fadeOut(200);
-            })
-        });
-        function  bigBig(e) {
-         	
- 			$(".content_pic").fadeIn(200);
- 			$(".close_box").fadeIn(200);		
- 			var name=$("#picPath").val();
- 			if(name==null||name==""||name=="undefined"){
- 				$("#img7").attr("src","/"+e+"") ; 
- 			}
+<style type="text/css">
+ul li {
+	list-style: none;
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	//缩略图不变形
 
-        }
-        
-        
+	$(document).ready(function() {
 
-        function reLoadWindow(){
- 		   window.location.reload();
- 	    }
-        $(function(){
-            $("#fProductTypeId").change(function(){
-            	var fid=$('#fProductTypeId option:selected') .val();
-            	
-            	$.ajax({
-                    type:"POST",
-                    url :"../tProduct/showBrand.action?tTypeId="+fid+"",
-                    data:{},
-                    dataType:"json",
-                    success:function(data){
-                    	$("#fProductBrandId").empty();
-                    	$.each(data,function(index,item){	
-                        $("#fProductBrandId").append( "<option value='"+item.fId+"'>"+item.fName+"</option>");
-                    });
-                    }
-                });
-            });
-        });
-      //上传图片预览
-     	function previewImage(file){
-     		//alert("1231");	
-     		var objUrl = getObjectURL(file.files[0]);
-     		//alert(numb);
-     	    $("#uploadPreview").attr("src", objUrl);
-     	    $("#img7").attr("src", objUrl);
-     	    $("#picPath").val($("#fileField").val());
-     	}
-     	//建立一個可存取到該file的url
-     	function getObjectURL(file) {
-     		var url = null ; 
-     		if (window.createObjectURL!=undefined) { // basic
-     			url = window.createObjectURL(file) ;
-     		} else if (window.URL!=undefined) { // mozilla(firefox)
-     			url = window.URL.createObjectURL(file) ;
-     		} else if (window.webkitURL!=undefined) { // webkit or chrome
-     			url = window.webkitURL.createObjectURL(file) ;
-     		}
-     		if(url!="" || url!=null)
-     		{
-     			$("#uploadPreview").css("display","block");	
-     		}
-     		return url ;	
-     	}
-     	function setZro(text1){
-     		var msize=$(text1).val();
-     		
-     		if(!isNaN(msize)){
-     			var dot = msize.indexOf(".");
-     	        if(dot != -1){
-     	            var dotCnt = msize.substring(dot+1,msize.length);
-     	            if(dotCnt.length >0){
-     	            	$.MsgBox.Alert("温馨提示", "不能有小数点！");
-     	                $(text1).val("99");
-     	                return false;
-     	            }
-     	        }
-     		}else{
-     			
-     			$(text1).val("99");
-     			return false;
-     		}
-     		
-     		if(msize==""||msize==null){
-     			$(text1).val("99");
-     			return false;
-     		}
-     		if(measureSize==null||measureSize==""){
-     			$(text1).val("99");
-     		
-     		}
-     		
-     	}
-     	function submitData(){
-     		
-     		 var fName=$("#fName").val();
-	  		 if(fName==null || fName=="")
-	  			{
-	  			$.MsgBox.Alert("温馨提示", "商品名称不能为空");
-	  			  return false;
-	  		 }	
-	  		var fMartistic=$("#fMartistic").val();
-	  		 if(fMartistic.length > 120)
-	  			if(fMartistic.length > 120)
-	  			{
-	  			$.MsgBox.Alert("温馨提示","商品意境描述字数超出120个字！");
-	  			  return false;
-	  		 	}
-     		 var fCode=$("#fCode").val();
-	  		 if(fCode==null || fCode=="")
-	  			{
-	  			$.MsgBox.Alert("温馨提示", "商品型号不能为空");
-	  			  return false;
-	  		 }	
-	  		var fOldCode=$("#fOldCode").val();
-	  		if(fCode==fOldCode){
-	  			 var pageNum=$("#pageNum").val();
-		  		 var url = "/tProduct/update.action?pageNum="+pageNum+"";
-				 document.forms["form2"].action = url; 			 
-				 document.forms["form2"].submit(); // 提交表单	菜单 
-				 $(".loading-mask").show();
-	 		      	            	    	
-	 		}
-	 		else{
-	 			$.ajax({
-	 	            type:"POST",
-	 	            url :"../tProduct/checkCode.action?fCode="+fCode+"",
-	 	            data:{},
-	 	            dataType:"json",
-	 	           beforeSend:function(XMLHttpRequest){  
-		 	              $(".loading-mask").show();
-		 	           
-		 	         }, 
-	 	            success:function(data){
-	 	            	if(data==1){
-	 	            		$.MsgBox.Alert("温馨提示","型号已存在");
-	 	      			    return false;
-	 	            	}
-	 	            	else{
-	 	            		 $('#loading').css('background','url(/bgStyle/img/success.gif) no-repeat 40px center ').html('提交成功！');
-	 	 	       		     setTimeout(function(){
-	 	 	       		      $(".loading-mask").hide();
-	 	                      $('#loading').html('提交中...');
-	 	                  }, 1000)
-	 	            		var pageNum=$("#pageNum").val();
-	 	      	  		 var url = "/tProduct/update.action?pageNum="+pageNum+"";
-	 	      			 document.forms["form2"].action = url; 			 
-	 	      			 document.forms["form2"].submit(); // 提交表单	菜单 
-	 	           	      	            	    	
-	 	            	}
-	 	            }
-	 			})
-	 		}
-	  		 
-     	}
-     	function setZro1(text1){
-     		var msize=$(text1).val();
-     		
-     		if(!isNaN(msize)){
-     			var dot = msize.indexOf(".");
-     	        if(dot != -1){
-     	            var dotCnt = msize.substring(dot+1,msize.length);
-     	            if(dotCnt.length >2){
-     	            	$.MsgBox.Alert("温馨提示", "最多2位小数！");
-     	                $(text1).val("0.00");
-     	                return false;
-     	            }
-     	        }
-     		}else{
-     			
-     			$(text1).val("0.00");
-     			return false;
-     		}
-     		
-     		if(msize==""||msize==null){
-     			$(text1).val("0.00");
-     			return false;
-     		}
-     		if(measureSize==null||measureSize==""){
-     			$(text1).val("0.00");
-     		
-     		}
-     		
-     	}
-     	//下面用于多图片上传预览功能
-     	function setImagePreviews(avalue) {
-     		
-     	    //获取选择图片的对象
-     	    var docObj = document.getElementById("fileField2");
-     	    //后期显示图片区域的对象
-     	    var dd = document.getElementById("dd2");
-     	    dd.innerHTML = "";
-     	    //得到所有的图片文件
-     	    var fileList = docObj.files;
-     	    //循环遍历
-     	    for (var i = 0; i < fileList.length; i++) { 
-     	    	
-     	        
-     	             
-     	        //动态添加html元素        
-     	        //dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>";
-     	        
-     	        var imgHtml="";
-     		    imgHtml+="	<img id='img" + i + "'  src='' >";	
-     		    $("#dd2").append(imgHtml);
-     	        //获取图片imgi的对象
-     	        var imgObjPreview = document.getElementById("img"+i); 
-     	        
-     	        if (docObj.files && docObj.files[i]) {
-     	            //火狐下，直接设img属性
-     	            //imgObjPreview.style.display = 'block';
-     	            //imgObjPreview.style.width = '200px';
-     	            //imgObjPreview.style.height = '180px';
-     	            //imgObjPreview.src = docObj.files[0].getAsDataURL();
-     	            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要以下方式
-     	            imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);   //获取上传图片文件的物理路径
-     	        }
-     	        else {
-     	            //IE下，使用滤镜
-     	            docObj.select();
-     	            var imgSrc = document.selection.createRange().text;
-     	            //alert(imgSrc)
-     	            var localImagId = document.getElementById("img" + i);
-     	           //必须设置初始大小
-     	            localImagId.style.width = "200px";
-     	            localImagId.style.height = "200px";
-     	            //图片异常的捕捉，防止用户修改后缀来伪造图片
-     	            try {
-     	                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-     	                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-     	            }
-     	            catch (e) {
-     	                alert("您上传的图片格式不正确，请重新选择!");
-     	                return false;
-     	            }
-     	            imgObjPreview.style.display = 'none';
-     	            document.selection.empty();
-     	        }
-     	        
-     	    }  
-     	    
-     	    return true;
-     	}
-      //上传图片预览
-     	function previewImage3(file){
-     		//alert("1231");	
-     		var objUrl = getObjectURL3(file.files[0]);
-     		//alert(numb);
-     	    $("#uploadPreview3").attr("src", objUrl);
-     	    //$("#img7").attr("src", objUrl);
-     	    $("#picPath3").val($("#fileField3").val());  
-     	}
-     	//建立一個可存取到該file的url
-     	function getObjectURL3(file) {
-     		var url = null ; 
-     		if (window.createObjectURL!=undefined) { // basic
-     			url = window.createObjectURL(file) ;
-     		} else if (window.URL!=undefined) { // mozilla(firefox)
-     			url = window.URL.createObjectURL(file) ;
-     		} else if (window.webkitURL!=undefined) { // webkit or chrome
-     			url = window.webkitURL.createObjectURL(file) ;
-     		}
-     		if(url!="" || url!=null)
-     		{
-     			$("#uploadPreview3").css("display","block");	
-     		}
-     		return url ;	
-     	}
-     	var temp=0;
-     	//提交明细
-     	function submitData2(){
-     	
-     		var sign=$("#sign").val();
-     		if(temp==0){
-     			
-   	  		    var e=$("#fId").val();
-   		  		 
-        		 if(sign==1){  
-        			 
-        			 var fileName=$("#fRoomId3").val();
-	   	   	  		 if(fileName==null || fileName=="")
-	   	   	  		 {
-	   	   	  			  $.MsgBox.Alert("温馨提示", "请选择房间类型");	   	   	  		     
-	   	   	  			  return false;
-	   	   	  		 }	
-	   	   	  		 temp=1;	
-	        	     var pageNum=$("#pageNum").val();
-	        	     
-     		         
-	       	  		 var url = "/tProduct/editPictureMany.action?pageNum="+pageNum+"&fId2="+e+"";
-	       			 document.forms["form4"].action = url; 			 
-	       			 document.forms["form4"].submit();// 提交表单	菜单 
-	       			 $(".loading-mask").show();
-	       			 $("#loading").html("图片上传中...");
-	       			 
-        		 }
-        		 else{
-        			 var fileName=$("#fRoomId2").val();
-	   	   	  		 if(fileName==null || fileName=="")
-	   	   	  			{
-	   	   	  			  $.MsgBox.Alert("温馨提示", "请选择房间类型");
-	   	   	  		     
-	   	   	  			  return false;
-	   	   	  		 }	
-	        			 var fileName=$("#fileField2").val();
-	   	   	  		 if(fileName==null || fileName=="")
-	   	   	  			{
-	   	   	  			  $.MsgBox.Alert("温馨提示", "未选择图片");
-	   	   	  		     
-	   	   	  			  return false;
-	   	   	  		 }	
-	   	   	 	     temp=1;
-	   	   	 	    
-	        		 var pageNum=$("#pageNum").val();
-	       	  		var url = "/tProduct/uploadPictureMany.action?pageNum="+pageNum+"&fId="+e+"";
-	       			document.forms["form3"].action = url; 			 
-	       			document.forms["form3"].submit(); // 提交表单	菜单 
-	       			
-	       			//loading显示
-	       		 $(".loading-mask").show();
-       			 $("#loading").html("图片上传中...");
+		$('.upmorepic').jqthumb({
+			width : 120,
+			height : 120,
+		});
+	});
+	//提示工具
+	$(function() {
+		var x = 10;
+		var y = 20;
+		$(".tooltip1").mouseover(function(e) {
+			this.myTitle = this.title;
+			this.title = "";
+			var tooltip = "<div id='tooltip1'>" + this.myTitle + "</div>";//创建div元素
+			$("body").append(tooltip); //把div元素追加到文档中
+			$("#tooltip1").css({
+				"top" : (e.pageY + y) + "px",
+				"left" : (e.pageX + x) + "px"
+			}).show("fast"); //设置x和y的坐标，并且显示
+		}).mouseout(function() {
+			this.title = this.myTitle;
+			$("#tooltip1").remove();
 
-	       			
-        		 }
-     		}
-     		else{
-     			$.MsgBox.Alert("温馨提示", "请稍等,正在上传...");
-     		}	  		         		 	  		
-     	}  	
-     	function addShow1(){       	       	 	          
-     		  $("#sign").val(0);   
-	      	  $('#newadd-Modal').modal('show');      	 
-        }       
-     	function addShow(e){       	       	 	          
-     		  $("#sign").val(0);   
-	          $("#fRoomId2").val(e);
-	      	  $('#newadd-Modal').modal('show');      	 
-        }       
-        function closeShow(){
-      	 	$('#newadd-Modal').modal('hide');
-      	 	$('#newadd-Modal2').modal('hide');
-      	}
-      //编辑样板图
-		//编辑样板图
-		function editShow(e,a){
+		}).mousemove(function(e) { //获得鼠标指针在页面中的位置
+			$("#tooltip1").css({
+				"top" : (e.pageY + y) + "px",
+				"left" : (e.pageX + x) + "px"
+			})
+		})
+	});
+	//图片图片遮罩-->		
+	$(function(e) {
+		$(".content_pic").hide();
 
-			var checks = document.getElementsByName(e+"picId");
-			n = 0;
-			for(i=0;i<checks.length;i++){
-				if(checks[i].checked)
-				n++;
-			}
-			if(n==0)
-			{
-				$.MsgBox.Alert("温馨提示", "请选择要编辑的图片！");
-				return false;
-			}
-			if(n>1)
-			{
-				$.MsgBox.Alert("温馨提示", "只能选择一张图片编辑！");
-				return false;
-			}
-			else{
-				var fId=$("input[type='checkbox'][name='"+e+"picId']:checked");					
-					 $.ajax({  
-					        type:"post",
-					        data:{fId:$(fId).val()},
-					        url : "../tProduct/editPicture.action",
-					        dataType:"json", 
-					        
-					        success : function(msg){  
-					        
-					          $("#fId3").val(msg.fId);
-					          $("#fStatus3").val(msg.fStatus);
-					          $("#fNo3").val(msg.fNo);
-					          $("#fRoomId3").val(msg.fRoomId);
-					          $("#fDescribe3").val(a);
-					          $("#fProductId3").val(msg.fProductId);
-					          $("#fStyleId3").val(msg.fStyleId);
-					          $("#fMartistic").val(msg.fMartistic);
-					          $("#fRoomName3").val(msg.fRoomName);
-					          
-					          $("#fPicture3").val(msg.fPicture);
-					          $("#fPicture64").val(msg.fPicture64);
-					          $("#fPicture4").val(msg.fPicture3);
-					          $("#uploadPreview3").attr("src", "/"+msg.fPicture64+"");
-					         
-					        	
-					        },
-					        error : function(){  
-					        	$.MsgBox.Alert("温馨提示", "操作失败");
+		$(".close_box").click(function() {
+			$(".content_pic").fadeOut(200);
+			$(this).fadeOut(200);
+		});
+		$(".mask-hide").click(function() {
+			$(".content_pic").fadeOut(200);
+		})
+	});
+	function bigBig(e) {
 
-					        }  
-					}); 
-					$("#sign").val(1);			      	  
-			      	$('#newadd-Modal2').modal('show');
-			}
-				
+		$(".content_pic").fadeIn(200);
+		$(".close_box").fadeIn(200);
+		var name = $("#picPath").val();
+		if (name == null || name == "" || name == "undefined") {
+			$("#img7").attr("src", "/myImage/" + e + "");
 		}
-		//删除明细图
-		function deleteForm(a){
-			var e=$("#fId").val();	      		
-     		var pageNum=$("#pageNum").val();
-			temp=0;
-			var checks = document.getElementsByName(a+"picId");
-			n = 0;
-			for(i=0;i<checks.length;i++){
-				if(checks[i].checked)
-				n++;
-			}
-			if(n==0)
-			{
-				$.MsgBox.Alert("温馨提示", "请选择要删除的数据！");
-				return false;
-			}			
-			else{
-				$.MsgBox.Confirm("温馨提示", "确定删除？", function () {
-				 var picId=$("input[name='"+a+"picId']:checked").serialize();
-			
-				 $.ajax( {  
-				        type:"post",
-				        data:picId,
-				        url : "../tProduct/deletePicture.action?fIdzxl="+a+"",
-				        dataType:"json",  
-				        success : function(msg){  				        	
-						    if(msg==1){
-						    	$.MsgBox.Alert("温馨提示", "删除成功");
-					        	 window.location.href = "../tProduct/updateview.action?fId="+e+"&pageNum="+pageNum+"";
-				        	}
-				        	else if(msg==2){
-				        		$.MsgBox.Alert("温馨提示", "未选择图片");
-				        	}
-				        	else if(msg==3){
-				        		$.MsgBox.Alert("温馨提示", "用户未登录");
-				        		window,open("../login.action");				        		
-				        	}
-				        	else{
-				        		$.MsgBox.Alert("温馨提示", "删除失败");
-				        	}
-				        },
-				        error : function(){  
-				        	$.MsgBox.Alert("温馨提示", "操作失败");
 
-				        }  
-				    }); 
-				})				
-			}			
-		}
-		//删除房间类型
-		function deleteForm2(){
-			var e=$("#fId").val();	      		
-     		var pageNum=$("#pageNum").val();
-			temp=0;
-			var checks = document.getElementsByName("typeId");
-			n = 0;
-			for(i=0;i<checks.length;i++){
-				if(checks[i].checked)
-				n++;
-			}
-			if(n==0)
-			{
-				$.MsgBox.Alert("温馨提示", "请选择要删除的数据！");
-				return false;
-			}			
-			else{
-				$.MsgBox.Confirm("温馨提示", "确定删除？", function () {
-				 var typeId=$("input[name='typeId']:checked").serialize();
-			
-				 $.ajax( {  
-				        type:"post",
-				        data:typeId,
-				        url : "../tProduct/deletePicture2.action?fProductId="+e+"",
-				        dataType:"json",  
-				        success : function(msg){  				        	
-						    if(msg==1){						    	 
-					        	 window.location.href = "../tProduct/updateview.action?fId="+e+"&pageNum="+pageNum+"";
-				        	}
-				        	else if(msg==2){
-				        		$.MsgBox.Alert("温馨提示", "未选择图片");
-				        	}
-				        	else if(msg==3){
-				        		$.MsgBox.Alert("温馨提示", "用户未登录");
-				        		window,open("../login.action");				        		
-				        	}
-				        	else{
-				        		$.MsgBox.Alert("温馨提示", "删除失败");
-				        	}
-				        },
-				        error : function(){  
-				        	$.MsgBox.Alert("温馨提示", "操作失败");
+	}
 
-				        }  
-				    }); 
-				})
-				
-			}
-			
+	function reLoadWindow() {
+		window.location.reload();
+	}
+	$(function() {
+		$("#fProductTypeId").change(
+				function() {
+					var fid = $('#fProductTypeId option:selected').val();
+
+					$.ajax({
+						type : "POST",
+						url : "/tProduct/showBrand?tTypeId=" + fid
+								+ "",
+						data : {},
+						dataType : "json",
+						success : function(data) {
+							$("#fProductBrandId").empty();
+							$.each(data, function(index, item) {
+								$("#fProductBrandId").append(
+										"<option value='"+item.fId+"'>"
+												+ item.fName + "</option>");
+							});
+						}
+					});
+				});
+	});
+	//上传图片预览
+	function previewImage(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview").attr("src", objUrl);
+		$("#img7").attr("src", objUrl);
+		$("#picPath").val($("#fileField").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
 		}
-    </script>
+		if (url != "" || url != null) {
+			$("#uploadPreview").css("display", "block");
+		}
+		return url;
+	}
+	function setZro(text1) {
+		var msize = $(text1).val();
+
+		if (!isNaN(msize)) {
+			var dot = msize.indexOf(".");
+			if (dot != -1) {
+				var dotCnt = msize.substring(dot + 1, msize.length);
+				if (dotCnt.length > 0) {
+					$.MsgBox.Alert("温馨提示", "不能有小数点！");
+					$(text1).val("99");
+					return false;
+				}
+			}
+		} else {
+
+			$(text1).val("99");
+			return false;
+		}
+
+		if (msize == "" || msize == null) {
+			$(text1).val("99");
+			return false;
+		}
+		if (measureSize == null || measureSize == "") {
+			$(text1).val("99");
+
+		}
+
+	}
+	function submitData() {
+
+		var fName = $("#fName").val();
+		if (fName == null || fName == "") {
+			$.MsgBox.Alert("温馨提示", "商品名称不能为空");
+			return false;
+		}
+		var fMartistic = $("#fMartistic").val();
+		if (fMartistic.length > 120)
+			if (fMartistic.length > 120) {
+				$.MsgBox.Alert("温馨提示", "商品意境描述字数超出120个字！");
+				return false;
+			}
+		var fCode = $("#fCode").val();
+		if (fCode == null || fCode == "") {
+			$.MsgBox.Alert("温馨提示", "商品型号不能为空");
+			return false;
+		}
+		var fOldCode = $("#fOldCode").val();
+		if (fCode == fOldCode) {
+			var pageNum = $("#pageNum").val();
+			var url = "/tProduct/update?pageNum=" + pageNum + "";
+			document.forms["form2"] = url;
+			document.forms["form2"].submit(); // 提交表单	菜单 
+			$(".loading-mask").show();
+
+		} else {
+			$
+					.ajax({
+						type : "POST",
+						url : "/tProduct/checkCode?fCode=" + fCode
+								+ "",
+						data : {},
+						dataType : "json",
+						beforeSend : function(XMLHttpRequest) {
+							$(".loading-mask").show();
+
+						},
+						success : function(data) {
+							if (data == 1) {
+								$.MsgBox.Alert("温馨提示", "型号已存在");
+								return false;
+							} else {
+								$('#loading')
+										.css('background',
+												'url(/bgStyle/img/success.gif) no-repeat 40px center ')
+										.html('提交成功！');
+								setTimeout(function() {
+									$(".loading-mask").hide();
+									$('#loading').html('提交中...');
+								}, 1000)
+								var pageNum = $("#pageNum").val();
+								var url = "/tProduct/update?pageNum="
+										+ pageNum + "";
+								document.forms["form2"].action = url;
+								document.forms["form2"].submit(); // 提交表单	菜单 
+
+							}
+						}
+					})
+		}
+
+	}
+	function setZro1(text1) {
+		var msize = $(text1).val();
+
+		if (!isNaN(msize)) {
+			var dot = msize.indexOf(".");
+			if (dot != -1) {
+				var dotCnt = msize.substring(dot + 1, msize.length);
+				if (dotCnt.length > 2) {
+					$.MsgBox.Alert("温馨提示", "最多2位小数！");
+					$(text1).val("0.00");
+					return false;
+				}
+			}
+		} else {
+
+			$(text1).val("0.00");
+			return false;
+		}
+
+		if (msize == "" || msize == null) {
+			$(text1).val("0.00");
+			return false;
+		}
+		if (measureSize == null || measureSize == "") {
+			$(text1).val("0.00");
+
+		}
+
+	}
+	//下面用于多图片上传预览功能
+	function setImagePreviews(avalue) {
+
+		//获取选择图片的对象
+		var docObj = document.getElementById("fileField2");
+		//后期显示图片区域的对象
+		var dd = document.getElementById("dd2");
+		dd.innerHTML = "";
+		//得到所有的图片文件
+		var fileList = docObj.files;
+		//循环遍历
+		for (var i = 0; i < fileList.length; i++) {
+
+			//动态添加html元素        
+			//dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>";
+
+			var imgHtml = "";
+			imgHtml += "	<img id='img" + i + "'  src='' >";
+			$("#dd2").append(imgHtml);
+			//获取图片imgi的对象
+			var imgObjPreview = document.getElementById("img" + i);
+
+			if (docObj.files && docObj.files[i]) {
+				//火狐下，直接设img属性
+				//imgObjPreview.style.display = 'block';
+				//imgObjPreview.style.width = '200px';
+				//imgObjPreview.style.height = '180px';
+				//imgObjPreview.src = docObj.files[0].getAsDataURL();
+				//火狐7以上版本不能用上面的getAsDataURL()方式获取，需要以下方式
+				imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]); //获取上传图片文件的物理路径
+			} else {
+				//IE下，使用滤镜
+				docObj.select();
+				var imgSrc = document.selection.createRange().text;
+				//alert(imgSrc)
+				var localImagId = document.getElementById("img" + i);
+				//必须设置初始大小
+				localImagId.style.width = "200px";
+				localImagId.style.height = "200px";
+				//图片异常的捕捉，防止用户修改后缀来伪造图片
+				try {
+					localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+					localImagId.filters
+							.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+				} catch (e) {
+					alert("您上传的图片格式不正确，请重新选择!");
+					return false;
+				}
+				imgObjPreview.style.display = 'none';
+				document.selection.empty();
+			}
+
+		}
+
+		return true;
+	}
+	//上传图片预览
+	function previewImage3(file) {
+		//alert("1231");	
+		var objUrl = getObjectURL3(file.files[0]);
+		//alert(numb);
+		$("#uploadPreview3").attr("src", objUrl);
+		//$("#img7").attr("src", objUrl);
+		$("#picPath3").val($("#fileField3").val());
+	}
+	//建立一個可存取到該file的url
+	function getObjectURL3(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		if (url != "" || url != null) {
+			$("#uploadPreview3").css("display", "block");
+		}
+		return url;
+	}
+	var temp = 0;
+	//提交明细
+	function submitData2() {
+
+		var sign = $("#sign").val();
+		if (temp == 0) {
+
+			var e = $("#fId").val();
+
+			if (sign == 1) {
+
+				var fileName = $("#fRoomId3").val();
+				if (fileName == null || fileName == "") {
+					$.MsgBox.Alert("温馨提示", "请选择房间类型");
+					return false;
+				}
+				temp = 1;
+				var pageNum = $("#pageNum").val();
+
+				var url = "/tProduct/editPictureMany?pageNum=" + pageNum
+						+ "&fId2=" + e + "";
+				document.forms["form4"] = url;
+				document.forms["form4"].submit();// 提交表单	菜单 
+				$(".loading-mask").show();
+				$("#loading").html("图片上传中...");
+
+			} else {
+				var fileName = $("#fRoomId2").val();
+				if (fileName == null || fileName == "") {
+					$.MsgBox.Alert("温馨提示", "请选择房间类型");
+
+					return false;
+				}
+				var fileName = $("#fileField2").val();
+				if (fileName == null || fileName == "") {
+					$.MsgBox.Alert("温馨提示", "未选择图片");
+
+					return false;
+				}
+				temp = 1;
+
+				var pageNum = $("#pageNum").val();
+				var url = "/tProduct/uploadPictureMany?pageNum="
+						+ pageNum + "&fId=" + e + "";
+				document.forms["form3"] = url;
+				document.forms["form3"].submit(); // 提交表单	菜单 
+
+				//loading显示
+				$(".loading-mask").show();
+				$("#loading").html("图片上传中...");
+
+			}
+		} else {
+			$.MsgBox.Alert("温馨提示", "请稍等,正在上传...");
+		}
+	}
+	function addShow1() {
+		$("#sign").val(0);
+		$('#newadd-Modal').modal('show');
+	}
+	function addShow(e) {
+		$("#sign").val(0);
+		$("#fRoomId2").val(e);
+		$('#newadd-Modal').modal('show');
+	}
+	function closeShow() {
+		$('#newadd-Modal').modal('hide');
+		$('#newadd-Modal2').modal('hide');
+	}
+	//编辑样板图
+	//编辑样板图
+	function editShow(e, a) {
+
+		var checks = document.getElementsByName(e + "picId");
+		n = 0;
+		for (i = 0; i < checks.length; i++) {
+			if (checks[i].checked)
+				n++;
+		}
+		if (n == 0) {
+			$.MsgBox.Alert("温馨提示", "请选择要编辑的图片！");
+			return false;
+		}
+		if (n > 1) {
+			$.MsgBox.Alert("温馨提示", "只能选择一张图片编辑！");
+			return false;
+		} else {
+			var fId = $("input[type='checkbox'][name='" + e + "picId']:checked");
+			$
+					.ajax({
+						type : "post",
+						data : {
+							fId : $(fId).val()
+						},
+						url : "/tProduct/editPicture",
+						dataType : "json",
+
+						success : function(msg) {
+
+							$("#fId3").val(msg.fId);
+							$("#fStatus3").val(msg.fStatus);
+							$("#fNo3").val(msg.fNo);
+							$("#fRoomId3").val(msg.fRoomId);
+							$("#fDescribe3").val(a);
+							$("#fProductId3").val(msg.fProductId);
+							$("#fStyleId3").val(msg.fStyleId);
+							$("#fMartistic").val(msg.fMartistic);
+							$("#fRoomName3").val(msg.fRoomName);
+
+							$("#fPicture3").val(msg.fPicture);
+							$("#fPicture64").val(msg.fPicture64);
+							$("#fPicture4").val(msg.fPicture3);
+							$("#uploadPreview3").attr("src",
+									"/" + msg.fPicture64 + "");
+
+						},
+						error : function() {
+							$.MsgBox.Alert("温馨提示", "操作失败");
+
+						}
+					});
+			$("#sign").val(1);
+			$('#newadd-Modal2').modal('show');
+		}
+
+	}
+	//删除明细图
+	function deleteForm(a) {
+		var e = $("#fId").val();
+		var pageNum = $("#pageNum").val();
+		temp = 0;
+		var checks = document.getElementsByName(a + "picId");
+		n = 0;
+		for (i = 0; i < checks.length; i++) {
+			if (checks[i].checked)
+				n++;
+		}
+		if (n == 0) {
+			$.MsgBox.Alert("温馨提示", "请选择要删除的数据！");
+			return false;
+		} else {
+			$.MsgBox
+					.Confirm(
+							"温馨提示",
+							"确定删除？",
+							function() {
+								var picId = $(
+										"input[name='" + a + "picId']:checked")
+										.serialize();
+
+								$
+										.ajax({
+											type : "post",
+											data : picId,
+											url : "/tProduct/deletePicture?fIdzxl="
+													+ a + "",
+											dataType : "json",
+											success : function(msg) {
+												if (msg == 1) {
+													$.MsgBox.Alert("温馨提示",
+															"删除成功");
+													window.location.href = "/tProduct/updateview?fId="
+															+ e
+															+ "&pageNum="
+															+ pageNum + "";
+												} else if (msg == 2) {
+													$.MsgBox.Alert("温馨提示",
+															"未选择图片");
+												} else if (msg == 3) {
+													$.MsgBox.Alert("温馨提示",
+															"用户未登录");
+															window,
+															open("/login");
+												} else {
+													$.MsgBox.Alert("温馨提示",
+															"删除失败");
+												}
+											},
+											error : function() {
+												$.MsgBox.Alert("温馨提示", "操作失败");
+
+											}
+										});
+							})
+		}
+	}
+	//删除房间类型
+	function deleteForm2() {
+		var e = $("#fId").val();
+		var pageNum = $("#pageNum").val();
+		temp = 0;
+		var checks = document.getElementsByName("typeId");
+		n = 0;
+		for (i = 0; i < checks.length; i++) {
+			if (checks[i].checked)
+				n++;
+		}
+		if (n == 0) {
+			$.MsgBox.Alert("温馨提示", "请选择要删除的数据！");
+			return false;
+		} else {
+			$.MsgBox
+					.Confirm(
+							"温馨提示",
+							"确定删除？",
+							function() {
+								var typeId = $("input[name='typeId']:checked")
+										.serialize();
+
+								$
+										.ajax({
+											type : "post",
+											data : typeId,
+											url : "/tProduct/deletePicture2?fProductId="
+													+ e + "",
+											dataType : "json",
+											success : function(msg) {
+												if (msg == 1) {
+													window.location.href = "/tProduct/updateview?fId="
+															+ e
+															+ "&pageNum="
+															+ pageNum + "";
+												} else if (msg == 2) {
+													$.MsgBox.Alert("温馨提示",
+															"未选择图片");
+												} else if (msg == 3) {
+													$.MsgBox.Alert("温馨提示",
+															"用户未登录");
+															window,
+															open("/login");
+												} else {
+													$.MsgBox.Alert("温馨提示",
+															"删除失败");
+												}
+											},
+											error : function() {
+												$.MsgBox.Alert("温馨提示", "操作失败");
+
+											}
+										});
+							})
+
+		}
+
+	}
+</script>
 
 </head>
 
 <body class="gray-bg">
 
-     <!-- loading -->
-		<div class="loading-mask" >
-		   <div class="loading-body">
-		      <div id="loading">提交中...</div>
-		   </div>	    
+	<!-- loading -->
+	<div class="loading-mask">
+		<div class="loading-body">
+			<div id="loading">提交中...</div>
 		</div>
-		
-		
-<input type="hidden" value="${pageNum}" id="pageNum"/> 
-<input type="hidden" id="sign" value="">
+	</div>
 
-<div class="container-fluid">
-   <div class="header-fixed">                   
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li><i class="fa fa-home" style="font-size: 16px;"></i> <a href="#">商品管理</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-                <li class="active">商品编辑</li>
-            </ul><!--.breadcrumb-->
-        </div><!--#breadcrumbs-->
-        <div id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <span class="btn btn-blue btn-xs" onclick="history.go(-1)"><i class="fa fa-reply" style="margin-right:2px; font-size:12px;"></i>返回</span>
-                    <span class="btn btn-blue btn-xs" onclick="submitData()"><i class="fa fa-share-square-o" style="margin-right:2px; font-size:12px;"></i>提交</span>
-                    <span class="btn btn-blue btn-xs" onclick="reLoadWindow()"><i class="fa fa-refresh" style="margin-right:2px; font-size:12px;"></i>刷新</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-   
-    <form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
-    <div class="page-content-main">
-        <div id="page-content">
-         <div class="panel-box">
-               <div class="title-text">
-                <span class="title-con">商品编辑 </span><span style="color:#f03;font-size:14px;margin-left:10px;">商品缩略图尺寸：960*680</span>
-               </div>
-               <div class="panel-body">
-                     <div class="form-horizontal">
-                       <div class="row-fluid row-margin">
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                          <label class="control-label">商品大类</label>
-                                          <div class="col-sm-9">
-                                              <select name="fProductTypeId" id="fProductTypeId" class="sel-list  form-control">   
-                                                 <c:forEach items="${tProductTypes}" var="msg">
-                                                 <option <c:if test="${tProduct.fProductTypeId==msg.fId}">selected="selected"</c:if> value="${msg.fId}">${msg.fName}</option>
-                                                 </c:forEach>
-                                              </select>
-                                          </div>
-                                  </div>
-                              </div>
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                      <label class="control-label">颜色</label>
-                                      <div class="col-sm-9">
-                                           <select name="fColor" class="sel-list  form-control">   
-												 <c:forEach items="${tColors}" var="msg">
-                                                 <option <c:if test="${tProduct.fColor==msg.fName}">selected="selected"</c:if>  value="${msg.fName}">${msg.fName}</option>                                                                                 	                                           
-                                                 </c:forEach>
-                                           </select>
-                                      </div>
-                                  </div>
-                              </div>
-        
-                             
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                          <label class="control-label">空间类型</label>
-                                          <div class="col-sm-10" style="padding-left:0px; width: 87%; padding-top:5px;">
-					                               
-					                               <c:forEach items="${tRoomTypes}" var="msg">
-					                                   
-															<label style="display:inline-block;margin-bottom:0px; margin-right:6px;">
-														     	<input   name="fRoomId" value="${msg.fId}" type="checkbox"
-														     	     <c:forEach items="${tProductRooms}" var="msg2">
-														     	          <c:if test="${msg.fId==msg2.fRoomId}"> checked="checked" </c:if>  
-														     	      </c:forEach>  
-														     	>
-														     	<span class="lbl" style=" vertical-align:top;font-size: 14px">&nbsp;${msg.fName}</span>
-													        </label>
-					                               
-					                                 </c:forEach>
-					                       
-					                    
-                                          </div>
-                                  </div>
-                              </div>
 
-                         </div>
-                        <div class="row-fluid row-margin">
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">商品名称</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" id="fName" name="fName" placeholder="请输入商品名称" class="form-control" value="${tProduct.fName}" /><span style="color:red; font-size:16px; line-height:30px;margin-left:2px; ">*</span>
-                                        </div>
-                                  </div>
-                              </div>
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">商品型号</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" id="fCode" name="fCode"  class="form-control" value="${tProduct.fCode}" /><span style="color:red; font-size:16px; line-height:30px;margin-left:2px; ">*</span> 
-                                            <input type="hidden" id="fOldCode" name="" class="form-control" value="${tProduct.fCode}" /> 
-                                        </div>
-                                  </div>
-                              </div>
-                       
-                  
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                      <label class="control-label">商品风格</label>
-                                      <div class="col-sm-10" style="padding-left:0px; width: 87%; padding-top:5px;">
-					                               <c:forEach items="${tStyles}" var="msg">
-					                               
-															<label style="display:inline-block;margin-bottom:0px; margin-right:6px;">
-														     	<input   name="fStyleId" value="${msg.fId}" type="checkbox"
-														     	     <c:forEach items="${tProductStyles}" var="msg2">
-														     	          <c:if test="${msg.fId==msg2.fStyleId}"> checked="checked" </c:if>  
-														     	      </c:forEach>  
-														     	>
-														     	<span class="lbl" style=" vertical-align:top;font-size: 14px">&nbsp;${msg.fName}</span>
-													        </label>
-					                                   
-					                                 </c:forEach>
-                                      </div>
-                                  </div>
-                              </div>
+	<input type="hidden" th:value="${pageNum}" id="pageNum" />
+	<input type="hidden" id="sign" value="">
 
-                        </div>
-                       
-                        <div class="row-fluid row-margin">
-                                                          
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">商品规格</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fSpec" placeholder="请输入商品规格" class="form-control" value="${tProduct.fSpec}" /> 
-                                        </div>
-                                  </div>
-                              </div> 
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">商品材质</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fMaterial" placeholder="请输入商品材质" class="form-control" value="${tProduct.fMaterial}" /> 
-                                        </div>
-                                  </div>
-                              </div>
-                    
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                      <label class="control-label">商品单位</label>
-                                      <div class="col-sm-9">
-                                            <input type="text" name="fUnit" placeholder="请输入商品单位" class="form-control" value="${tProduct.fUnit}" /> 
-                                      </div>
-                                  </div>
-                              </div>
-                             
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                      <label class="control-label">产地</label>
-                                      <div class="col-sm-9">
-                                            <input type="text"  name="fAddr" placeholder="请输入产地" class="form-control" value="${tProduct.fAddr}" /> 
-                                      </div>
-                                  </div>
-                              </div>
-                             
+	<div class="container-fluid">
+		<div class="header-fixed">
+			<div id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<i class="fa fa-home" style="font-size: 16px;"></i>
+						<a href="#">商品管理</a>
+						<span class="divider">
+							<i class="icon-angle-right"></i>
+						</span>
+					</li>
+					<li class="active">商品编辑</li>
+				</ul>
+				<!--.breadcrumb-->
+			</div>
+			<!--#breadcrumbs-->
+			<div id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<span class="btn btn-blue btn-xs" onclick="history.go(-1)">
+							<i class="fa fa-reply" style="margin-right: 2px; font-size: 12px;"></i>
+							返回
+						</span>
+						<span class="btn btn-blue btn-xs" onclick="submitData()">
+							<i class="fa fa-share-square-o" style="margin-right: 2px; font-size: 12px;"></i>
+							提交
+						</span>
+						<span class="btn btn-blue btn-xs" onclick="reLoadWindow()">
+							<i class="fa fa-refresh" style="margin-right: 2px; font-size: 12px;"></i>
+							刷新
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
 
-                       
-                              
-                        </div>
-                        <div class="row-fluid row-margin">
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">工艺</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fGongyi" id="fGongyi"  value="${tProduct.fGongyi}" placeholder="请输入商品工艺"  class="form-control"  /> 
-                                        </div>
-                                  </div>
-                              </div>
-                         
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                      <label class="control-label">库存</label>
-                                      <div class="col-sm-9">
-                                            <input type="text" name="fStock" onblur="setZro1(this)"   placeholder="请输入库存" class="form-control" value="${tProduct.fStock}" /> 
-                                      </div>
-                                  </div>
-                              </div>
-                                                            
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">成本</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fCost" onblur="setZro1(this)"   placeholder="请输入成本" class="form-control" value="${tProduct.fCost}" /> 
-                                        </div>
-                                  </div>
-                              </div>
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">商品售价</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fPrice" onblur="setZro1(this)"   placeholder="请输入商品售价" class="form-control" value="${tProduct.fPrice}" /> 
-                                        </div>
-                                  </div>
-                              </div>                           
-                         </div>
-                         <div class="row-fluid row-margin">
-                                <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">已售</label>
-                                         <div class="col-sm-9">
-                                            <input type="text" name="fSaled" onblur="setZro1(this)"   class="form-control" value="${tProduct.fSaled}" /> 
-                                        </div>
-                                  </div>
-                              </div>
-                               <div class="col-sm-3">
-                                  <div class="form-group">
-                                        <label class="control-label">序号</label>
-                                         <div class="col-sm-9">
-                                            <input type="number" name="fNo" id="fNo" onblur="setZro(this)" value="${tProduct.fNo}"  class="form-control"  /> 
-                                        </div>
-                                  </div>
-                              </div>  
-                            <div class="col-sm-6">
-                                  <div class="form-group">
-                                        <label class="control-label">备注</label>
-                                         <div class="col-sm-10" style="padding-left:0px; width: 87%;">
-                                            <input type="text" name="fNote" placeholder="请输入备注" class="form-control" value="${tProduct.fNote}" style="width:97.5%;" /> 
-                                        </div>
-                                  </div>
-                              </div>
-                         </div>
-                         
-                         <div class="row-fluid row-margin">
-                         	 <div class="col-sm-6">
-                                  <div class="form-group">
-                                        <label class="control-label">意境</label>
-                                         <div class="col-sm-10"  style="padding-left:0px; width: 87%;">
-                                            <!-- <input type="text" id="fMartistic" name="fMartistic" placeholder="请输入意境" class="form-control" value="${tProduct.fMartistic}" style="width:97.5%;"/>  -->
-                                            <textarea class="describe-box"  id="fMartistic" name="fMartistic"  placeholder="请输入商品意境(120字以内)" style="width:97.5%;">${tProduct.fMartistic}</textarea>
-                                        </div>
-                                  </div>
-                              </div>
-                         </div>
-                          <div class="row-fluid row-margin">
-                            <div class="col-sm-3">
-                                  <div class="form-group">
-                                          <label class="control-label">上传图片</label>
-                                          <div class="col-sm-9">
-                                             <div class="file-box goodspic-up">
-                                               <input type="text" class="txt" id="picPath" readonly="readonly"> 
+		<form action="" name="form2" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
+			<div class="page-content-main">
+				<div id="page-content">
+					<div class="panel-box">
+						<div class="title-text">
+							<span class="title-con">商品编辑 </span>
+							<span style="color: #f03; font-size: 14px; margin-left: 10px;">商品缩略图尺寸：960*680</span>
+						</div>
+						<div class="panel-body">
+							<div class="form-horizontal">
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品大类</label>
+											<div class="col-sm-9">
+												<select name="productTypeId" id="fProductTypeId" class="sel-list  form-control">
+													<option th:each="msg : ${tProductTypes}" th:text="${msg.name}" th:value="${msg.id}" th:selected="${msg.id eq tProduct.productTypeId}"></option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">颜色</label>
+											<div class="col-sm-9">
+												<select name="color" class="sel-list  form-control">
+													<option th:each="msg : ${tColors}" th:text="${msg.name}" th:value="${msg.id}" th:selected="${msg.name eq tProduct.color}"></option>
+												</select>
+											</div>
+										</div>
+									</div>
 
-                                                <input type="file"   name="file" id="fileField" class="file" onchange="previewImage(this)">
-                                                <input type="button" class="bttn" value="上传">    
-                                            </div>
-                                          </div>
-                                  </div>
-                              </div>
-		                         <div class="col-sm-3">
-			                            <div class="form-group">
-			                                  <label class="control-label">有效性</label>
-			                                  <label class="radio radio-info" style="margin-right:20px;">
-			                                       <input type="radio" <c:if test="${tProduct.fState==1}">checked="checked" </c:if> name="fState" id="radio5" value="1">
-			                                       <label for="radio5">有效</label>
-			                                  </label>
-			                                  <label class="radio radio-info">
-			                                    <input type="radio" <c:if test="${tProduct.fState==0}">checked="checked" </c:if>  name="fState" id="radio6" value="0">
-			                                       <label for="radio6">无效</label>
-			                                  </label>
-			                            </div>
-		                            </div>
 
-                           </div>
-                           <div class="row-fluid row-margin">
-                              <div class="col-sm-3">
-                                  <div class="form-group">
-                                          <label class="control-label"><!--上传的图片显示--></label>
-                                          <div class="col-sm-9">
-                                             <div class="goods-pre">
-                                              
-                                                 <a href="###1" class="tooltip1" title="点击缩略图查看大图"> <img src="/${tProduct.fPicturepath}" id="uploadPreview" onclick="bigBig('${tProduct.fPicture}')"  class="goods-img" style="display:block;"></a>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">空间类型</label>
+											<div class="col-sm-10" style="padding-left: 0px; width: 87%; padding-top: 5px;">
+												<label th:each="msg : ${tRoomTypes}" style="display: inline-block; margin-bottom: 0px; margin-right: 6px;">
+													<input name="roomId" th:value="${msg.id}" type="checkbox" th:checked="${#lists.contains(tProductRooms,msg.id)}" >
+													<span class="lbl" style="vertical-align: top; font-size: 14px" th:text="${msg.name}"></span>
+												</label>
+											</div>
+										</div>
+									</div>
 
-                                             </div>
-                                          </div>
-                                  </div>
-                              </div>
-                          </div>
-                        <!--上传的图片大图片展示-->
-						<div class="content_pic">
-						   <div class="mask-hide">
-								<div id="pic_box">
-									<img id="img7" src="" />
 								</div>
-								<div class="close_box"><img src="/bgStyle/images/closepic.png" /></div>
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品名称</label>
+											<div class="col-sm-9">
+												<input type="text" id="fName" name="name" placeholder="请输入商品名称" class="form-control" th:value="${tProduct.name}" />
+												<span style="color: red; font-size: 16px; line-height: 30px; margin-left: 2px;">*</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品型号</label>
+											<div class="col-sm-9">
+												<input type="text" id="fCode" name="code" class="form-control" th:value="${tProduct.code}" />
+												<span style="color: red; font-size: 16px; line-height: 30px; margin-left: 2px;">*</span>
+												<input type="hidden" id="fOldCode" name="" class="form-control" th:value="${tProduct.code}" />
+											</div>
+										</div>
+									</div>
+
+
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">商品风格</label>
+											<div class="col-sm-10" style="padding-left: 0px; width: 87%; padding-top: 5px;">
+												<label th:each="msg : ${tStyles}" style="display: inline-block; margin-bottom: 0px; margin-right: 6px;">
+													<input name="styleId" th:value="${msg.id}" type="checkbox" th:checked="${#lists.contains(tProductStyles,msg.id)}" >
+													<span class="lbl" style="vertical-align: top; font-size: 14px" th:text="${msg.name}"></span>
+												</label>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row-fluid row-margin">
+
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品规格</label>
+											<div class="col-sm-9">
+												<input type="text" name="spec" placeholder="请输入商品规格" class="form-control" th:value="${tProduct.spec}" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品材质</label>
+											<div class="col-sm-9">
+												<input type="text" name="material" placeholder="请输入商品材质" class="form-control" th:value="${tProduct.material}" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品单位</label>
+											<div class="col-sm-9">
+												<input type="text" name="unit" placeholder="请输入商品单位" class="form-control" th:value="${tProduct.unit}" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">产地</label>
+											<div class="col-sm-9">
+												<input type="text" name="addr" placeholder="请输入产地" class="form-control" th:value="${tProduct.addr}" />
+											</div>
+										</div>
+									</div>
+
+
+
+
+								</div>
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">工艺</label>
+											<div class="col-sm-9">
+												<input type="text" name="gongyi" id="fGongyi" th:value="${tProduct.gongyi}" placeholder="请输入商品工艺" class="form-control" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">库存</label>
+											<div class="col-sm-9">
+												<input type="text" name="stock" onblur="setZro1(this)" placeholder="请输入库存" class="form-control" th:value="${tProduct.stock}" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">成本</label>
+											<div class="col-sm-9">
+												<input type="text" name="cost" onblur="setZro1(this)" placeholder="请输入成本" class="form-control" th:value="${tProduct.cost}" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">商品售价</label>
+											<div class="col-sm-9">
+												<input type="text" name="price" onblur="setZro1(this)" placeholder="请输入商品售价" class="form-control" th:value="${tProduct.price}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">已售</label>
+											<div class="col-sm-9">
+												<input type="text" name="saled" onblur="setZro1(this)" class="form-control" th:value="${tProduct.saled}" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">序号</label>
+											<div class="col-sm-9">
+												<input type="number" name="no" id="fNo" onblur="setZro(this)" th:value="${tProduct.no}" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">备注</label>
+											<div class="col-sm-10" style="padding-left: 0px; width: 87%;">
+												<input type="text" name="note" placeholder="请输入备注" class="form-control" th:value="${tProduct.note}" style="width: 97.5%;" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row-fluid row-margin">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">意境</label>
+											<div class="col-sm-10" style="padding-left: 0px; width: 87%;">
+												<!-- <input type="text" id="fMartistic" name="fMartistic" placeholder="请输入意境" class="form-control" value="${tProduct.fMartistic}" style="width:97.5%;"/>  -->
+												<textarea class="describe-box" id="fMartistic" name="martistic" placeholder="请输入商品意境(120字以内)" style="width: 97.5%;" th:value="${tProduct.martistic}"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">上传图片</label>
+											<div class="col-sm-9">
+												<div class="file-box goodspic-up">
+													<input type="text" class="txt" id="picPath" readonly="readonly">
+
+													<input type="file" name="file" id="fileField" class="file" onchange="previewImage(this)">
+													<input type="button" class="bttn" value="上传">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">有效性</label>
+											<label class="radio radio-info" style="margin-right: 20px;">
+												<input type="radio" th:checked="${tProduct.state==1}" name="state" id="radio5" value="1">
+												<label for="radio5">有效</label>
+											</label>
+											<label class="radio radio-info">
+												<input type="radio"	th:checked="${tProduct.state==0}" name="state" id="radio6" value="0">
+												<label for="radio6">无效</label>
+											</label>
+										</div>
+									</div>
+
+								</div>
+								<div class="row-fluid row-margin">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">
+												<!--上传的图片显示-->
+											</label>
+											<div class="col-sm-9">
+												<div class="goods-pre">
+
+													<a href="###1" class="tooltip1" title="点击缩略图查看大图">
+														<img th:src="|/myImage/${tProduct.picturepath}|" id="uploadPreview" th:onclick="bigBig([[${tProduct.picture}]])" class="goods-img"
+															style="display: block;">
+													</a>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--上传的图片大图片展示-->
+								<div class="content_pic">
+									<div class="mask-hide">
+										<div id="pic_box">
+											<img id="img7" src="" />
+										</div>
+										<div class="close_box">
+											<img src="/bgStyle/images/closepic.png" />
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-                    </div>
-                </div>
-        </div>      
-      </div>
-    </div>
-    <input type="hidden" name="fId" id="fId" value="${tProduct.fId}"/>
-    <input type="hidden" name="fClickNum" value="${tProduct.fClickNum}"/>
-    <input type="hidden" name="fShouCang" value="${tProduct.fShouCang}"/>
-    <input type="hidden" name="fPicture" value="${tProduct.fPicture}"/>
-      <input type="hidden" name="fPicturepath" value="${tProduct.fPicturepath}"/>
-    <input type="hidden" id="fTypeId" value="${tProduct.fProductTypeId}"/> 
-    </form>    
+					</div>
+				</div>
+			</div>
+			<input type="hidden" name="id" id="fId" th:value="${tProduct.id}" />
+			<input type="hidden" name="clickNum" th:value="${tProduct.clickNum}" />
+			<input type="hidden" name="shouCang" th:value="${tProduct.shouCang}" />
+			<input type="hidden" name="picture" th:value="${tProduct.picture}" />
+			<input type="hidden" name="picturepath" th:value="${tProduct.picturepath}" />
+			<input type="hidden" id="typeId" th:value="${tProduct.productTypeId}" />
+		</form>
 
 
-<div id="page-content">
-          <div class="panel-box">
-               <div class="title-text">
-                <span class="title-con">上传图片</span>
-                <span style="color:#f03;font-size:14px;margin-left:10px;">效果图尺寸：1920*1400</span>
-               </div>
-               <div class="panel-body">
-                    <!--上传图片-->
-                   <div class="up-more-pic">
-                      <div class="form-horizontal">
-                       <div class="row-fluid row-margin">
-                          
-                          <div class="col-sm-3">
-                              <div class="form-group">
-                                  <button class="btn btn-blue btn-sm" onclick="addShow1()">新增</button>
-                                  <button class="btn btn-danger btn-sm" onclick="deleteForm2()">删除</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--增加的部分-->
-                      <c:forEach items="${tProductDetailRooms}" var="msgRoom">
-                      <div class="allpic_box">
-                         <p class="up-pic-title">
-                                <label>
-                                       <input name="typeId" value="${msgRoom.fId}" class="ace-checkbox-2" type="checkbox">
-                                       <span class="lbl">${msgRoom.fRoomName}</span>
-                                </label>
-                         </p>
-                          <div class="pic-six">
-                            <div class="image-box">
-                            		<c:forEach items="${tProductDetails}" var="msg"> 
-                            		<c:if test="${msg.fRoomId==msgRoom.fRoomId}">
-                                    <div class="jiedian_checkbox">
-                                       <label>
-                                              <input  id="" name="${msgRoom.fRoomId}picId" value="${msg.fId}" class="ace-checkbox-2" type="checkbox">
-                                              <span class="lbl">
-                                                <img src="/${msg.fPicture64}" style="width:120px; height:120px;" class="upmorepic">    
-                                              </span>
-                                        </label><p class="depict-txt" >${msg.fStyleName}</p>  
-                                     </div>
-                                                   
-                                     </c:if>
-                                     </c:forEach>                                                              
-                            </div>                                               
-                                                                              
-                          </div>
-                          <div class="pic_btn">
-                               <input type="button" class="btn btn-blue btn-outline btn-xs" value="新增" id="add-btn_new" onclick="addShow('${msgRoom.fRoomId}')"/>
-                               <input type="button" class="btn btn-orange btn-outline btn-xs" value="编辑" onclick="editShow('${msgRoom.fRoomId}')"/>    
-                               <input type="button" class="btn btn-danger btn-outline btn-xs" value="删除" onclick="deleteForm('${msgRoom.fRoomId}')"/>
-                          </div>
-                      
-                      </div>
-                      </c:forEach>
-                      <!-- end -->                   
-                   </div> 
-             </div>
-        </div>
-</div>
-</div>
+		<div id="page-content">
+			<div class="panel-box">
+				<div class="title-text">
+					<span class="title-con">上传图片</span>
+					<span style="color: #f03; font-size: 14px; margin-left: 10px;">效果图尺寸：1920*1400</span>
+				</div>
+				<div class="panel-body">
+					<!--上传图片-->
+					<div class="up-more-pic">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+
+								<div class="col-sm-3">
+									<div class="form-group">
+										<button class="btn btn-blue btn-sm" onclick="addShow1()">新增</button>
+										<button class="btn btn-danger btn-sm" onclick="deleteForm2()">删除</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--增加的部分-->
+							<div class="allpic_box" th:each="msgRoom : ${tProductDetailRooms}">
+								<p class="up-pic-title">
+									<label>
+										<input name="typeId" th:value="${msgRoom.id}" class="ace-checkbox-2" type="checkbox">
+										<span class="lbl" th:text="${msgRoom.roomName}"></span>
+									</label>
+								</p>
+								<div class="pic-six">
+									<div class="image-box">
+												<div class="jiedian_checkbox" th:each="msg : ${tProductDetails}" th:if="${msg.roomId eq msgRoom.roomId">
+													<label>
+														<input id="" name="${msgRoom.fRoomId}picId" th:value="${msg.id}" class="ace-checkbox-2" type="checkbox">
+														<span class="lbl">
+															<img th:src="|/myImage/${msg.picture64}|" style="width: 120px; height: 120px;" class="upmorepic">
+														</span>
+													</label>
+													<p class="depict-txt" th:text="${msg.styleName}"></p>
+												</div>
+									</div>
+
+								</div>
+								<div class="pic_btn">
+									<input type="button" class="btn btn-blue btn-outline btn-xs" value="新增" id="add-btn_new" th:onclick="addShow([[${msgRoom.roomId}]])" />
+									<input type="button" class="btn btn-orange btn-outline btn-xs" value="编辑" th:onclick="editShow([[${msgRoom.roomId}]])" />
+									<input type="button" class="btn btn-danger btn-outline btn-xs" value="删除" th:onclick="deleteForm([[${msgRoom.roomId}]])" />
+								</div>
+
+							</div>
+						<!-- end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
-<form class="form-horizontal" action="" id="" name="form3" method="post" onsubmit="return submitForm()" enctype="multipart/form-data">
-<input type="hidden" id="fDescribe2" name="fDescribe">
-<!--新增案例图片-->
-<div class="modal fade" id="newadd-Modal" >
-  <!-- 窗口声明 -->
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle1"> 新增效果图</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">序号</label>
-                                <div class="col-sm-9">
-                                <input type="number"  name="fNo" value="9" placeholder="请输入图片序号" class="form-control input-box"> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                               <label class="control-label">房间类型</label>
-                               <div class="col-sm-9">
-                                <select class="sel-in form-control" id="fRoomId2"  name="fRoomId" >   
-                                     <c:forEach items="${tRoomTypes}" var="msg">
-					                 <option value="${msg.fId}">${msg.fName}</option>	
-					                 </c:forEach>				                           	                       
-                                </select>
-                                </div>                              
-                            </div>
-                        </div>
-                    </div>                                      
-                     <div class="row-fluid row-margin">
-                        
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                               <label class="control-label">风格类型</label>
-                               <div class="col-sm-9">
-                                <select class="sel-in form-control" id="fStyleId2"  name="fStyleId" >   
-                                     <c:forEach items="${tStyles}" var="msg">
-					                 <option value="${msg.fId}">${msg.fName}</option>	
-					                 </c:forEach>				                           	                       
-                                </select>
-                                </div>                              
-                            </div>
-                        </div>
-                    </div>                                      
-                 
-                    
-                 <div class="row-fluid row-margin" style="margin-bottom:0;">
-                     <div class="col-sm-12">
-                        <div class="form-group">
-                         <label class="control-label">上传图片</label>
-                         <div class="file-box">
-                            <input type="text" class="txt" placeholder="图片路径,可多选"  id="picPath2" > 
- 
-                            <input type="file"   name="file" id="fileField2" class="file" multiple="multiple"   onchange="javascript:setImagePreviews();" accept="image/*" >
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>
-                        <div class="goodBigpic" id="dd2" style="overflow-y:auto">
-                       </div>
-                     </div>
-                  </div>
-            </div>
-      </div>
-      <div class="modal-footer">
-        <input type="button"  class="btn btn-blue" value="确认" onclick="submitData2()"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-  </div>
-</div>
- </form>
+	<form class="form-horizontal" action="" id="" name="form3" method="post" onsubmit="return submitForm()" enctype="multipart/form-data">
+		<input type="hidden" id="fDescribe2" name="describe">
+		<!--新增案例图片-->
+		<div class="modal fade" id="newadd-Modal">
+			<!-- 窗口声明 -->
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle1">新增效果图</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">序号</label>
+										<div class="col-sm-9">
+											<input type="number" name="no" value="9" placeholder="请输入图片序号" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">房间类型</label>
+										<div class="col-sm-9">
+											<select class="sel-in form-control" id="fRoomId2" name="fRoomId">
+												<option th:each="msg: ${tRoomTypes}" th:value="${msg.id}" th:text="${msg.name}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
 
-<form class="form-horizontal" action="" id="" name="form4" method="post" onsubmit="return submitForm()" enctype="multipart/form-data">
-<input type="hidden" id="fDescribe3" name="fDescribe">
-
-<!--编辑案例图片-->
-<div class="modal fade" id="newadd-Modal2" >
-  <!-- 窗口声明 -->
-  <div class="modal-dialog">
-    <!-- 内容声明 -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title" id="showTitle">编辑效果图</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-horizontal">
-                     <div class="row-fluid row-margin">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">序号</label>
-                                <div class="col-sm-9">
-                                <input type="number" id="fNo3" name="fNo" value="9" placeholder="请输入图片序号" class="form-control input-box"> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                               <label class="control-label">房间类型</label>
-                               <div class="col-sm-9">
-                                <select class="sel-in form-control" id="fRoomId3"  name="fRoomId" >   
-                                     <c:forEach items="${tRoomTypes}" var="msg">
-					                 <option value="${msg.fId}">${msg.fName}</option>	
-					                 </c:forEach>				                           	                       
-                                </select>
-                                </div>                                 
-                            </div>
-                        </div>
-                    </div>     
-                    <div class="row-fluid row-margin">
-                        
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                               <label class="control-label">风格类型</label>
-                               <div class="col-sm-9">
-                                <select class="sel-in form-control" id="fStyleId3"  name="fStyleId" >   
-                                     <c:forEach items="${tStyles}" var="msg">
-					                 <option value="${msg.fId}">${msg.fName}</option>	
-					                 </c:forEach>				                           	                       
-                                </select>
-                                </div>                              
-                            </div>
-                        </div>
-                    </div>                                      
-                                                   
-                 
-                 <div class="row-fluid row-margin" style="margin-bottom:0;">
-                     <div class="col-sm-12">
-                        <div class="form-group">
-                         <label class="control-label">上传图片</label>
-                         <div class="file-box">
-                            <input type="text" class="txt" placeholder="图片路径"  id="picPath3" > 
- 
-                            <input type="file"   name="file" id="fileField3" class="file"  onchange="previewImage3(this)">
-                            <input type="button" class="bttn" value="上传">    
-                          </div>
-                        </div>
-                        <div class="goodBigpic" id="dd3">
-                          <img src="" id="uploadPreview3" class="modal-img">
-                       </div>
-                     </div>
-                  </div>
-            </div>
-      </div>
-      <div class="modal-footer">
-      	 <input type="hidden" name="fId" id="fId3"/>
-      	 <input type="hidden" name="fProductId" id="fProductId3"/>
-      	 <input type="hidden" name="fStatus" id="fStatus3"/>
-      	 <input type="hidden" name="fRoomName" id="fRoomName3"/>
-      	 <input type="hidden" name="fPicture" id="fPicture3"/>
-      	 <input type="hidden" name="fPicture64" id="fPicture64"/>
-      	 <input type="hidden" name="fPicture3" id="fPicture4"/>
-        <input type="button"  class="btn btn-blue" value="确认" onclick="submitData2()"/>
-        <input type="button"  class="btn btn-gray" onclick="closeShow()" value="取消"/>
-      </div>
-    </div>
-  </div>
-</div>
- </form>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">风格类型</label>
+										<div class="col-sm-9">
+											<select class="sel-in form-control" id="fStyleId2" name="fStyleId">
+											<option th:each="msg: ${tStyles}" th:value="${msg.id}" th:text="${msg.name}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
 
 
-    <!-- 全局js -->
-    <script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+							<div class="row-fluid row-margin" style="margin-bottom: 0;">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label">上传图片</label>
+										<div class="file-box">
+											<input type="text" class="txt" placeholder="图片路径,可多选" id="picPath2">
 
-    <!-- 自定义js -->
-    <script src="/bgStyle/js/content.js?v=1.0.0"></script>
-    <script type="text/javascript">
+											<input type="file" name="file" id="fileField2" class="file" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*">
+											<input type="button" class="bttn" value="上传">
+										</div>
+									</div>
+									<div class="goodBigpic" id="dd2" style="overflow-y: auto"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-blue" value="确认" onclick="submitData2()" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
-      //分页/
-      $(function(){
-         $('.pagination ul li').click(function() {
-              $(this).addClass('active').siblings().removeClass('active');
-         });
-      });
-      
-   </script>
+	<form class="form-horizontal" action="" id="" name="form4" method="post" onsubmit="return submitForm()" enctype="multipart/form-data">
+		<input type="hidden" id="fDescribe3" name="describe">
 
- <script type="text/javascript">
-  
-  $('#btn').on('click', function () {
-    $('#newadd-Modal').modal('show');
-  });
-  $('#newadd-Modal').modal({
-    show:false,
-    keyboard :false,
-     });
+		<!--编辑案例图片-->
+		<div class="modal fade" id="newadd-Modal2">
+			<!-- 窗口声明 -->
+			<div class="modal-dialog">
+				<!-- 内容声明 -->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h4 class="modal-title" id="showTitle">编辑效果图</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-horizontal">
+							<div class="row-fluid row-margin">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">序号</label>
+										<div class="col-sm-9">
+											<input type="number" id="fNo3" name="no" value="9" placeholder="请输入图片序号" class="form-control input-box">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">房间类型</label>
+										<div class="col-sm-9">
+											<select class="sel-in form-control" id="fRoomId3" name="roomId">
+												<c:forEach items="${tRoomTypes}" var="msg">
+													<option th:each="msg : ${tRoomTypes}" th:text="${msg.name}" th:value="${msg.id}">${msg.fName}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid row-margin">
 
-</script>
-    
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label">风格类型</label>
+										<div class="col-sm-9">
+											<select class="sel-in form-control" id="fStyleId3" name="fStyleId">
+											<option th:each="msg : ${tStyles}" th:text="${msg.name}" th:value="${msg.id}">${msg.fName}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row-fluid row-margin" style="margin-bottom: 0;">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label">上传图片</label>
+										<div class="file-box">
+											<input type="text" class="txt" placeholder="图片路径" id="picPath3">
+
+											<input type="file" name="file" id="fileField3" class="file" onchange="previewImage3(this)">
+											<input type="button" class="bttn" value="上传">
+										</div>
+									</div>
+									<div class="goodBigpic" id="dd3">
+										<img src="" id="uploadPreview3" class="modal-img">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="id" id="fId3" />
+						<input type="hidden" name="productId" id="fProductId3" />
+						<input type="hidden" name="status" id="fStatus3" />
+						<input type="hidden" name="roomName" id="fRoomName3" />
+						<input type="hidden" name="picture" id="fPicture3" />
+						<input type="hidden" name="picture64" id="fPicture64" />
+						<input type="hidden" name="picture3" id="fPicture4" />
+						<input type="button" class="btn btn-blue" value="确认" onclick="submitData2()" />
+						<input type="button" class="btn btn-gray" onclick="closeShow()" value="取消" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	<!-- 全局js -->
+	<script src="/bgStyle/js/bootstrap.min.js?v=3.3.6"></script>
+
+	<!-- 自定义js -->
+	<script src="/bgStyle/js/content.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		//分页/
+		$(function() {
+			$('.pagination ul li').click(function() {
+				$(this).addClass('active').siblings().removeClass('active');
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		$('#btn').on('click', function() {
+			$('#newadd-Modal').modal('show');
+		});
+		$('#newadd-Modal').modal({
+			show : false,
+			keyboard : false,
+		});
+	</script>
+
 
 </body>
 
 </html>
-                                         

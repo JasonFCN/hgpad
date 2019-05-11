@@ -1,6 +1,9 @@
 package com.erp.hgpad.controller;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,8 +46,10 @@ import com.erp.hgpad.service.TRoomTypeService;
 import com.erp.hgpad.service.TStyleService;
 import com.erp.hgpad.util.CommonParam;
 import com.erp.hgpad.util.CommonUtil;
+import com.erp.hgpad.util.ImageUtil;
 import com.erp.hgpad.util.LoginInfo;
-import com.erp.hgpad.util.PageBean;
+
+import net.coobird.thumbnailator.Thumbnails;
 @Controller("TProductController")
 @RequestMapping("tProduct")
 public class TProductController {
@@ -53,6 +58,9 @@ public class TProductController {
     CommonParam commonParam=new CommonParam();
     @Value("${myConfig.basePath}")
     private String basepath;
+    @Value("${myConfig.picWidth3}")
+    private int picWidth3;
+    private static String pathImg="ProductImg";
 	@Resource(name="tProductService")
 	private TProductService tProductService;		
 	@Resource(name="tProductTypeService")
@@ -71,6 +79,7 @@ public class TProductController {
 	private TProductDetailService tProductDetailService;
 	@Resource(name="tProductDetailRoomService")
 	private TProductDetailRoomService tProductDetailRoomService;
+	
 	@RequestMapping(value="addview",method={RequestMethod.GET,RequestMethod.POST})
 	public String addview(HttpServletRequest request){
 		//商品大类
@@ -89,62 +98,25 @@ public class TProductController {
 	}	
 	@RequestMapping(value="add",method={RequestMethod.GET,RequestMethod.POST})
 	public String add(TProduct tProduct,@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response){	
-		try{
-				tProduct.setStatus(1);
-				TProductType tProductType=tProductTypeService.getById(tProduct.getProductTypeId());
-	        	tProduct.setProductTypeName(tProductType.getName());
-	        	tProduct.setMartistic(tProduct.getMartistic());
-	        	tProduct.setClickNum(0);
-	            tProduct.setShouCang(0);
-				//创建文件夹
-				Calendar calendar=Calendar.getInstance();
-				String pathImg="ProductImg";
-				String uploadImgs="uploadImgs";
-				int width= Integer.parseInt(commonParam.getString("picWidth3", "global"));
-				int iyear=calendar.get(Calendar.YEAR);
-				int imouth=calendar.get(Calendar.MONTH)+1;	
-				String Path = basepath + uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-			    System.out.println("图片路径："+Path);  
-			    String fileName = file.getOriginalFilename();
-			        if("".equals(fileName) || fileName==null )
-					{
-			            tProduct.setPicture("");	
-			            tProduct.setPicturepath("");
-					}
-					else {
-						String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-						String NewfileName =new Date().getTime()+".jpg"; 
-						String NewfileName2 =new Date().getTime()+"-01"+".jpg";
-					    System.out.println("文件名"+NewfileName);
-					    System.out.println("文件名"+NewfileName2);
-						    File targetFile = new File(Path,NewfileName);
-						    File targetFile2 = new File(Path,NewfileName2);
-					       //检查文件目录是否存在
-					        if(!targetFile.exists()){  
-					             targetFile.mkdirs();  
-					        }
-					        //保存  
-					        try {
-					        	file.transferTo(targetFile);
-					        	tProduct.setPicture(fileNameString+NewfileName);
-					        	commonUtil.resize(targetFile, targetFile2, width, 1f);
-					        	/*commonUtil.compressPhoto(Path+NewfileName,Path+NewfileName2,width);*/
-					        	tProduct.setPicturepath(fileNameString+NewfileName2);
-					        }catch (Exception e) {  
-					            e.printStackTrace(); 
-					            return "redirect:../tProduct/updateview.action?pageNum=1&fId="+tProduct.getId()+"";										   
-					        } 
-					}	
-			        
-			        tProductService.save(tProduct);	
-			        String[] fRoomIds = request.getParameterValues("fRoomId");
-			        String[] fStyleIds = request.getParameterValues("fStyleId");
-			        tProductService.editDate(fRoomIds, fStyleIds, tProduct.getId());
-		            return "redirect:../tProduct/updateview.action?pageNum=1&fId="+tProduct.getId()+"";										   
-		}catch (Exception e){
-			logger.error(e.getMessage());		
-			return "pc/bglogin";
-		}	
+		tProduct.setStatus(1);
+		TProductType tProductType=tProductTypeService.getById(tProduct.getProductTypeId());
+    	tProduct.setProductTypeName(tProductType.getName());
+    	tProduct.setMartistic(tProduct.getMartistic());
+    	tProduct.setClickNum(0);
+        tProduct.setShouCang(0);
+        
+        if(!file.isEmpty()){
+        	String fileName = file.getOriginalFilename();
+        	String path = ImageUtil.uploadImage(file, pathImg, true);
+        	tProduct.setPicture(path);
+        	tProduct.setPicturepath(path.replace(fileName, ImageUtil.appendSuffix(fileName, "-r")));
+		}
+		
+        tProductService.save(tProduct);	
+        String[] fRoomIds = request.getParameterValues("fRoomId");
+        String[] fStyleIds = request.getParameterValues("fStyleId");
+        tProductService.editDate(fRoomIds, fStyleIds, tProduct.getId());
+        return "redirect:/tProduct/updateview?pageNum=1&fId="+tProduct.getId()+"";		
 	}
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String showBrand( HttpServletRequest request,@RequestParam(defaultValue="1")int pageNum,TProduct product){
@@ -175,11 +147,10 @@ public class TProductController {
 				tProductService.deleteString(fId, request);
 				String strVectorFile =basepath+tProduct.getPicture();
 				String strVectorFile2 =basepath+tProduct.getPicturepath();
-			    CommonUtil commonUtil=new CommonUtil();
-			    commonUtil.deleteFile(strVectorFile);
-			    commonUtil.deleteFile(strVectorFile2);
+			    CommonUtil.deleteFile(strVectorFile);
+			    CommonUtil.deleteFile(strVectorFile2);
 			    tProductService.delete(tProduct.getId());			  			   
-			    return "redirect:../tProduct/list.action?pageNum="+pageNum+"";			
+			    return "redirect:/tProduct/list?pageNum="+pageNum+"";			
 		} catch (Exception e) {
 			
 			logger.error(e.getMessage());
@@ -199,112 +170,54 @@ public class TProductController {
 		        	tProduct.setMartistic(tProduct.getMartistic());
 //		        	TStyle tStyle=tStyleService.getById(tProduct.getfStyleId());
 //		        	tProduct.setfStyleName(tStyle.getfName());	
-					//创建文件夹
-					Calendar calendar=Calendar.getInstance();
-					String pathImg="ProductImg";
-					String uploadImgs="uploadImgs";
-					int width= Integer.parseInt(commonParam.getString("picWidth3", "global"));
-					int iyear=calendar.get(Calendar.YEAR);
-					int imouth=calendar.get(Calendar.MONTH)+1;	
-					String Path = basepath + uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-				    System.out.println("图片路径："+Path);  
-				    String fileName = file.getOriginalFilename();
-				        if("".equals(fileName) || fileName==null )
-						{	
-				        	String strVectorFile =basepath+tProduct.getPicture();
-				        	String strVectorFile2 =basepath+tProduct.getPicturepath();
-				        	CommonUtil commonUtil=new CommonUtil();
-							commonUtil.deleteFile(strVectorFile2);
-							String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-							String NewfileName2 =new Date().getTime()+"-01"+".jpg";
-							File targetFile = new File(strVectorFile);
-							File targetFile2 = new File(Path+NewfileName2);
-							if(!targetFile2.exists()){  
-						        	targetFile2.mkdirs();  
-						    }
-							try {
-							commonUtil.resize(targetFile, targetFile2, width, 1f);
-							/*commonUtil.compressPhoto(strVectorFile,Path+NewfileName2,width);	*/
-				        	tProduct.setPicturepath(fileNameString+NewfileName2);
-							}catch (Exception e) {  
-						         e.printStackTrace(); 
-						         return "redirect:../tProduct/list.action?pageNum="+pageNum+"";		
-						    }
-						}
-						else {
-							String strVectorFile =basepath+tProduct.getPicture();
-							String strVectorFile2 =basepath+tProduct.getPicturepath();
-						    CommonUtil commonUtil=new CommonUtil();
-						    commonUtil.deleteFile(strVectorFile);
-						    commonUtil.deleteFile(strVectorFile2);
-							String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-							String NewfileName =new Date().getTime()+".jpg";  
-							String NewfileName2 =new Date().getTime()+"-01"+".jpg"; 
-						    System.out.println("文件名"+NewfileName);
-						    System.out.println("文件名"+NewfileName2);
-							    File targetFile = new File(Path+NewfileName);
-							    File targetFile2 = new File(Path+NewfileName2);
-						       //检查文件目录是否存在
-						        if(!targetFile.exists()){  
-						             targetFile.mkdirs();  
-						        }
-						       
-						        //保存  
-						        try { 	
-						        	file.transferTo(targetFile);
-						        	tProduct.setPicture(fileNameString+NewfileName);
-						        	commonUtil.resize(targetFile, targetFile2, width, 1f);
-						        	/*commonUtil.compressPhoto(Path+NewfileName,Path+NewfileName2,width);*/	
-						        	tProduct.setPicturepath(fileNameString+NewfileName2);
-						        }catch (Exception e) {  
-						            e.printStackTrace(); 
-						            return "redirect:../tProduct/list.action?pageNum="+pageNum+"";		
-						        } 
-						}					
-			            tProductService.save(tProduct);		
-			            String[] fRoomIds = request.getParameterValues("fRoomId");
-				        String[] fStyleIds = request.getParameterValues("fStyleId");
-				        tProductService.editDate(fRoomIds, fStyleIds, tProduct.getId());
-				        return "redirect:../tProduct/list.action?pageNum="+pageNum+"";						
+					if(!file.isEmpty()) {
+						if(StringUtils.isNotEmpty(tProduct.getPicture())) CommonUtil.deleteFile(basepath+tProduct.getPicture());
+						if(StringUtils.isNotEmpty(tProduct.getPicturepath())) CommonUtil.deleteFile(basepath+tProduct.getPicturepath());
+						String fileName = file.getOriginalFilename();
+						String path = ImageUtil.uploadImage(file, pathImg, true);
+						tProduct.setPicture(path);
+						tProduct.setPicturepath(path.replace(fileName, ImageUtil.appendSuffix(fileName, "-r")));
+					}
+		            tProductService.save(tProduct);		
+		            String[] fRoomIds = request.getParameterValues("fRoomId");
+			        String[] fStyleIds = request.getParameterValues("fStyleId");
+			        tProductService.editDate(fRoomIds, fStyleIds, tProduct.getId());
+			        return "redirect:/tProduct/list?pageNum="+pageNum+"";						
 		}catch (Exception e) {
 			logger.error(e.getMessage());
-			return "redirect:../loginUI.action";		
+			return "redirect:/loginUI";		
 		}
 	}
 	
 	@RequestMapping(value="updateview",method={RequestMethod.GET,RequestMethod.POST})
 	public String updateview(String fId, HttpServletRequest request,int pageNum){
-		try {			
-			//商品大类
-			List<TProductType> tProductTypes = tProductTypeService.findAll(TProductType.class, " and fStatus=1 and fState=1", "ASC", "fNo");		
-			//空间类型
-			List<TRoomType> tRoomTypes = tRoomTypeService.findAll(TRoomType.class, " and fStatus=1 and fState=1", "ASC", "fNo");		
-			//装修风格
-			//空间类型
-			List<TProductRoom> tProductRooms = tProductRoomService.findAll(TProductRoom.class, " and fStatus=1 and fProductId='"+fId+"'", "ASC", "fNo");		
-			List<TProductStyle> tProductStyles = tProductStyleService.findAll(TProductStyle.class, " and fStatus=1 and fProductId='"+fId+"'", "ASC", "fNo");		
-			//装修风格
-			List<TStyle> tStyles = tStyleService.findAll(TStyle.class, " and fStatus=1", "ASC", "fNo");		
-			//颜色
-			List<TColor> tColors = tColorService.findAll(TColor.class, " and fStatus=1", "ASC", "fNo");	
-			List<TProductDetail> tProductDetails=tProductDetailService.findAll(TProductDetail.class," and fStatus=1 and fProductId='"+fId+"'", "ASC", "fNo");
-			List<TProductDetailRoom> tProductDetailRooms=tProductDetailRoomService.findAll(TProductDetailRoom.class," and fStatus=1 and fProductId='"+fId+"'", "ASC", "fNo");
-			
-			request.setAttribute("tProductDetails", tProductDetails);
-			request.setAttribute("tProductDetailRooms", tProductDetailRooms);
-			request.setAttribute("tProductRooms", tProductRooms);
-			request.setAttribute("tProductStyles", tProductStyles);
-			request.setAttribute("tProductTypes", tProductTypes);
-			request.setAttribute("tRoomTypes", tRoomTypes);
-			request.setAttribute("tStyles", tStyles);
-			request.setAttribute("tColors", tColors);
-			TProduct tProduct= tProductService.getById(fId);
-			request.setAttribute("tProduct", tProduct);
-			request.setAttribute("pageNum", pageNum);
-			return "pc/productUI/edit";	
-		} catch (Exception e){
-			return "pc/bglogin";
-		}
+		//商品大类
+		List<TProductType> tProductTypes = tProductTypeService.findByStatusAndStateOrderByNoAsc(1, 1);
+		//空间类型
+		List<TRoomType> tRoomTypes = tRoomTypeService.findByStatusAndStateOrderByNoAsc(1, 1);
+		//装修风格
+		//空间类型
+		List<TProductRoom> tProductRooms = tProductRoomService.findByStatusAndProductIdOrderByNoAsc(1,fId);
+		List<TProductStyle> tProductStyles = tProductStyleService.findByStatusAndProductIdOrderByNoAsc(1,fId);
+		//装修风格
+		List<TStyle> tStyles = tStyleService.findByStatusOrderByNoAsc(1);
+		//颜色
+		List<TColor> tColors = tColorService.findByStatusOrderByNoAsc(1);
+		List<TProductDetail> tProductDetails = tProductDetailService.findByProductIdAndStatusOrderByNoAsc(fId,1);
+		List<TProductDetailRoom> tProductDetailRooms = tProductDetailRoomService.findByProductIdAndStatusOrderByNoAsc(fId,1);
+		
+		request.setAttribute("tProductDetails", tProductDetails);
+		request.setAttribute("tProductDetailRooms", tProductDetailRooms);
+		request.setAttribute("tProductRooms", tProductRooms);
+		request.setAttribute("tProductStyles", tProductStyles);
+		request.setAttribute("tProductTypes", tProductTypes);
+		request.setAttribute("tRoomTypes", tRoomTypes);
+		request.setAttribute("tStyles", tStyles);
+		request.setAttribute("tColors", tColors);
+		TProduct tProduct= tProductService.getById(fId);
+		request.setAttribute("tProduct", tProduct);
+		request.setAttribute("pageNum", pageNum);
+		return "pc/productUI/edit";	
 	}
 	@RequestMapping(value = "checkCode", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody String   checkCode(HttpServletRequest request,String fCode,HttpServletResponse response) {
@@ -317,7 +230,6 @@ public class TProductController {
 				return "0";
 			}	
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error(e.getMessage());
 			return "-1";
 			
@@ -403,7 +315,7 @@ public class TProductController {
 				            else{
 					            logger.error("文件保存异常，保存明细类型");
 
-					            return "redirect:../tProduct/updateview.action?fId="+fId+"&pageNum="+pageNum+""; 	
+					            return "redirect:/tProduct/updateview?fId="+fId+"&pageNum="+pageNum+""; 	
 				            }
 				            
 				           
@@ -412,23 +324,23 @@ public class TProductController {
 				        }catch (Exception e) {  
 				            e.printStackTrace(); 
 				            logger.error("文件保存异常"+e.getMessage());
-				            return "redirect:../tProduct/updateview.action?fId="+fId+"&pageNum="+pageNum+""; 	
+				            return "redirect:/tProduct/updateview?fId="+fId+"&pageNum="+pageNum+""; 	
 				        } 
 				        
 		        	}
 		        	
 		        }					
 				logger.info("uploadPicture:"+"添加装修案例图片");
-				return "redirect:../tProduct/updateview.action?fId="+fId+"&pageNum="+pageNum+""; 			
+				return "redirect:/tProduct/updateview?fId="+fId+"&pageNum="+pageNum+""; 			
 		}
 		else{
 			logger.error("用户未登录");
 		
-            return "redirect:../login.action"; 	
+            return "redirect:../login"; 	
 		}
 	} catch(Exception e){
 		logger.error(e.getMessage());
-		return "redirect:../login.action"; 	
+		return "redirect:/login"; 	
 	}
 }
 	/**
@@ -464,11 +376,11 @@ public class TProductController {
 		            if(!file.isEmpty()){ 
 		            	
 		            	String strVectorFile =basepath+TProductDetail.getPicture();
-					    commonUtil.deleteFile(strVectorFile);
+		            	CommonUtil.deleteFile(strVectorFile);
 					    String strVectorFile2 =basepath+TProductDetail.getPicture64();
-					    commonUtil.deleteFile(strVectorFile2);
+					    CommonUtil.deleteFile(strVectorFile2);
 					    String strVectorFile3 =basepath+TProductDetail.getPicture3();
-					    commonUtil.deleteFile(strVectorFile3);
+					    CommonUtil.deleteFile(strVectorFile3);
 		        		String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
 						String NewfileName =new Date().getTime()+"-01"+".jpg";  
 						String NewfileName2 =new Date().getTime()+"-02"+".jpg";  		        		
@@ -497,7 +409,7 @@ public class TProductController {
 			            }
 			            else{
 				            logger.error("文件保存异常，更新明细类型");
-				            return "redirect:../tProduct/updateview.action?fId="+fId2+"&pageNum="+pageNum+""; 	
+				            return "redirect:/tProduct/updateview?fId="+fId2+"&pageNum="+pageNum+""; 	
 			            }
 		            }
 		            else{		 
@@ -512,7 +424,7 @@ public class TProductController {
 				            	if (TProductDetail.getPicture64()!=null&&!"".equals(TProductDetail.getPicture64())) {
 				            		strVectorFile2=basepath+TProductDetail.getPicture64();
 				            	    NewfileName2 =TProductDetail.getPicture64();
-				            	    commonUtil.deleteFile(strVectorFile2);
+				            	    CommonUtil.deleteFile(strVectorFile2);
 				            	}//压缩图1存在
 				            	else
 				            	{				           	
@@ -522,7 +434,7 @@ public class TProductController {
 				            	if (TProductDetail.getPicture3()!=null&&!"".equals(TProductDetail.getPicture3())) {
 				            		strVectorFile3=basepath+TProductDetail.getPicture3();
 				            		NewfileName3 =TProductDetail.getPicture3();
-				            	    commonUtil.deleteFile(strVectorFile3);
+				            		CommonUtil.deleteFile(strVectorFile3);
 
 				            	}//压缩图2存在
 				            	else
@@ -550,7 +462,7 @@ public class TProductController {
 				            }
 				            else{
 					            logger.error("文件保存异常，更新明细类型");
-					            return "redirect:../tProduct/updateview.action?fId="+fId2+"&pageNum="+pageNum+"";
+					            return "redirect:/tProduct/updateview?fId="+fId2+"&pageNum="+pageNum+"";
 				            }
 		            }
 				        //保存  
@@ -560,20 +472,20 @@ public class TProductController {
 				        }catch (Exception e){  
 				            e.printStackTrace(); 
 				            logger.error("文件保存异常"+e.getMessage());
-				            return "redirect:../tProduct/updateview.action?fId="+fId2+"&pageNum="+pageNum+"";
+				            return "redirect:/tProduct/updateview?fId="+fId2+"&pageNum="+pageNum+"";
 				        } 
 				       
 				logger.info("editPictureMany:"+"编辑装修案例图片");
-				return "redirect:../tProduct/updateview.action?fId="+fId2+"&pageNum="+pageNum+"";
+				return "redirect:/tProduct/updateview?fId="+fId2+"&pageNum="+pageNum+"";
 			
 			}
 			else{
 				logger.error("用户未登录");
-				return "redirect:../login.action";
+				return "redirect:/login";
 			}
 		} catch(Exception e){
 			logger.error(e.getMessage());
-			return "redirect:../login.action";
+			return "redirect:/login";
 	        
 		}
 	}

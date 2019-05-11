@@ -6,6 +6,8 @@
  */
 package com.erp.hgpad.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +38,16 @@ public class TProductRoomServiceImp implements TProductRoomService{
 	}
 	@Override
 	public TProductRoom getById(String id) {
-		return productRoomDao.getOne(id);
+		return productRoomDao.findById(id).get();
 	}
 	@Override
 	public void delete(String id) {
 		productRoomDao.deleteById(id);
+	}
+	@Override
+	public List<TProductRoom> findByStatusAndProductIdOrderByNoAsc(Integer status, String productId) {
+		// TODO Auto-generated method stub
+		return productRoomDao.findByStatusAndProductIdOrderByNoAsc(status,productId);
 	}
 	
 }

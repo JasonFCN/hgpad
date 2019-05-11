@@ -1,16 +1,24 @@
 package com.erp.hgpad.controller;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.erp.hgpad.entity.TRoomType;
 import com.erp.hgpad.service.TRoomTypeService;
 import com.erp.hgpad.util.CommonUtil;
+import com.erp.hgpad.util.ImageUtil;
 import com.erp.hgpad.util.LoginInfo;
-import com.erp.hgpad.util.PageBean;
 /**
  * 产品房间类型
  * .
@@ -38,122 +46,51 @@ public class TRoomTypeController {
 	private TRoomTypeService tRoomTypeService;
 	@Value("${myConfig.basePath}")
     private String basepath;
+	private static String pathImg="roomtypeImg";
 	Log logger = LogFactory.getLog( this .getClass());	
 	//菜单列表
 	@RequestMapping(value = "list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list(int pageNum ,HttpServletRequest request,String ptName,String fState) {
-		try {
-			StringBuffer sBuffer=new StringBuffer();
-			sBuffer.append(" 1=1");
-			if(!"".equals(ptName)&&ptName!=null){
-				sBuffer.append(" and fName like '%"+ptName+"%'");
-			}					
-			if (!"".equals(fState)&&fState!=null) {
-				if("3".equals(fState)){
-					
-				}
-				else{
-					sBuffer.append(" and  fState='"+fState+"'");
-
-				}
-			}
-			PageBean pageBeanList = new HqlHelper(TRoomType.class, "c")			
-			.addOrder("fNo", true)
-			.addCondition(true," fStatus=1")					
-			.addCondition(true,sBuffer.toString())					
-			.buildPageBeanForStruts2(pageNum,tRoomTypeService);
-			request.setAttribute("pageBeanList", pageBeanList);					
-			request.setAttribute("ptName", ptName);
-			request.setAttribute("fState", fState);			
-			logger.info("显示房间类型列表");
-			return "pc/RoomTypeUI/list";
-				
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error(e.getMessage());
-			return "pc/bglogin";
-		}
+	public String list(@RequestParam(defaultValue = "1")Integer pageNum ,HttpServletRequest request, TRoomType roomType) {
 		
+		roomType.setStatus(1);
+		Order order = new Order(Direction.ASC, "no");
+		Sort sort = Sort.by(order);
+		Page<TRoomType> page = tRoomTypeService.getRoomTypesPage(roomType,pageNum,13,sort);
+		request.setAttribute("page", page);					
+		request.setAttribute("roomType", roomType);
+		request.setAttribute("pageNum", pageNum);
+		logger.info("显示房间类型列表");
+		return "pc/RoomTypeUI/list";
 	}
 	
 	
 	@RequestMapping(value="saveData",method={RequestMethod.GET,RequestMethod.POST})
-	public String saveData(HttpServletResponse response,HttpServletRequest request,TRoomType TRoomType,@RequestParam(value = "file", required = false) MultipartFile file){	
+	public String saveData(HttpServletResponse response,HttpServletRequest request,TRoomType roomType,@RequestParam(value = "file", required = false) MultipartFile file){	
 		try{
-			TRoomType TRoomType2=new TRoomType();
-			Calendar calendar=Calendar.getInstance();
-			String pathImg="roomtypeImg";
-			String uploadImgs="uploadImgs";
-			int iyear=calendar.get(Calendar.YEAR);
-			int imouth=calendar.get(Calendar.MONTH)+1;			
-			System.out.println("开始上传...");  				
-		    //String path = request.getSession().getServletContext().getRealPath("upload"); 
-			//获取上传文件的路径
-			String Path = basepath + uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-		    System.out.println("图片路径："+Path);  		     
-		    String fileName = file.getOriginalFilename();
-		    if("".equals(fileName) || fileName==null )
-			{		        	
-		    	TRoomType2.setPicture("");
+			TRoomType roomType2=new TRoomType();
+			if(!file.isEmpty()) {
+				roomType2.setPicture(ImageUtil.uploadImage(file, pathImg, false));
 			}
-			else {
-				String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-				String NewfileName =new Date().getTime()+".jpg";  
-				System.out.println("文件名"+NewfileName);
-			    File targetFile = new File(Path,NewfileName);
-				//检查文件目录是否存在
-				if(!targetFile.exists()){  
-				      targetFile.mkdirs();  
-				}  
-				      TRoomType2.setPicture(fileNameString+NewfileName);
-			          file.transferTo(targetFile); 
-			}
-			
-			TRoomType2.setState(TRoomType.getState());
-			TRoomType2.setNo(TRoomType.getNo());
-			TRoomType2.setStatus(1);
-			TRoomType2.setName(TRoomType.getName());
-			tRoomTypeService.save(TRoomType2);
-			return "redirect:/tRoomType/list.action?pageNum=1";
+			roomType2.setState(roomType.getState());
+			roomType2.setNo(roomType.getNo());
+			roomType2.setStatus(1);
+			roomType2.setName(roomType.getName());
+			tRoomTypeService.save(roomType2);
+			return "redirect:/tRoomType/list";
 		} catch (Exception e){
 			return "pc/bglogin";
 		}	
 	}
 	@RequestMapping(value="update",method={RequestMethod.GET,RequestMethod.POST})
-	public String update(HttpServletResponse response,HttpServletRequest request,TRoomType TRoomType,@RequestParam(value = "file", required = false) MultipartFile file){
+	public String update(HttpServletResponse response,HttpServletRequest request,TRoomType roomType,@RequestParam(value = "file", required = false) MultipartFile file){
 		try {
-			Calendar calendar=Calendar.getInstance();
-			String pathImg="roomtypeImg";
-			String uploadImgs="uploadImgs";
-			int iyear=calendar.get(Calendar.YEAR);
-			int imouth=calendar.get(Calendar.MONTH)+1;			
-			System.out.println("开始上传...");  				
-		    //String path = request.getSession().getServletContext().getRealPath("upload"); 
-			//获取上传文件的路径
-			String Path = basepath + uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-		    System.out.println("图片路径："+Path);  		     
-		    String fileName = file.getOriginalFilename();
-		    if("".equals(fileName) || fileName==null )
-			{		        			    	
+			if(!file.isEmpty()){
+				if(StringUtils.isNotEmpty(roomType.getPicture())) CommonUtil.deleteFile(basepath+roomType.getPicture());
+				roomType.setPicture(ImageUtil.uploadImage(file, pathImg, false));
 			}
-			else {
-				String strVectorFile =basepath+TRoomType.getPicture();
-			    CommonUtil commonUtil=new CommonUtil();
-			    commonUtil.deleteFile(strVectorFile);
-				String fileNameString=uploadImgs+"/" + pathImg+"/"+iyear+"/"+imouth+"/";
-				String NewfileName =new Date().getTime()+".jpg";  
-				System.out.println("文件名"+NewfileName);
-			    File targetFile = new File(Path,NewfileName);
-				//检查文件目录是否存在
-				if(!targetFile.exists()){  
-				      targetFile.mkdirs();  
-				}  
-				      TRoomType.setPicture(fileNameString+NewfileName);
-			          file.transferTo(targetFile); 
-			}
-			TRoomType.setStatus(1);
-			tRoomTypeService.save(TRoomType);
-			return "redirect:/tRoomType/list.action?pageNum=1";	
+			roomType.setStatus(1);
+			tRoomTypeService.save(roomType);
+			return "redirect:/tRoomType/list";	
 		} catch (Exception e) {
 			return "pc/bglogin";
 		}
@@ -167,14 +104,13 @@ public class TRoomTypeController {
 			{
 			    TRoomType TRoomType=tRoomTypeService.getById(fId);
 			    String strVectorFile =basepath+TRoomType.getPicture();
-			    CommonUtil commonUtil=new CommonUtil();
-			    commonUtil.deleteFile(strVectorFile);
+			    CommonUtil.deleteFile(strVectorFile);
 				tRoomTypeService.delete(fId);				
 				return "1";
 			}
 			else{
 				logger.info("删除空间类型,未登录");
-				return "0";
+				return "redirect:/login";
 			}
 		
 		} catch (Exception e) {
