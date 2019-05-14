@@ -10,127 +10,124 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 /*
  * 产品效果图
  */
-//@Entity
+@Entity
+@Table(name = "VProductDetail")
 public class VProductDetail {
-	private String fId;
-	private int fStatus;// 是否有效1为有效0为删除
-	private int fNo;// 序号	
+	private String id;
+	private Integer status;// 是否有效1为有效0为删除
+	private Integer no;// 序号	
 	@Column(length=32)
-	private String fOrgId;//组织ID
+	private String orgId;//组织ID
 	@Column(length=32)
-	private String fProductId;//产品ID
+	private String productId;//产品ID
 	@Column(length=50)
-	private String fProductName;//产品名称
+	private String productName;//产品名称
 	@Column(length=32)
-	private String fProductCode;//产品型号
+	private String productCode;//产品型号
 	@Column(length=32)
-	private String  fRoomId ; //空间
+	private String  roomId ; //空间
 	@Column(length=32)
-	private String  fStyleId ; //风格Id
+	private String  styleId ; //风格Id
 	@Column(length=50)
-	private String  fStyleName ; //风格名称
+	private String  styleName ; //风格名称
 	@Column(length=32)
-	private String  fRoomName ; //空间名称
+	private String  roomName ; //空间名称
 	@Column(length=520)
-	private String   fDescribe; //	描述
+	private String   describe; //	描述
 	@Column(length=250)
-	private String   fPicture; //图片
-	private String   fPicture64; //图片
+	private String   picture; //图片
+	private String   picture64; //图片
+	
 	@Id
-	public String getfId(){
-		return fId;
+	public String getId() {
+		return id;
 	}
-	public void setfId(String fId) {
-		this.fId = fId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getfStatus() {
-		return fStatus;
+	public int getStatus() {
+		return status;
 	}
-	public void setfStatus(int fStatus) {
-		this.fStatus = fStatus;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-	public int getfNo() {
-		return fNo;
+	public int getNo() {
+		return no;
 	}
-	public void setfNo(int fNo) {
-		this.fNo = fNo;
+	public void setNo(int no) {
+		this.no = no;
 	}
-	public String getfRoomId() {
-		return fRoomId;
+	public String getOrgId() {
+		return orgId;
 	}
-	public void setfRoomId(String fRoomId) {
-		this.fRoomId = fRoomId;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
-	public String getfRoomName() {
-		return fRoomName;
+	public String getProductId() {
+		return productId;
 	}
-	public void setfRoomName(String fRoomName) {
-		this.fRoomName = fRoomName;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
-	public String getfDescribe() {
-		return fDescribe;
+	public String getProductName() {
+		return productName;
 	}
-	public void setfDescribe(String fDescribe) {
-		this.fDescribe = fDescribe;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
-	public String getfPicture() {
-		return fPicture;
+	public String getProductCode() {
+		return productCode;
 	}
-	public void setfPicture(String fPicture) {
-		this.fPicture = fPicture;
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
-	public String getfOrgId() {
-		return fOrgId;
+	public String getRoomId() {
+		return roomId;
 	}
-	public void setfOrgId(String fOrgId) {
-		this.fOrgId = fOrgId;
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
-	public String getfProductId() {
-		return fProductId;
+	public String getStyleId() {
+		return styleId;
 	}
-	public void setfProductId(String fProductId) {
-		this.fProductId = fProductId;
+	public void setStyleId(String styleId) {
+		this.styleId = styleId;
 	}
-	public String getfStyleId() {
-		return fStyleId;
+	public String getStyleName() {
+		return styleName;
 	}
-	public void setfStyleId(String fStyleId) {
-		this.fStyleId = fStyleId;
+	public void setStyleName(String styleName) {
+		this.styleName = styleName;
 	}
-	public String getfStyleName() {
-		return fStyleName;
+	public String getRoomName() {
+		return roomName;
 	}
-	public void setfStyleName(String fStyleName) {
-		this.fStyleName = fStyleName;
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
-	public String getfProductName() {
-		return fProductName;
+	public String getDescribe() {
+		return describe;
 	}
-	public void setfProductName(String fProductName) {
-		this.fProductName = fProductName;
+	public void setDescribe(String describe) {
+		this.describe = describe;
 	}
-	public String getfProductCode() {
-		return fProductCode;
+	public String getPicture() {
+		return picture;
 	}
-	public void setfProductCode(String fProductCode) {
-		this.fProductCode = fProductCode;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
-	public String getfPicture64() {
-		return fPicture64;
+	public String getPicture64() {
+		return picture64;
 	}
-	public void setfPicture64(String fPicture64) {
-		this.fPicture64 = fPicture64;
+	public void setPicture64(String picture64) {
+		this.picture64 = picture64;
 	}
-
-	
-	
-	
-	
-	
 }

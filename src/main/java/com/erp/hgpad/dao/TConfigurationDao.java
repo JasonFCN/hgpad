@@ -9,7 +9,7 @@ import com.erp.hgpad.entity.TConfiguration;
 
 public interface TConfigurationDao extends JpaRepository<TConfiguration, String>, JpaSpecificationExecutor<TConfiguration>{
 
-	List<TConfiguration> findByKeyNameAndStatus(String keyName, String fStatus);
+	List<TConfiguration> findByKeyNameAndStatus(String keyName, Integer fStatus);
 
 	List<TConfiguration> findByKeyName(String keyName);
 

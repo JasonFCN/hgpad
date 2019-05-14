@@ -3,14 +3,11 @@ package com.erp.hgpad.view;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 商品
+ * 
  * @author 10352
  *
  */
@@ -18,220 +15,218 @@ import org.hibernate.annotations.GenericGenerator;
 //@Entity
 public class VProduct {
 
-	private String  fId ; //由Public.getGuid()产生
-	private int  fStatus ; //1表示有效
-	private int  fState ; //是否显示
-	private int  fNo ; //顺序
-	private int  fClickNum; //点击量
-	private int  fShouCang ; //收藏量
-	  @Column(length=32)
-	private String  fProductTypeId ; //商品大类ID
-	  private String  fProductTypeName ; //商品大类ID
-	  private String  fProductTypeNo ; //商品大类ID
-	  @Column(length=32)
-	private String  fProductBrandId ; //商品品牌ID
-	  private String  fProductBrandName ; //商品品牌ID
-	  private String  fProductBrandNo ; //商品品牌ID
-	  @Column(length=32)
-	private String  fRoomId ; //空间
-	  @Column(length=32)
-	private String  fRoomName ; //空间
-	  @Column(length=32)
-	  private String  fStyleId ; //风格
-	  @Column(length=32)
-	  private String  fStyleName ; //风格
-	  @Column(length=32)
-	private String  fName ; //商品名称
-	  @Column(length=32)
-	private String  fCode ; //商品编码
-	  @Column(length=32)
-	private String  fUnit ; //商品单位（有一个表选择，但不记录ID，只记录值）
-	  @Column(length=32)
-	private String  fSpec ; //商品规格	  
-	private BigDecimal fPrice ; //单价(销售价格)
-	private BigDecimal fCost;//商品成本价格	
-	  @Column(length=32)
-	private String fModel;//商品型号
-	private BigDecimal fStock;//商品库存
-	private BigDecimal fSaled;//商品已售
-	  @Column(length=32)
-	private String fMaterial;//商品材质
-	  @Column(length=250)
-	private String fPicture;//商品图片	 
-	  @Column(length=250)
-	private String fNote;//商品备注	
+	private String id; // 由Public.getGuid()产生
+	private Integer status; // 1表示有效
+	private Integer state; // 是否显示
+	private Integer no; // 顺序
+	private Integer clickNum; // 点击量
+	private Integer shouCang; // 收藏量
+	@Column(length = 32)
+	private String productTypeId; // 商品大类ID
+	private String productTypeName; // 商品大类ID
+	private String productTypeNo; // 商品大类ID
+	@Column(length = 32)
+	private String productBrandId; // 商品品牌ID
+	private String productBrandName; // 商品品牌ID
+	private String productBrandNo; // 商品品牌ID
+	@Column(length = 32)
+	private String roomId; // 空间
+	@Column(length = 32)
+	private String roomName; // 空间
+	@Column(length = 32)
+	private String styleId; // 风格
+	@Column(length = 32)
+	private String styleName; // 风格
+	@Column(length = 32)
+	private String name; // 商品名称
+	@Column(length = 32)
+	private String code; // 商品编码
+	@Column(length = 32)
+	private String unit; // 商品单位（有一个表选择，但不记录ID，只记录值）
+	@Column(length = 32)
+	private String spec; // 商品规格
+	private BigDecimal price; // 单价(销售价格)
+	private BigDecimal cost;// 商品成本价格
+	@Column(length = 32)
+	private String model;// 商品型号
+	private BigDecimal stock;// 商品库存
+	private BigDecimal saled;// 商品已售
+	@Column(length = 32)
+	private String material;// 商品材质
+	@Column(length = 250)
+	private String picture;// 商品图片
+	@Column(length = 250)
+	private String note;// 商品备注
+	
 	@Id
-	public String getfId() {
-		return fId;
+	public String getId() {
+		return id;
 	}
-	public void setfId(String fId) {
-		this.fId = fId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getfStatus() {
-		return fStatus;
+	public Integer getStatus() {
+		return status;
 	}
-	public void setfStatus(int fStatus) {
-		this.fStatus = fStatus;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-	public int getfState() {
-		return fState;
+	public Integer getState() {
+		return state;
 	}
-	public void setfState(int fState) {
-		this.fState = fState;
+	public void setState(Integer state) {
+		this.state = state;
 	}
-	public int getfNo() {
-		return fNo;
+	public Integer getNo() {
+		return no;
 	}
-	public void setfNo(int fNo) {
-		this.fNo = fNo;
+	public void setNo(Integer no) {
+		this.no = no;
 	}
-	public int getfClickNum() {
-		return fClickNum;
+	public Integer getClickNum() {
+		return clickNum;
 	}
-	public void setfClickNum(int fClickNum) {
-		this.fClickNum = fClickNum;
+	public void setClickNum(Integer clickNum) {
+		this.clickNum = clickNum;
 	}
-	public int getfShouCang() {
-		return fShouCang;
+	public Integer getShouCang() {
+		return shouCang;
 	}
-	public void setfShouCang(int fShouCang) {
-		this.fShouCang = fShouCang;
+	public void setShouCang(Integer shouCang) {
+		this.shouCang = shouCang;
 	}
-	public String getfProductTypeId() {
-		return fProductTypeId;
+	public String getProductTypeId() {
+		return productTypeId;
 	}
-	public void setfProductTypeId(String fProductTypeId) {
-		this.fProductTypeId = fProductTypeId;
+	public void setProductTypeId(String productTypeId) {
+		this.productTypeId = productTypeId;
 	}
-	public String getfProductBrandId() {
-		return fProductBrandId;
+	public String getProductTypeName() {
+		return productTypeName;
 	}
-	public void setfProductBrandId(String fProductBrandId) {
-		this.fProductBrandId = fProductBrandId;
+	public void setProductTypeName(String productTypeName) {
+		this.productTypeName = productTypeName;
 	}
-	public String getfStyleId() {
-		return fStyleId;
+	public String getProductTypeNo() {
+		return productTypeNo;
 	}
-	public void setfStyleId(String fStyleId) {
-		this.fStyleId = fStyleId;
+	public void setProductTypeNo(String productTypeNo) {
+		this.productTypeNo = productTypeNo;
 	}
-	public String getfStyleName() {
-		return fStyleName;
+	public String getProductBrandId() {
+		return productBrandId;
 	}
-	public void setfStyleName(String fStyleName) {
-		this.fStyleName = fStyleName;
+	public void setProductBrandId(String productBrandId) {
+		this.productBrandId = productBrandId;
 	}
-	public String getfName() {
-		return fName;
+	public String getProductBrandName() {
+		return productBrandName;
 	}
-	public void setfName(String fName) {
-		this.fName = fName;
+	public void setProductBrandName(String productBrandName) {
+		this.productBrandName = productBrandName;
 	}
-	public String getfCode() {
-		return fCode;
+	public String getProductBrandNo() {
+		return productBrandNo;
 	}
-	public void setfCode(String fCode) {
-		this.fCode = fCode;
+	public void setProductBrandNo(String productBrandNo) {
+		this.productBrandNo = productBrandNo;
 	}
-	public String getfUnit() {
-		return fUnit;
+	public String getRoomId() {
+		return roomId;
 	}
-	public void setfUnit(String fUnit) {
-		this.fUnit = fUnit;
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
-	public String getfSpec() {
-		return fSpec;
+	public String getRoomName() {
+		return roomName;
 	}
-	public void setfSpec(String fSpec) {
-		this.fSpec = fSpec;
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
-	public BigDecimal getfPrice() {
-		return fPrice;
+	public String getStyleId() {
+		return styleId;
 	}
-	public void setfPrice(BigDecimal fPrice) {
-		this.fPrice = fPrice;
+	public void setStyleId(String styleId) {
+		this.styleId = styleId;
 	}
-	public BigDecimal getfCost() {
-		return fCost;
+	public String getStyleName() {
+		return styleName;
 	}
-	public void setfCost(BigDecimal fCost) {
-		this.fCost = fCost;
+	public void setStyleName(String styleName) {
+		this.styleName = styleName;
 	}
-	public String getfModel() {
-		return fModel;
+	public String getName() {
+		return name;
 	}
-	public void setfModel(String fModel) {
-		this.fModel = fModel;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public BigDecimal getfStock() {
-		return fStock;
+	public String getCode() {
+		return code;
 	}
-	public void setfStock(BigDecimal fStock) {
-		this.fStock = fStock;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public BigDecimal getfSaled() {
-		return fSaled;
+	public String getUnit() {
+		return unit;
 	}
-	public void setfSaled(BigDecimal fSaled) {
-		this.fSaled = fSaled;
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
-	public String getfMaterial() {
-		return fMaterial;
+	public String getSpec() {
+		return spec;
 	}
-	public void setfMaterial(String fMaterial) {
-		this.fMaterial = fMaterial;
+	public void setSpec(String spec) {
+		this.spec = spec;
 	}
-	public String getfPicture() {
-		return fPicture;
+	public BigDecimal getPrice() {
+		return price;
 	}
-	public void setfPicture(String fPicture) {
-		this.fPicture = fPicture;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
-	public String getfNote() {
-		return fNote;
+	public BigDecimal getCost() {
+		return cost;
 	}
-	public void setfNote(String fNote) {
-		this.fNote = fNote;
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
 	}
-	public String getfRoomId() {
-		return fRoomId;
+	public String getModel() {
+		return model;
 	}
-	public void setfRoomId(String fRoomId) {
-		this.fRoomId = fRoomId;
+	public void setModel(String model) {
+		this.model = model;
 	}
-	public String getfRoomName() {
-		return fRoomName;
+	public BigDecimal getStock() {
+		return stock;
 	}
-	public void setfRoomName(String fRoomName) {
-		this.fRoomName = fRoomName;
+	public void setStock(BigDecimal stock) {
+		this.stock = stock;
 	}
-	public String getfProductTypeName() {
-		return fProductTypeName;
+	public BigDecimal getSaled() {
+		return saled;
 	}
-	public void setfProductTypeName(String fProductTypeName) {
-		this.fProductTypeName = fProductTypeName;
+	public void setSaled(BigDecimal saled) {
+		this.saled = saled;
 	}
-	public String getfProductTypeNo() {
-		return fProductTypeNo;
+	public String getMaterial() {
+		return material;
 	}
-	public void setfProductTypeNo(String fProductTypeNo) {
-		this.fProductTypeNo = fProductTypeNo;
+	public void setMaterial(String material) {
+		this.material = material;
 	}
-	public String getfProductBrandName() {
-		return fProductBrandName;
+	public String getPicture() {
+		return picture;
 	}
-	public void setfProductBrandName(String fProductBrandName) {
-		this.fProductBrandName = fProductBrandName;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
-	public String getfProductBrandNo() {
-		return fProductBrandNo;
+	public String getNote() {
+		return note;
 	}
-	public void setfProductBrandNo(String fProductBrandNo) {
-		this.fProductBrandNo = fProductBrandNo;
+	public void setNote(String note) {
+		this.note = note;
 	}
-	
-	
-	
 	
 	
 }

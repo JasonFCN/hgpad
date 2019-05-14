@@ -1,201 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<title>产品列表</title>
+<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0, user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="/phone/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/phone/search-icon/iconfont.css">
+<link rel="stylesheet" type="text/css" href="/phone/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="/phone/css/phone.css">
+<script type="text/javascript" src="/phone/js/base.js"></script>
+<script type="text/javascript" src="/phone/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/phone/js/swiper.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/awebStyle/confirm/confirm.css">
+<script type="text/javascript" src="/awebStyle/confirm/confirm.js"></script>
+<style type="text/css">
+.swiper-lazy-preloader {
+	top: 150px;
+	width: 32px;
+	height: 32px;
+}
 
-    <meta charset="utf-8">
-        <title>产品列表</title>
-        <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0, user-scalable=0"/>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/phone/css/reset.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/phone/search-icon/iconfont.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/phone/css/swiper.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/phone/css/phone.css">        
-        <script type="text/javascript" src="${pageContext.request.contextPath}/phone/js/base.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/phone/js/jquery-1.10.2.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/phone/js/swiper.min.js"></script>
-          <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/confirm/confirm.css">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/confirm/confirm.js"></script>
-          <style type="text/css">
-            .swiper-lazy-preloader{
-                top:150px;
-                width: 32px;
-                height: 32px;
-            }
-            .swiper-pagination{
-              color:#fff;
-              font-size:10px;
-              }
-        </style>
-      
-		<script type="text/javascript">
-		window.onload = function() {
-    	    //添加图片
-    	    <c:forEach items="${tProducts}" var="msg"  varStatus="vs">
-    	    <c:if test="${vs.count==1}">
-    	    	$("#productId").val('${msg.fId}');
-    	    </c:if>
-    	    </c:forEach>
-		};	
-		function getDetail(){
-				var e=$("#productId").val();
-				$.ajax({  
-                	cache: false,
-			        type:"post",
-			        url : "../index/proDetail.action",
-			        dataType:"json", 
-			        data:{fProductId:e},// 你的formid
-	                async: true,
-			        success : function(msg){ 
-			        	if(msg!=""&&msg!=null){
-			        		//alert(msg);
-				        	$("#detailBox").html("");
-				        	var newhtml="";
-				        	$.each(msg, function(i,item) {				        		
-					        	newhtml+="<div class='swiper-slide'>";		    	    						        
-					        	newhtml+="<img data-src='${pageContext.request.contextPath}/"+item.fPicture3+"'class='det-pic swiper-lazy'>";
-					        	newhtml+=" <div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div>"
-					        	newhtml+="</div>";
-					        	$("#detailBox").html(newhtml);
-				        	})
-				        	/*
-				        	alert("开始加入cookie...");
-				        	var lsjl = getCookie();
-				        	var fIds = $("#productIds").val();
-				        	if(lsjl!=""){
-			     				  setCookie("lsjl",lsjl+","+fIds,7);
-			     			   }else{
-			     				  setCookie("lsjl",fIds,7);
-			     			   }
-				        	alert("加入cookie成功");
-				        	)*/
-				        	
-			        	}	
-			        	else{
-			        		 $.MsgBox.Alert("温馨提示", "没有效果图！");
-			        		 $('.mask-bg').fadeOut();
-			        	}
-			        	
-			        },
-			        error : function(){  
-			        	$.MsgBox.Alert("温馨提示", "稍后再试");
-			        }  
-				}); 
-			
-			}
-		function setCookie(c_name,value,expiredays){
-	     	var exdate=new Date()
-		     	exdate.setDate(exdate.getDate()+expiredays)
-		     	document.cookie=c_name+ "=" +escape(value)+
-		     	((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-	     }
-    	function getCookie(c_name){
-	     	if (document.cookie.length>0){ 
-	     		c_start=document.cookie.indexOf(c_name + "=")
-	     		if (c_start!=-1){ 
-	     			c_start=c_start + c_name.length+1 
-	     			c_end=document.cookie.indexOf(";",c_start)
-	     			if (c_end==-1) c_end=document.cookie.length
-	     			return unescape(document.cookie.substring(c_start,c_end))
-	     		}
-	     	}
-	     	return ""
-	     }
-		
-		</script>
-    </head>
-    <body>
-        <input type="hidden" value="" id="productId">
-        <input type="hidden" value="${fIdsStr }" id="productIds">
-    
-		<div class="main-box">
-			<div class="swiper-container swiper-pic">
-                <div class="swiper-wrapper">
-                    <c:forEach items="${tProducts}" var="msg" varStatus="index">
-                    <input type="hidden" value="${msg.fId}" id="product${index.count}">
-                    <div class="swiper-slide">
-                    	<div class="pic-box"><img src="${pageContext.request.contextPath}/${msg.fPicturepath}"></div>
-                    	<p class="name">${msg.fName}&nbsp;/&nbsp;${msg.fCode}</p>
-                    	<div class="canshu">
-                    	     <table>
-                    	     	<tr>
-                    	     		<td>品类：${msg.fName}</td>
-                    	     	</tr>
-                    	     	<tr>
-                    	     	    <td>颜色：${msg.fColor}</td>
-                    	     	</tr>
-                    	     	<tr>
-                    	     		<td>规格：${msg.fSpec} </td>
-                    	     	</tr>	
-                    	        <tr><td>工艺：${msg.fGongyi}</td></tr>
-                    	        <tr><td>销量：${msg.fSaled}</td></tr>
-                    	     </table>
-                    	</div>
-                    </div>
-		            </c:forEach>		           
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
+.swiper-pagination {
+	color: #fff;
+	font-size: 10px;
+}
+</style>
+
+<script type="text/javascript">
+	function getDetail() {
+		var e = $("#productId").val();
+		$
+				.ajax({
+					cache : false,
+					type : "post",
+					url : "/index/proDetail",
+					dataType : "json",
+					data : {
+						fProductId : e
+					},// 你的formid
+					async : true,
+					success : function(msg) {
+						if (msg != "" && msg != null) {
+							//alert(msg);
+							$("#detailBox").html("");
+							var newhtml = "";
+							$
+									.each(
+											msg,
+											function(i, item) {
+												newhtml += "<div class='swiper-slide'>";
+												newhtml += "<img data-src='/myImage/"+item.picture3+"'class='det-pic swiper-lazy'>";
+												newhtml += " <div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div>"
+												newhtml += "</div>";
+												$("#detailBox").html(newhtml);
+											})
+						} else {
+							$.MsgBox.Alert("温馨提示", "没有效果图！");
+							$('.mask-bg').fadeOut();
+						}
+					},
+					error : function() {
+						$.MsgBox.Alert("温馨提示", "稍后再试");
+					}
+				});
+
+	}
+</script>
+</head>
+<body>
+	<input type="hidden" id="productId" th:value="${tProducts[0].id}">
+	<input type="hidden" th:value="${fIdsStr }" id="productIds">
+	<div class="main-box">
+		<div class="swiper-container swiper-pic">
+			<div class="swiper-wrapper">
+				<th:block th:each="msg,msgStat:${tProducts}">
+					<input type="hidden" th:value="${msg.id}" th:id="|product${msgStat.count}|">
+					<div class="swiper-slide">
+						<div class="pic-box">
+							<img th:src="|/myImage/${msg.picturepath}|">
+						</div>
+						<p class="name" th:utext="|${msg.name}&nbsp;/&nbsp;${msg.code}|"></p>
+						<div class="canshu">
+							<table>
+								<tr>
+									<td th:text="|品类：${msg.name}|"></td>
+								</tr>
+								<tr>
+									<td th:text="|颜色：${msg.color}|"></td>
+								</tr>
+								<tr>
+									<td th:text="|规格：${msg.spec}|"></td>
+								</tr>
+								<tr>
+									<td th:text="|工艺：${msg.gongyi}|"></td>
+								</tr>
+								<tr>
+									<td th:text="|销量：${msg.saled}|"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</th:block>
+			</div>
+			<div class="swiper-pagination"></div>
 		</div>
-		<div class="footer">
-			<button class="foot-btn" onclick="getDetail()">查看效果图</button>
-		</div>
-<!--效果图弹框-->
-<div class="mask-bg">
-    <div class="close-bg"></div>
-    <!-- <div class="close"><img src="images/closepic.png"></div> -->
-	<div class="modal-body">
-		<div class="swiper-container modal-container ">
-            <div class="swiper-wrapper" id="detailBox">
-                
-            </div>
-             <div class="swiper-pagination"></div>
-        </div>
 	</div>
-</div>
-		    <!-- Initialize Swiper -->
-    <script>
-    var swiper = new Swiper('.swiper-pic', {
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        spaceBetween:10,
-        onSlideChangeEnd: function(swiper){
-       
-        	var num=swiper.activeIndex+1
-        	var fProId=$("#product"+num+"").val();
-        	$("#productId").val(fProId);
-    	}
-        
-    });
-    </script>
-     
-    <script>
-    //详情
-    var swiper = new Swiper('.modal-container', {
-        pagination: '.swiper-pagination',
-        paginationType : 'fraction',
-        paginationClickable: true,
-        paginationClickable: true,
-        //autoHeight: true, //高度随内容变化
-        spaceBetween:10,
-        observer:true,
-        observeParents:true,
-        preloadImages: false,
-        // Enable lazy loading
-        lazyLoading: true
-        
-    });
-    $(function(){
-    	$('.mask-bg').hide();
-    	$('.foot-btn').click(function(){
-    		$('.mask-bg').fadeIn();
-    	});
-    	$('.close').click(function(){
-    		$('.mask-bg').fadeOut();
-    	});
-    	$('.mask-bg').click(function(){
-    		$('.mask-bg').fadeOut();
-    	})
-    })
-   
-    </script>
-    </body>
+	<div class="footer">
+		<button class="foot-btn" onclick="getDetail()">查看效果图</button>
+	</div>
+	<!--效果图弹框-->
+	<div class="mask-bg">
+		<div class="close-bg"></div>
+		<!-- <div class="close"><img src="images/closepic.png"></div> -->
+		<div class="modal-body">
+			<div class="swiper-container modal-container ">
+				<div class="swiper-wrapper" id="detailBox"></div>
+				<div class="swiper-pagination"></div>
+			</div>
+		</div>
+	</div>
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.swiper-pic', {
+			pagination : '.swiper-pagination',
+			paginationClickable : true,
+			spaceBetween : 10,
+			onSlideChangeEnd : function(swiper) {
+
+				var num = swiper.activeIndex + 1
+				var fProId = $("#product" + num + "").val();
+				$("#productId").val(fProId);
+			}
+
+		});
+	</script>
+
+	<script>
+		//详情
+		var swiper = new Swiper('.modal-container', {
+			pagination : '.swiper-pagination',
+			paginationType : 'fraction',
+			paginationClickable : true,
+			paginationClickable : true,
+			//autoHeight: true, //高度随内容变化
+			spaceBetween : 10,
+			observer : true,
+			observeParents : true,
+			preloadImages : false,
+			// Enable lazy loading
+			lazyLoading : true
+
+		});
+		$(function() {
+			$('.mask-bg').hide();
+			$('.foot-btn').click(function() {
+				$('.mask-bg').fadeIn();
+			});
+			$('.close').click(function() {
+				$('.mask-bg').fadeOut();
+			});
+			$('.mask-bg').click(function() {
+				$('.mask-bg').fadeOut();
+			})
+		})
+	</script>
+</body>
 </html>

@@ -24,6 +24,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,7 @@ import com.erp.hgpad.service.TProductService;
 import com.erp.hgpad.service.TProductStyleService;
 import com.erp.hgpad.service.TRoomTypeService;
 import com.erp.hgpad.util.CommonUtil;
+import com.erp.hgpad.utilBean.SearchProductVo;
 
 /**
  * .
@@ -99,7 +102,6 @@ public class TProductServiceImp implements TProductService{
 
 	@Override
 	public String deleteString(String fId, HttpServletRequest request) {
-		
 		List<TProductDetailRoom> tProductDetailRooms=tProductDetailRoomService.findByProductId(fId);
 		int size1=tProductDetailRooms.size();
 		if (size1>0) {
@@ -116,7 +118,6 @@ public class TProductServiceImp implements TProductService{
 
 			}
 		}
-		tProductDetailRoomService.delete(fId);
 		return null;
 	}
 
@@ -137,19 +138,13 @@ public class TProductServiceImp implements TProductService{
 
 	@Override
 	public List<TProduct> getLsjlPro(String lsjl) {
-		List<String> asList = Arrays.asList(lsjl);
-		List<TProduct> products = tProductDao.findAllById(asList);
-		for (int i = 0; i < products.size(); i++) {
-			TProduct product = products.get(i);
-			product.setLsNo(i);
+		List<String> asList = Arrays.asList(lsjl.split("\\-"));
+		List<TProduct> products = new ArrayList<TProduct>();
+		for (int i = 0; i < asList.size(); i++) {
+			TProduct product = this.getById(asList.get(i));
+			products.add(product);
 		}
 		return products;
-	}
-	public static void main(String[] args) {
-		String aString = "";
-		List<String> asList = Arrays.asList(aString);
-		System.out.println(asList);
-		
 	}
 
 	@Override
@@ -208,5 +203,30 @@ public class TProductServiceImp implements TProductService{
 		String[] isStrings = {"1","2"};
 		tProductDao.findByColorIn(isStrings);
 		return tProductDao.findByStatusAndCodeOrderByNoAsc(i,fCode);
+	}
+
+	@Override
+	public List<TProduct> search(SearchProductVo search) {
+		if(search==null) {
+			search = new SearchProductVo();
+		}
+		return tProductDao.search(search.getProductPrice1(),search.getProductPrice2(),search.getProductcolors(),search.getProductTypeNames(),search.getProductRoomIds(),search.getProductStyleIds());
+	}
+
+	@Override
+	public List<TProduct> getByIds(List<String> ids) {
+		return tProductDao.findAllById(ids);
+	}
+
+	@Override
+	public List<TProduct> containingList(String value) {
+		return tProductDao.containingList(value);
+	}
+
+	@Override
+	public List<TProduct> getProductsTop16WithSaled() {
+		Order order = new Order(Direction.DESC, "saled");
+		Sort sort = Sort.by(order);
+		return tProductDao.findTop16ByStatusAndState(1,1,sort);
 	}
 }

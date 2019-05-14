@@ -18,10 +18,10 @@ public class HelloController {
 	TColorDao colorDao;
 	
 	@Autowired
-	TProductDao productDao;
+	TProductDao tProductDao;
 	@RequestMapping("/hello")
 	public String hello(String[] name){
-		List<TProduct> products = productDao.findByColorIn(name);
+		List<TProduct> products = tProductDao.findByColorIn(name);
 		System.out.println(ArrayUtils.toString(products));
 		return "hello";
 	}

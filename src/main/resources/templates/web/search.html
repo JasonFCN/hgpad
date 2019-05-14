@@ -1,388 +1,414 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no" />
+<title>搜索条件</title>
+<link href="/awebStyle/dependencies/css/bootstrap.min.css" rel="stylesheet">
+<link href="/awebStyle/dependencies/css/bootstrap-slider.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/iconfont/iconfont.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/search-icon/iconfont.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/oneicon/iconfont.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/search.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/head-foot.css">
+<script type="text/javascript" src="/awebStyle/js/jquery-1.10.2.min.js"></script>
+<script type='text/javascript' src="/awebStyle/dependencies/js/modernizr.js"></script>
+<script type='text/javascript' src="/awebStyle/dependencies/js/jquery.min.js"></script>
+<script type='text/javascript' src="/awebStyle/dependencies/js/bootstrap-slider.js"></script>
+<link rel="stylesheet" type="text/css" href="/awebStyle/confirm/confirm.css">
+<script type="text/javascript" src="/awebStyle/confirm/confirm.js"></script>
+<script type='text/javascript'>
+	$(document).ready(
+			function() {
+				var key = $("#key").val();
 
-    <meta charset="utf-8">
-    <meta name="format-detection" content="telephone=no" />
-        <title>搜索条件</title>
-        <link href="${pageContext.request.contextPath}/awebStyle/dependencies/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/awebStyle/dependencies/css/bootstrap-slider.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/iconfont/iconfont.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/search-icon/iconfont.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/oneicon/iconfont.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/search.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/head-foot.css">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jquery-1.10.2.min.js"></script>
-        <script type='text/javascript' src="${pageContext.request.contextPath}/awebStyle/dependencies/js/modernizr.js"></script>
-        <script type='text/javascript' src="${pageContext.request.contextPath}/awebStyle/dependencies/js/jquery.min.js"></script>
-	    <script type='text/javascript' src="${pageContext.request.contextPath}/awebStyle/dependencies/js/bootstrap-slider.js"></script>
-	         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/confirm/confirm.css">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/confirm/confirm.js"></script>
-	    <script type='text/javascript'>
-		$(document).ready(function() {
-    		<c:if test="${key==1}" >
-	    		$("#zxlzxl1").css({'left':'0px','top':'42px'});
-	    		$("#zxlzxl2").css({'left':'0px','top':'146px'});
-	    		$("#zxlzxl3").css({'left':'0px','top':'250px'});
-	    		$("#zxlzxl4").css({'left':'0px','top':'354px'});
-	    		$("#zxlzxl5").css({'left':'0px','top':'458px'});   		
-    		</c:if>
-    		<c:if test="${key==2}" >
-	    		$("#zxlzxl1").css({'left':'0px','top':'146px'});
-	    		$("#zxlzxl2").css({'left':'0px','top':'42px'});
-	    		$("#zxlzxl3").css({'left':'0px','top':'250px'});
-	    		$("#zxlzxl4").css({'left':'0px','top':'354px'});
-	    		$("#zxlzxl5").css({'left':'0px','top':'458px'});   		
-    		</c:if>
-    		<c:if test="${key==3}" >
-	    		$("#zxlzxl1").css({'left':'0px','top':'146px'});
-	    		$("#zxlzxl2").css({'left':'0px','top':'250px'});
-	    		$("#zxlzxl3").css({'left':'0px','top':'42px'});
-	    		$("#zxlzxl4").css({'left':'0px','top':'354px'});
-	    		$("#zxlzxl5").css({'left':'0px','top':'458px'});   		
-    		</c:if>
-    		<c:if test="${key==4}" >
-	    		$("#zxlzxl1").css({'left':'0px','top':'146px'});
-	    		$("#zxlzxl2").css({'left':'0px','top':'250px'});
-	    		$("#zxlzxl3").css({'left':'0px','top':'354px'});
-	    		$("#zxlzxl4").css({'left':'0px','top':'42px'});
-	    		$("#zxlzxl5").css({'left':'0px','top':'458px'});   		
-    		</c:if>
-    		<c:if test="${key==5}" >
-	    		$("#zxlzxl1").css({'left':'0px','top':'146px'});
-	    		$("#zxlzxl2").css({'left':'0px','top':'250px'});
-	    		$("#zxlzxl3").css({'left':'0px','top':'354px'});
-	    		$("#zxlzxl4").css({'left':'0px','top':'458px'});
-	    		$("#zxlzxl5").css({'left':'0px','top':'42px'});   		
-    		</c:if>
-    	
-			
-			/* Example 12 */
-			$("#ex12c").slider({
-				id: "slider12c",
-				min: 0,
-				max: 5000,
-				range: true,
-				tooltip: 'always',
-				value: [ 0, 5000 ]
+				if (key == 1) {
+					$("#zxlzxl1").css({
+						'left' : '0px',
+						'top' : '42px'
+					});
+					$("#zxlzxl2").css({
+						'left' : '0px',
+						'top' : '146px'
+					});
+					$("#zxlzxl3").css({
+						'left' : '0px',
+						'top' : '250px'
+					});
+					$("#zxlzxl4").css({
+						'left' : '0px',
+						'top' : '354px'
+					});
+					$("#zxlzxl5").css({
+						'left' : '0px',
+						'top' : '458px'
+					});
+				} else if (key == 2) {
+					$("#zxlzxl1").css({
+						'left' : '0px',
+						'top' : '146px'
+					});
+					$("#zxlzxl2").css({
+						'left' : '0px',
+						'top' : '42px'
+					});
+					$("#zxlzxl3").css({
+						'left' : '0px',
+						'top' : '250px'
+					});
+					$("#zxlzxl4").css({
+						'left' : '0px',
+						'top' : '354px'
+					});
+					$("#zxlzxl5").css({
+						'left' : '0px',
+						'top' : '458px'
+					});
+				} else if (key == 3) {
+					$("#zxlzxl1").css({
+						'left' : '0px',
+						'top' : '146px'
+					});
+					$("#zxlzxl2").css({
+						'left' : '0px',
+						'top' : '250px'
+					});
+					$("#zxlzxl3").css({
+						'left' : '0px',
+						'top' : '42px'
+					});
+					$("#zxlzxl4").css({
+						'left' : '0px',
+						'top' : '354px'
+					});
+					$("#zxlzxl5").css({
+						'left' : '0px',
+						'top' : '458px'
+					});
+				}
+				if (key == 4) {
+					$("#zxlzxl1").css({
+						'left' : '0px',
+						'top' : '146px'
+					});
+					$("#zxlzxl2").css({
+						'left' : '0px',
+						'top' : '250px'
+					});
+					$("#zxlzxl3").css({
+						'left' : '0px',
+						'top' : '354px'
+					});
+					$("#zxlzxl4").css({
+						'left' : '0px',
+						'top' : '42px'
+					});
+					$("#zxlzxl5").css({
+						'left' : '0px',
+						'top' : '458px'
+					});
+				} else if (key == 5) {
+					$("#zxlzxl1").css({
+						'left' : '0px',
+						'top' : '146px'
+					});
+					$("#zxlzxl2").css({
+						'left' : '0px',
+						'top' : '250px'
+					});
+					$("#zxlzxl3").css({
+						'left' : '0px',
+						'top' : '354px'
+					});
+					$("#zxlzxl4").css({
+						'left' : '0px',
+						'top' : '458px'
+					});
+					$("#zxlzxl5").css({
+						'left' : '0px',
+						'top' : '42px'
+					});
+				}
+				/* Example 12 */
+				$("#ex12c").slider({
+					id : "slider12c",
+					min : 0,
+					max : 5000,
+					range : true,
+					tooltip : 'always',
+					value : [ 0, 5000 ]
 				});
-            //取值
-            //
-             //alert( $(".tooltip.in .tooltip-inner").text());   
-              $(".custom").text("自定义");           
-              $.ajax({  
-              	cache: false,
-			        type:"post",
-			        url : "../index/getProduct.action",
-			        dataType:"json", 
-			        data:$('#form1').serialize(),// 你的formid
-	                async: true,
-			        success : function(msg){  
-			        	$("#selecttext").text(msg.state);
-			        	if(msg.state==0){
-			        		$(".g_btn_s").addClass('disabled');
-			        		$(".g_btn_s").attr("disabled", true);
-			        		$(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
-			        	}else{
-			        		$(".g_btn_s").removeClass('disabled');
-			        		$(".g_btn_s").attr("disabled", false);
-			        		$(".g_btn_s").html('共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'+msg.state+'</label>款地板符合条件');
-			        	}
-			        	$("#stringbuffer").val(msg.message);			        	
-			        },
-			        error : function(){  
-			        	$.MsgBox.Alert("温馨提示", "稍后再试");
-			        }  
-			}); 
+				//取值
+				//
+				//alert( $(".tooltip.in .tooltip-inner").text());   
+				$(".custom").text("自定义");
+				$.ajax({
+					cache : false,
+					type : "post",
+					url : "/index/getProduct",
+					data : $('#form1').serialize(),// 你的formid
+					async : true,
+					success : function(msg) {
+						$("#selecttext").text(msg.length);
+						if (msg.length == 0) {
+							$(".g_btn_s").addClass('disabled');
+							$(".g_btn_s").attr("disabled", true);
+							$(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
+						} else {
+							$(".g_btn_s").removeClass('disabled');
+							$(".g_btn_s").attr("disabled", false);
+							$(".g_btn_s").html(
+									'共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'
+											+ msg.length + '</label>款地板符合条件');
+						}
+					},
+					error : function() {
+						$.MsgBox.Alert("温馨提示", "稍后再试");
+					}
+				});
+			});
+	$(function() {
+		$(".price-ul li:not('.custom')").click(function() {
+			$(".custom").text("自定义").removeClass('active');
+			$(".number-box").removeClass('active');
+			$("#nowPrice").val("");
 		});
 
-		$(function(){
-			
-			$(".price-ul li:not('.custom')").click(function() {
-				
-				 $(".custom").text("自定义").removeClass('active');
-				 $(".number-box").removeClass('active');
-				 $("#nowPrice").val("");
-				
-			});
-	
-			
-			
-			//自定义
-			$(".custom").click(function() {
-				
-				$(this).toggleClass('active');
-				if($(".custom").hasClass('active')){
-					//$(".custom").text();  
-				  $(".number-box").addClass('active');
-				  $("input:radio[name='fPrice']").attr("checked",false);
-				  $(".price-ul li:not('.custom')").removeClass('active');	
-				}else{
-					$(".custom").text("自定义"); 
-					$(".number-box").removeClass('active');						
-				}
-				getProduct();
-			});
-			
-		})
-		function getCookie(c_name){
-		     	if (document.cookie.length>0){ 
-		     		c_start=document.cookie.indexOf(c_name + "=")
-		     		if (c_start!=-1){ 
-		     			c_start=c_start + c_name.length+1 
-		     			c_end=document.cookie.indexOf(";",c_start)
-		     			if (c_end==-1) c_end=document.cookie.length
-		     			return unescape(document.cookie.substring(c_start,c_end))
-		     		} 
-		     	}
-		     	return ""
-		     }
-		function goList(){
-			var selecttext=$("#selecttext").text();
-			var gcookie = getCookie("lsjl");
-			if(gcookie != "" && gcookie != null){
-			}else{
-				 gcookie = "";
+		//自定义
+		$(".custom").click(function() {
+			$(this).toggleClass('active');
+			if ($(".custom").hasClass('active')) {
+				//$(".custom").text();  
+				$(".number-box").addClass('active');
+				$("input:radio[name='productPriceBetween']").eq(0).attr("checked", false);
+				$("input:radio[name='productPriceBetween']").eq(1).attr("checked", true);
+				$(".price-ul li:not('.custom')").removeClass('active');
+			} else {
+				$(".custom").text("自定义");
+				$(".number-box").removeClass('active');
 			}
-			if(selecttext==0){
-				 $.MsgBox.Alert("温馨提示", "未找到符合条件的地板！");
-	             return false;
-			}
-			else{
-				  var stringbuffer=$("#stringbuffer").val();
-				  stringbuffer=encodeURI(encodeURI(stringbuffer));
-				  window.location.href="${pageContext.request.contextPath}/index/list.action?stringbuffer="+stringbuffer+"&lsjl="+gcookie+"";	
-			}
-		}
-		function reloadPage(){
-	        window.location.href="../index/search.action?key=${key}";
-			
-		}  
-		function getProduct(){	
-			var nowPrice=$("#nowPrice").val();
-			if(nowPrice!=""&&nowPrice!=null){
-				$.ajax({  
-                	cache: false,
-			        type:"post",
-			        url : "../index/getProduct.action?fPrice="+nowPrice+"",
-			        dataType:"json", 
-			        data:$('#form1').serialize(),// 你的formid
-	                async: true,
-			        success : function(msg){  
-						if(msg.state==0){
-			        	   $(".g_btn_s").addClass('disabled');
-			        	   $(".g_btn_s").attr("disabled", true);
-			        	   $(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
-			        	}else{
-			        		$(".g_btn_s").removeClass('disabled');
-			        		$(".g_btn_s").attr("disabled", false);
-			        		$(".g_btn_s").html('共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'+msg.state+'</label>款地板符合条件');
-			        	
-			        	}
-			        	$("#selecttext").text(msg.state);
-			        	$("#stringbuffer").val(msg.message);
-			        },
-			        error : function(){  
-			        	$.MsgBox.Alert("温馨提示", "稍后再试");
-			        }  
-			}); 
-			}
-			else{
-				$.ajax({  
-                	cache: false,
-			        type:"post",
-			        url : "../index/getProduct.action",
-			        dataType:"json", 
-			        data:$('#form1').serialize(),// 你的formid
-	                async: true,
-			        success : function(msg){  
-						if(msg.state==0){
-			        		$(".g_btn_s").addClass('disabled');
-			        		$(".g_btn_s").attr("disabled", true);
-			        		$(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
-
-			        	}else{
-			        		$(".g_btn_s").removeClass('disabled');
-			        		$(".g_btn_s").attr("disabled", false);
-			        		$(".g_btn_s").html('共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'+msg.state+'</label>款地板符合条件');
-			        	}
-			        	$("#selecttext").text(msg.state);
-			        	$("#stringbuffer").val(msg.message);
-			        },
-			        error : function(){  
-			        	$.MsgBox.Alert("温馨提示", "稍后再试");
-			        }  
-			}); 
-			}			
-		}
-		function getPrice(e){
-			var nowPrice= $(e).val();			
-			$("#nowPrice").val(nowPrice);
 			getProduct();
-		}
-		function goIndex(){
-			window.location.href="../index/index.action";
-		}
-	    </script>
-    </head>
-    <body>
-         <input type="hidden" id="stringbuffer" >
-    	  <div class="content-box fadeInLeftBig animated">
-		        <div class="top-header">
-		    		<div class="left-back" onclick="goIndex()"><i class="icon iconfont icon-close"></i></div>
-		    		<div class="con-text">搜索条件</div>
-		    		<div class="right-txt" onclick="reloadPage()"><i class="icon iconfont icon-zhongzhi"></i>重置</div>
-		    	</div>
-		    	<form  id="form1" name="form1" method="post">		    	
-		    	<div class="ul-box fadeIn animated" style="animation-delay:1s;">
-		    		<div class="list-c" id="zxlzxl1" style="position:absolute;">
-		    			<c:forEach items="${tMenus}" var="msg" varStatus="index">
-			             <c:if test="${msg.fCode==01}">
-			             <div class="left-icon">
-			                <div class="i-pic pic-c"><img  style="width:40px;height:40px"  src="${pageContext.request.contextPath}/${msg.fIcon2}"></div>
-			               <p class="b-txt" style="line-height: 70px;">${msg.fName}</p>
-			             </div>
-			             </c:if>
-		    			 </c:forEach>
-		    			<div class="right-list">
-		    				<div class="right-num">
-		    				    <ul class="ul-btn color-btn">
-		    				    	<c:forEach items="${tColors}" var ="msg">
-			    					<li class=""  style="background-image:url(${pageContext.request.contextPath}/${msg.fPicture}) !important;">
-			    					
-			    						<label>
-										   <input name="tColor" onchange="getProduct()" type="checkbox" value="${msg.fName}">
-										   <span class="lbl">${msg.fName}</span>
-									    </label>
-			    					</li>
-			    					</c:forEach>
-			    					
-		    				    </ul>	
-		    				</div>
-		    			</div>
-		    		</div>
-		    		<div class="list-p" id="zxlzxl2" style="position:absolute;">
-		    			<c:forEach items="${tMenus}" var="msg" varStatus="index">
-			             <c:if test="${msg.fCode==02}">
-			             <div class="left-icon">
-			               <div class="i-pic pic-c"><img  style="width:40px;height:40px"  src="${pageContext.request.contextPath}/${msg.fIcon2}"></div>
-			               <p class="b-txt"style="line-height: 70px;">${msg.fName}</p>
-			             </div>
-			             </c:if>
-		    			 </c:forEach>
-		    			<div class="right-list">
-		    				<div class="right-num">
-		    					<input name="" id="nowPrice" type="hidden"/>
-		    				    <ul class="ul-btn price-ul" style="margin-top:12px;">
-			    					
-			    					<c:forEach items="${tPrices}" var ="msg">
-			    					<li>
-			    						<label>
-										   <input name="fPrice"  onchange="getProduct()" value="${msg.fDown},${msg.fUp}" type="radio">
-										   <span class="lbl">${msg.fDown}-${msg.fUp} 元</span>
-									     </label>
-			    					</li>
-			    					</c:forEach>
-			    					<li class="custom" >
-			    					    <label>
-										   <span class="lbl custom">自定义</span>
-									    </label>
-									</li>
-		    				    </ul>
-		    					<div class="number-box" id="slider12c" >      
-							      <input id="ex12c" name="" onchange="getPrice(this)"  type="radio"/>
-							    </div>
-		    				</div>
-		    				
-		    			</div>
-		    		</div>
-		    		<div class="list-l" id="zxlzxl3" style="position:absolute;"> 
-		    			<c:forEach items="${tMenus}" var="msg" varStatus="index">
-			             <c:if test="${msg.fCode==03}">
-			             <div class="left-icon">
-			                <div class="i-pic pic-c"><img  style="width:40px;height:40px"  src="${pageContext.request.contextPath}/${msg.fIcon2}"></div>
-			               <p class="b-txt"style="line-height: 70px;">${msg.fName}</p>
-			             </div>
-			             </c:if>
-		    			 </c:forEach>
-		    			<div class="right-list">
-		    				<div class="right-num">
-		    				    <ul class="pinlei-btn">
-		    				    	<c:forEach items="${tProductTypes}" var ="msg">			    					
-			    					<li>
-			    					     <label>
-			    					       <div class="l-icon"><img alt="" src="${pageContext.request.contextPath}/${msg.fPicture}"></div>
-										   <input name="tProductType" value="${msg.fName}" onchange="getProduct()"  type="checkbox">
-										   <span class="lbl"></span>
-										   <p>${msg.fName}</p>
-									     </label>
-			    					</li>
-			    					</c:forEach>			    					
-		    				    </ul>
-		    				</div>		    				
-		    			</div>
-		    		</div>
-		    		<div class="list-k" id="zxlzxl4" style="position:absolute;">
-		    			<c:forEach items="${tMenus}" var="msg" varStatus="index">
-			             <c:if test="${msg.fCode==04}">
-			             <div class="left-icon">
-			                <div class="i-pic pic-c"><img  style="width:40px;height:40px"  src="${pageContext.request.contextPath}/${msg.fIcon2}"></div>
-			               <p class="b-txt"style="line-height: 70px;">${msg.fName}</p>
-			             </div>
-			             </c:if>
-		    			 </c:forEach>
-		    			<div class="right-list">
-		    				<div class="right-num">
-		    				    <ul class="kongjian-btn">
-		    				    <c:forEach items="${tRoomTypes}" var ="msg">
-		    				    <li>
-			    					    <label>
-				    						<div class="l-icon"><img alt="" src="${pageContext.request.contextPath}/${msg.fPicture}"/></div>
-				    						<input name="tRoomType" onchange="getProduct()" value="${msg.fId}" type="checkbox">
-										    <span class="lbl"></span>
-				    						<p>${msg.fName}</p>
-			    						</label>
-			    					</li>		    					
-			    				</c:forEach>			    						    				
-		    				    </ul>
-		    				</div>		    				
-		    			</div>
-		    		</div>
-		    		<div class="list-f"  id="zxlzxl5" style="position:absolute;">
-		    			<c:forEach items="${tMenus}" var="msg" varStatus="index">
-			             <c:if test="${msg.fCode==05}">
-			             <div class="left-icon">
-			                <div class="i-pic pic-c"><img  style="width:40px;height:40px"  src="${pageContext.request.contextPath}/${msg.fIcon2}"></div>
-			               <p class="b-txt"style="line-height: 70px;">${msg.fName}</p>
-			             </div>
-			             </c:if>
-		    			 </c:forEach>
-		    			<div class="right-list">
-		    				<div class="right-num">
-		    				    <ul class="ul-btn style-btn">
-			    					<c:forEach items="${tStyles}" var ="msg">
-			    					<li>
-			    						<label>
-										   <input name="tStyle"  onchange="getProduct()" value="${msg.fId}"  type="checkbox">
-										   <span class="lbl">${msg.fName}</span>
-									     </label>
-			    					</li>
-			    					</c:forEach>
-		    				    </ul>
-		    				</div>
-		    				
-		    			</div>
-		    		</div>
-		    	</div>
-		    	</form>
-	     	    			
-    	</div>
-		    	    				
-		<button class="g_btn_s" onclick="goList()" ></button> 	 			    
+		});
 
-	
-    	
-    </body>
+	})
+	function goList() {
+		var selecttext = $("#selecttext").text();
+		if (selecttext == 0) {
+			$.MsgBox.Alert("温馨提示", "未找到符合条件的地板！");
+			return false;
+		} else {
+			window.location.href = "/index/list";
+		}
+	}
+	function reloadPage() {
+		var key = $("#key").val();
+		window.location.href = "/index/search?key="+key;
+	}
+	function getProduct() {
+		var nowPrice = $("#nowPrice").val();
+		if (nowPrice != "" && nowPrice != null) {
+			console.log("1："+$('#form1').serialize());
+			$.ajax({
+				cache : false,
+				type : "post",
+				url : "/index/getProduct?productPriceBetween=" + nowPrice + "",
+				data : $('#form1').serialize(),// 你的formid
+				async : true,
+				success : function(msg) {
+					if (msg.length == 0) {
+						$(".g_btn_s").addClass('disabled');
+						$(".g_btn_s").attr("disabled", true);
+						$(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
+					} else {
+						$(".g_btn_s").removeClass('disabled');
+						$(".g_btn_s").attr("disabled", false);
+						$(".g_btn_s").html(
+								'共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'
+										+ msg.length + '</label>款地板符合条件');
+					}
+					$("#selecttext").text(msg.length);
+				},
+				error : function() {
+					$.MsgBox.Alert("温馨提示", "稍后再试");
+				}
+			});
+		} else {
+			console.log("2："+$('#form1').serialize());
+			$.ajax({
+				cache : false,
+				type : "post",
+				url : "/index/getProduct",
+				dataType : "json",
+				data : $('#form1').serialize(),// 你的formid
+				async : true,
+				success : function(msg) {
+					if (msg.length == 0) {
+						$(".g_btn_s").addClass('disabled');
+						$(".g_btn_s").attr("disabled", true);
+						$(".g_btn_s").html('<span>未找到符合条件的地板！</span>');
+					} else {
+						$(".g_btn_s").removeClass('disabled');
+						$(".g_btn_s").attr("disabled", false);
+						$(".g_btn_s").html(
+								'共<label id="selecttext" style="color:#f03;margin:0 4px;display: inline;" >'
+										+ msg.length + '</label>款地板符合条件');
+					}
+					$("#selecttext").text(msg.length);
+				},
+				error : function() {
+					$.MsgBox.Alert("温馨提示", "稍后再试");
+				}
+			});
+		}
+	}
+	function getPrice(e) {
+		var nowPrice = $(e).val();
+		$("#nowPrice").val(nowPrice);
+		getProduct();
+	}
+	function goIndex() {
+		window.location.href = "/index/index";
+	}
+</script>
+</head>
+<body>
+	<input type="hidden" id="stringbuffer">
+	<input type="hidden" id="key" th:value="${key}">
+	<div class="content-box fadeInLeftBig animated">
+		<div class="top-header">
+			<div class="left-back" onclick="goIndex()">
+				<i class="icon iconfont icon-close"></i>
+			</div>
+			<div class="con-text">搜索条件</div>
+			<div class="right-txt" onclick="reloadPage()">
+				<i class="icon iconfont icon-zhongzhi"></i>
+				重置
+			</div>
+		</div>
+		<form id="form1" name="form1" method="post">
+			<div class="ul-box fadeIn animated" style="animation-delay: 1s;">
+				<div class="list-c" id="zxlzxl1" style="position: absolute;">
+					<div class="left-icon" th:each="msg,msgStat:${tMenus}" th:if="${msg.code=='01'}">
+						<div class="i-pic pic-c">
+							<img style="width: 40px; height: 40px" th:src="|/myImage/${msg.icon2}|">
+						</div>
+						<p class="b-txt" style="line-height: 70px;" th:text="${msg.name}"></p>
+					</div>
+					<div class="right-list">
+						<div class="right-num">
+							<ul class="ul-btn color-btn">
+								<li th:each="msg:${tColors}" class="" th:style="|background-image:url(/myImage/${msg.picture}) !important;|">
+									<label>
+										<input name="productcolors" onchange="getProduct()" type="checkbox" value="${msg.name}">
+										<span class="lbl" th:text="${msg.name}"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="list-p" id="zxlzxl2" style="position: absolute;">
+					<div th:each="msg:${tMenus}" th:if="${msg.code=='02'}" class="left-icon">
+						<div class="i-pic pic-c">
+							<img style="width: 40px; height: 40px" th:src="|/myImage/${msgicon2}|">
+						</div>
+						<p class="b-txt" style="line-height: 70px;" th:text="${msg.name}"></p>
+					</div>
+					<div class="right-list">
+						<div class="right-num">
+							<input name="" id="nowPrice" type="hidden" />
+							<ul class="ul-btn price-ul" style="margin-top: 12px;">
+								<li th:each="msg:${tPrices}">
+									<label>
+										<input name="productPriceBetween" onchange="getProduct()" th:value="|${msg.down},${msg.up}|" type="radio">
+										<span class="lbl" th:text="|${msg.down}-${msg.up} 元|"></span>
+									</label>
+								</li>
+								<li class="custom">
+									<label>
+										<span class="lbl custom">自定义</span>
+									</label>
+								</li>
+							</ul>
+							<div class="number-box" id="slider12c">
+								<input id="ex12c" name="productPriceBetween" onchange="getPrice(this)" type="radio" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-l" id="zxlzxl3" style="position: absolute;">
+					<div th:each="msg:${tMenus}" th:if="${msg.code=='03'}" class="left-icon">
+						<div class="i-pic pic-c">
+							<img style="width: 40px; height: 40px" src="/myImage/${msg.icon2}">
+						</div>
+						<p class="b-txt" style="line-height: 70px;" th:text="${msg.name}"></p>
+					</div>
+					<div class="right-list">
+						<div class="right-num">
+							<ul class="pinlei-btn">
+								<li th:each="msg:${tProductTypes}">
+									<label>
+										<div class="l-icon">
+											<img alt="" th:src="|/myImage/${msg.picture}|">
+										</div>
+										<input name="productTypeNames" th:value="${msg.name}" onchange="getProduct()" type="checkbox">
+										<span class="lbl"></span>
+										<p th:text="${msg.name}"></p>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="list-k" id="zxlzxl4" style="position: absolute;">
+					<div th:each="msg:${tMenus}" th:if="${msg.code=='04'}" class="left-icon">
+						<div class="i-pic pic-c">
+							<img style="width: 40px; height: 40px" th:src="|/myImage/${msg.icon2}|">
+						</div>
+						<p class="b-txt" style="line-height: 70px;" th:text="${msg.name}"></p>
+					</div>
+					<div class="right-list">
+						<div class="right-num">
+							<ul class="kongjian-btn">
+								<li th:each="msg:${tRoomTypes}">
+									<label>
+										<div class="l-icon">
+											<img alt="" th:src="|/myImage/${msg.picture}|" />
+										</div>
+										<input name="productRoomIds" onchange="getProduct()" th:value="${msg.id}" type="checkbox">
+										<span class="lbl"></span>
+										<p th:text="${msg.name}"></p>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="list-f" id="zxlzxl5" style="position: absolute;">
+					<div th:each="msg:${tMenus}" th:if="${msg.code=='05'}" class="left-icon">
+						<div class="i-pic pic-c">
+							<img style="width: 40px; height: 40px" th:src="|/myImage/${msg.icon2}|">
+						</div>
+						<p class="b-txt" style="line-height: 70px;" th:text="${msg.name}"></p>
+					</div>
+					<div class="right-list">
+						<div class="right-num">
+							<ul class="ul-btn style-btn">
+								<li th:each="msg:${tStyles}">
+									<label>
+										<input name="productStyleIds" onchange="getProduct()" th:value="${msg.id}" type="checkbox">
+										<span class="lbl" th:text="${msg.name}"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<button class="g_btn_s" onclick="goList()"></button>
+</body>
 </html>

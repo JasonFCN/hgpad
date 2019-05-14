@@ -1,14 +1,11 @@
 package com.erp.hgpad.view;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 商品品牌
+ * 
  * @author 10352
  *
  */
@@ -16,69 +13,66 @@ import org.hibernate.annotations.GenericGenerator;
 //@Entity
 public class VProductBrand {
 
-	private String  fId ; //由Public.getGuid()产生
-	private int  fStatus ; //1表示有效
-	@Column(length=32)
-	private String  fProductTypeId ; //商品大类ID
-	private String  fProductTypeName;//商品大类
-	private int  fState ; //是否有效
-	private int  fNo ; //序号
-	  @Column(length=32)
-	private String  fName; //商品大类名称	
-	  @Column(length=32)
-	private String  fCode; //商品大类编号
+	private String id; // 由Public.getGuid()产生
+	private Integer status; // 1表示有效
+	@Column(length = 32)
+	private String productTypeId; // 商品大类ID
+	private String productTypeName;// 商品大类
+	private Integer state; // 是否有效
+	private Integer no; // 序号
+	@Column(length = 32)
+	private String name; // 商品大类名称
+	@Column(length = 32)
+	private String code; // 商品大类编号
 	
-
 	@Id
-	public String getfId() {
-		return fId;
+	public String getId() {
+		return id;
 	}
-	public void setfId(String fId) {
-		this.fId = fId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getfStatus() {
-		return fStatus;
+	public Integer getStatus() {
+		return status;
 	}
-	public void setfStatus(int fStatus) {
-		this.fStatus = fStatus;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-	public String getfProductTypeId() {
-		return fProductTypeId;
+	public String getProductTypeId() {
+		return productTypeId;
 	}
-	public void setfProductTypeId(String fProductTypeId) {
-		this.fProductTypeId = fProductTypeId;
+	public void setProductTypeId(String productTypeId) {
+		this.productTypeId = productTypeId;
 	}
-	public int getfState() {
-		return fState;
+	public String getProductTypeName() {
+		return productTypeName;
 	}
-	public void setfState(int fState) {
-		this.fState = fState;
+	public void setProductTypeName(String productTypeName) {
+		this.productTypeName = productTypeName;
 	}
-	public int getfNo() {
-		return fNo;
+	public Integer getState() {
+		return state;
 	}
-	public void setfNo(int fNo) {
-		this.fNo = fNo;
+	public void setState(Integer state) {
+		this.state = state;
 	}
-	public String getfName() {
-		return fName;
+	public Integer getNo() {
+		return no;
 	}
-	public void setfName(String fName) {
-		this.fName = fName;
+	public void setNo(Integer no) {
+		this.no = no;
 	}
-	public String getfCode() {
-		return fCode;
+	public String getName() {
+		return name;
 	}
-	public void setfCode(String fCode) {
-		this.fCode = fCode;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public String getfProductTypeName() {
-		return fProductTypeName;
+	public String getCode() {
+		return code;
 	}
-	public void setfProductTypeName(String fProductTypeName) {
-		this.fProductTypeName = fProductTypeName;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	
 	
 }

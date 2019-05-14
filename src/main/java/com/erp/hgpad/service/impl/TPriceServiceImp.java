@@ -6,6 +6,8 @@
  */
 package com.erp.hgpad.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -60,6 +62,12 @@ public class TPriceServiceImp implements TPriceService{
 		Example<TPrice> ex = Example.of(price, exampleMatcher); 
 		
 		return tPriceDao.findAll(ex, pageable);
+	}
+
+	@Override
+	public List<TPrice> findByStatusOrderByNoAsc(Integer status) {
+		// TODO Auto-generated method stub
+		return tPriceDao.findByStatusOrderByNoAsc(status);
 	}
 	
 }

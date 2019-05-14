@@ -18,7 +18,7 @@ public interface TConfigurationService{
 	public TConfiguration getById(String id);
 	public void save(TConfiguration tConfiguration);
 	public void delete(String id);
-	public List<TConfiguration> findByKeyNameAndStatus(String keyName, String status);
+	public List<TConfiguration> findByKeyNameAndStatus(String keyName, Integer status);
 	public List<TConfiguration> findByKeyName(String keyName);
 	public Page<TConfiguration> getRoomTypesPage(TConfiguration tConfiguration, Integer pageNum, int pageSize, Sort sort);
 }

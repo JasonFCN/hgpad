@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import com.erp.hgpad.entity.TProduct;
+import com.erp.hgpad.utilBean.SearchProductVo;
 
 /**
  * .
@@ -34,4 +35,8 @@ public interface TProductService{
 	public List<TProduct> findByStatusAndStateOrderByNoAsc(Integer status, Integer state);
 	public Page<TProduct> getProductsPage(TProduct product,int pageNum,int pageSize,String OrderName,Sort.Direction desc);
 	public List<TProduct> findByStatusAndCodeOrderByNoAsc(Integer i, String fCode);
+	public List<TProduct> search(SearchProductVo search);
+	public List<TProduct> getByIds(List<String> ids);
+	public List<TProduct> containingList(String value);
+	public List<TProduct> getProductsTop16WithSaled();
 }

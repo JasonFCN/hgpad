@@ -18,131 +18,130 @@ import org.hibernate.annotations.GenericGenerator;
  */
 //@Entity
 public class VBuildRaiders {
-	private String fId;
-	private int fStatus;// 是否有效1为有效0为删除
-	private int fIsShow;// 是否显示
-	private int fNo;// 序号
-	private int fPinLunNum;//评论数
-	private int fLikeNum;// 喜欢数
+	private String id;
+	private Integer status;// 是否有效1为有效0为删除
+	private Integer isShow;// 是否显示
+	private Integer no;// 序号
+	private Integer pinLunNum;//评论数
+	private Integer likeNum;// 喜欢数
 	@Column(length=32)
-	private String  fTitle ; //标题
+	private String  title ; //标题
 	@Column(length=32)
-	private String  fDate ; //日期
+	private String  date ; //日期
 	@Column(length=32)
-	private String   fTypeId; //风格ID
+	private String   typeId; //风格ID
 	@Column(length=32)
-	private String   fTypeName; //风格名称
+	private String   typeName; //风格名称
 	@Column(length=32)
-	private String fCreater;//创建者
+	private String creater;//创建者
 	@Column(length=32)
-	private String fCreatDate;//创建日期
+	private String creatDate;//创建日期
 	@Column(length=32)
-	private String fUpdateDate;//更新
+	private String updateDate;//更新
 	@Column(length=32)
-	private String fUpdateUser;//更新者
+	private String updateUser;//更新者
 	@Column(length=32)
-	private String fAuthor;//作者
+	private String author;//作者
 	@Column(length=3000)
-	private String fContent;//内容
+	private String content;//内容
 	
 	@Id
-	public String getfId(){
-		return fId;
+	public String getId() {
+		return id;
 	}
-	public void setfId(String fId) {
-		this.fId = fId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getfStatus() {
-		return fStatus;
+	public Integer getStatus() {
+		return status;
 	}
-	public void setfStatus(int fStatus) {
-		this.fStatus = fStatus;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-	public int getfIsShow() {
-		return fIsShow;
+	public Integer getIsShow() {
+		return isShow;
 	}
-	public void setfIsShow(int fIsShow) {
-		this.fIsShow = fIsShow;
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
 	}
-	public int getfNo() {
-		return fNo;
+	public Integer getNo() {
+		return no;
 	}
-	public void setfNo(int fNo) {
-		this.fNo = fNo;
+	public void setNo(Integer no) {
+		this.no = no;
 	}
-	public int getfPinLunNum() {
-		return fPinLunNum;
+	public Integer getPinLunNum() {
+		return pinLunNum;
 	}
-	public void setfPinLunNum(int fPinLunNum) {
-		this.fPinLunNum = fPinLunNum;
+	public void setPinLunNum(Integer pinLunNum) {
+		this.pinLunNum = pinLunNum;
 	}
-	public int getfLikeNum() {
-		return fLikeNum;
+	public Integer getLikeNum() {
+		return likeNum;
 	}
-	public void setfLikeNum(int fLikeNum) {
-		this.fLikeNum = fLikeNum;
+	public void setLikeNum(Integer likeNum) {
+		this.likeNum = likeNum;
 	}
-	public String getfTitle() {
-		return fTitle;
+	public String getTitle() {
+		return title;
 	}
-	public void setfTitle(String fTitle) {
-		this.fTitle = fTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getfDate() {
-		return fDate;
+	public String getDate() {
+		return date;
 	}
-	public void setfDate(String fDate) {
-		this.fDate = fDate;
+	public void setDate(String date) {
+		this.date = date;
 	}
-	public String getfTypeId() {
-		return fTypeId;
+	public String getTypeId() {
+		return typeId;
 	}
-	public void setfTypeId(String fTypeId) {
-		this.fTypeId = fTypeId;
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
 	}
-	public String getfTypeName() {
-		return fTypeName;
+	public String getTypeName() {
+		return typeName;
 	}
-	public void setfTypeName(String fTypeName) {
-		this.fTypeName = fTypeName;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
-	public String getfCreater() {
-		return fCreater;
+	public String getCreater() {
+		return creater;
 	}
-	public void setfCreater(String fCreater) {
-		this.fCreater = fCreater;
+	public void setCreater(String creater) {
+		this.creater = creater;
 	}
-	public String getfCreatDate() {
-		return fCreatDate;
+	public String getCreatDate() {
+		return creatDate;
 	}
-	public void setfCreatDate(String fCreatDate) {
-		this.fCreatDate = fCreatDate;
+	public void setCreatDate(String creatDate) {
+		this.creatDate = creatDate;
 	}
-	public String getfUpdateDate() {
-		return fUpdateDate;
+	public String getUpdateDate() {
+		return updateDate;
 	}
-	public void setfUpdateDate(String fUpdateDate) {
-		this.fUpdateDate = fUpdateDate;
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
-	public String getfUpdateUser() {
-		return fUpdateUser;
+	public String getUpdateUser() {
+		return updateUser;
 	}
-	public void setfUpdateUser(String fUpdateUser) {
-		this.fUpdateUser = fUpdateUser;
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
 	}
-	public String getfAuthor() {
-		return fAuthor;
+	public String getAuthor() {
+		return author;
 	}
-	public void setfAuthor(String fAuthor) {
-		this.fAuthor = fAuthor;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
-	public String getfContent() {
-		return fContent;
+	public String getContent() {
+		return content;
 	}
-	public void setfContent(String fContent) {
-		this.fContent = fContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
-
 	
 	
 }

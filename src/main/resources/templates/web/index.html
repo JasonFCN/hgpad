@@ -1,109 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<title>首页</title>
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/awebStyle/css/mystyle.css">
+<script type="text/javascript" src="/awebStyle/js/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/awebStyle/confirm/confirm.css">
+<script type="text/javascript" src="/awebStyle/confirm/confirm.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#keyString").focus(function() {
+			if ($(this).val() == this.defaultValue) {
+				$(this).val("");
+			}
+		}).blur(function() {
+			$(this).removeClass("focus");
+			if ($(this).val() == "") {
+				$(this).val(this.defaultValue);
+			}
+		})
+	})
 
-    <meta charset="utf-8">
-        <title>首页</title>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/reset.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/animate.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/css/mystyle.css">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/js/jquery-1.10.2.min.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/awebStyle/confirm/confirm.css">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/awebStyle/confirm/confirm.js"></script>
-        <script type="text/javascript">
-          
-          $(function(){
-        	 function setCookie(c_name,value,expiredays){
-  		     	var exdate=new Date()
-  			     	exdate.setDate(exdate.getDate()+expiredays)
-  			     	document.cookie=c_name+ "=" +escape(value)+
-  			     	((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-  		     }
-        	  var gcookit = '${setcookie}';
-        	  if(gcookit != ""){
-        		  setCookie("lsjl",gcookit,7);
-        	  }
-    		$("#keyString").focus(function(){
-    			if($(this).val()==this.defaultValue){
-    				$(this).val("");
-    			}
-    		}).blur(function(){
-    			$(this).removeClass("focus");
-    				if($(this).val()==""){
-    					$(this).val(this.defaultValue);
-    				}
-    			})   				
-    	})
-
-
-       function introduce(){
-        window.location.href="../index/introduce.action";
-       }
-          function getCookie(c_name){
-		     	if (document.cookie.length>0){ 
-		     		c_start=document.cookie.indexOf(c_name + "=")
-		     		if (c_start!=-1){ 
-		     			c_start=c_start + c_name.length+1 
-		     			c_end=document.cookie.indexOf(";",c_start)
-		     			if (c_end==-1) c_end=document.cookie.length
-		     			return unescape(document.cookie.substring(c_start,c_end))
-		     		} 
-		     	}
-		     	return ""
-		     }
-       function list(){
-			var gcookie = getCookie("lsjl");
-			window.location.href="../index/hostList.action?lsjl="+gcookie+"";
-       }
-       function goSearch(e){
-    	   //$("#key").val(e);
-    	   var url="../index/search.action?key="+e+"";
-		   //document.forms["form1"].action=url;
-		  // document.forms["form1"].submit(); // 提交表单
-    	   window.location.href=url;
-       }
-      //提示框js
-       function submitForm(){
-    	   var keyString=$("#keyString").val();
-    	   keyString=encodeURI(encodeURI(keyString));
-    	   window.location.href="../index/searchList.action?keyString="+keyString+"";
-       }
-      
-       </script>
-    </head>
-    <body>
-    <!--  form  id="form1" name="form1" method="post">	
-    
-    </form>
-    -->
-    <input type="hidden" name="key" id="key"> 	   
-     	<div class="main-content fadeInLeftBig animated" style="background-image:url(${pageContext.request.contextPath}/${tBackgroundPic.fPicture}) !important;"> 
-
-     	   <div class="hearder-box">
-	        	<div class="left-logo" onclick="introduce()"><img src="${pageContext.request.contextPath}/awebStyle/images/logo.png"></div>
-	        	<div class="serach-box">	        	  
-	        		<input type="text" id="keyString" name="" class="input-text" value="快速搜索"  >
-	        		<span class="se-icon" onclick="submitForm()"><img src="${pageContext.request.contextPath}/awebStyle/images/search.png"></span>
-	        	</div>
-           </div>
-           <div class="right-box">
-             <c:forEach items="${tMenus}" var="msg" varStatus="index">
-             <c:if test="${index.count<=5}">
-             <div onclick="goSearch('${index.count}')" class="icon-box fadeIn animated" style="animation-delay:1s;">
-               <div class="icon-pic"><img src="${pageContext.request.contextPath}/${msg.fIcon1}"></div>
-               <p>${msg.fName}</p>
-             </div>
-             </c:if>
-             <c:if test="${index.count==6}">
-             <div onclick="list()" class="icon-box fadeIn animated" style="animation-delay:1s;">
-               <div class="icon-pic"><img src="${pageContext.request.contextPath}/${msg.fIcon1}"></div>
-               <p>${msg.fName}</p>
-             </div>
-             </c:if>
-             </c:forEach>
-           </div>
-      </div>
-      	  
-    </body>
+	function introduce() {
+		window.location.href = "/index/introduce";
+	}
+	function list() {
+		window.location.href = "/index/hostList";
+	}
+	function goSearch(e) {
+		//$("#key").val(e);
+		var url = "/index/search?key=" + e + "";
+		window.location.href = url;
+	}
+	//提示框js
+	function submitForm() {
+		var keyString = $("#keyString").val();
+		keyString = encodeURI(encodeURI(keyString));
+		window.location.href = "/index/searchList?keyString=" + keyString + "";
+	}
+</script>
+</head>
+<body>
+	<input type="hidden" name="key" id="key">
+	<div class="main-content fadeInLeftBig animated" th:style="|background-image:url(/myImage/${tBackgroundPic.picture} ) !important;|">
+		<div class="hearder-box">
+			<div class="left-logo" onclick="introduce()">
+				<img src="/awebStyle/images/logo.png">
+			</div>
+			<div class="serach-box">
+				<input type="text" id="keyString" name="" class="input-text" value="快速搜索">
+				<span class="se-icon" onclick="submitForm()">
+					<img src="/awebStyle/images/search.png">
+				</span>
+			</div>
+		</div>
+		<div class="right-box">
+			<div th:each=" menu,menuStat:${tMenus}" th:onclick="${menuStat.count<=5}? 'goSearch('+${menuStat.count}+')':'list()'" class="icon-box fadeIn animated"
+				style="animation-delay: 1s;">
+				<div class="icon-pic">
+					<img th:src="|/myImage/${menu.icon1}|">
+				</div>
+				<p th:text="${menu.name}">${msg.fName}</p>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

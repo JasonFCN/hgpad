@@ -41,7 +41,7 @@ public class TConfigurationServiceImpl implements TConfigurationService {
 	}
 
 	@Override
-	public List<TConfiguration> findByKeyNameAndStatus(String keyName, String status) {
+	public List<TConfiguration> findByKeyNameAndStatus(String keyName, Integer status) {
 		return tConfigurationDao.findByKeyNameAndStatus(keyName,status);
 	}
 

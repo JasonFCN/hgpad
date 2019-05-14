@@ -2,8 +2,14 @@ package com.erp.hgpad;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -33,5 +39,13 @@ public class MyTest {
 //        .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("水印所在路径")),1f).
 //        .toFile("压缩后文件的路径");
 		Thumbnails.of("F:\\图片\\无脸男.jpg").size(20, 111110).toFile("F:\\图片\\无脸男-副本.jpg");
+	}
+	@Test
+	public void test3() {
+		
+		List<String> asList = Arrays.asList("a,b,c");
+		
+		String string = asList.toString();
+		System.out.println(string.replaceAll("[\\[\\]]", ""));
 	}
 }

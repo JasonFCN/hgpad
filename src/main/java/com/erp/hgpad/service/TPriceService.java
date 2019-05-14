@@ -6,6 +6,8 @@
  */
 package com.erp.hgpad.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -25,4 +27,5 @@ public interface TPriceService{
 	public void save(TPrice tPrice);
 	public void delete(String id);
 	public Page<TPrice> getRoomTypesPage(TPrice price, Integer pageNum, int pageSize, Sort sort);
+	public List<TPrice> findByStatusOrderByNoAsc(Integer status);
 }

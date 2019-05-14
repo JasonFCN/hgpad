@@ -19,120 +19,144 @@ import org.hibernate.annotations.GenericGenerator;
 //@Entity
 public class VBuildCase {
 	private String id;
-	private int status;// 是否有效1为有效0为删除
-	private int fIsShow;// 是否显示
-	private int fNo;// 序号
-	private int fPinLunNum;//评论数
-	private int fLikeNum;// 喜欢数
+	private Integer status;// 是否有效1为有效0为删除
+	private Integer isShow;// 是否显示
+	private Integer no;// 序号
+	private Integer pinLunNum;//评论数
+	private Integer likeNum;// 喜欢数
 	@Column(length=32)
-	private String  fTitle ; //标题
+	private String  title ; //标题
 	@Column(length=32)
-	private String   fStyleId; //风格ID
+	private String   styleId; //风格ID
 	@Column(length=32)
-	private String   fStyleName; //风格名称
+	private String   styleName; //风格名称
 	@Column(length=32)
-	private String   fRoomType; //房间类型
+	private String   roomType; //房间类型
 	@Column(length=32)
-	private String   fRoomArea; //面积
+	private String   roomArea; //面积
 	@Column(length=32)
-	private String   fYuSuan; //预算
+	private String   yuSuan; //预算
 	@Column(length=32)
-	private String   fRoomArea1; //面积
-
+	private String   roomArea1; //面积
 	@Column(length=32)
-	private String   fYuSuan1; //预算
+	private String   yuSuan1; //预算
 	@Column(length=32)
-	private String   fBelongAddr; //所属地区
+	private String   belongAddr; //所属地区
 	@Column(length=32)
-	private String   fBelongXQu; //	小区
+	private String   belongXQu; //	小区
 	@Column(length=32)
-	private String   fFinishedTime; //完成时间	
+	private String   finishedTime; //完成时间	
 	@Column(length=32)
 	private String   fDesignerId; //	设计师
 	@Column(length=32)
-	private String   fDesignerName; //	设计师名称
+	private String   designerName; //	设计师名称
 	@Column(length=320)
-	private String   fDescribe; //	描述
+	private String   describe; //	描述
 	@Column(length=250)
-	private String   fPicture; //图片
+	private String   picture; //图片
+	
 	@Id
-	public String getfId(){
-		return fId;
+	public String getId() {
+		return id;
 	}
-	public void setfId(String fId) {
-		this.fId = fId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getfStatus() {
-		return fStatus;
+	public Integer getStatus() {
+		return status;
 	}
-	public void setfStatus(int fStatus) {
-		this.fStatus = fStatus;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-	public int getfIsShow() {
-		return fIsShow;
+	public Integer getIsShow() {
+		return isShow;
 	}
-	public void setfIsShow(int fIsShow) {
-		this.fIsShow = fIsShow;
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
 	}
-	public int getfNo() {
-		return fNo;
+	public Integer getNo() {
+		return no;
 	}
-	public void setfNo(int fNo) {
-		this.fNo = fNo;
+	public void setNo(Integer no) {
+		this.no = no;
 	}
-	public String getfTitle() {
-		return fTitle;
+	public Integer getPinLunNum() {
+		return pinLunNum;
 	}
-	public void setfTitle(String fTitle) {
-		this.fTitle = fTitle;
+	public void setPinLunNum(Integer pinLunNum) {
+		this.pinLunNum = pinLunNum;
 	}
-	public String getfStyleId() {
-		return fStyleId;
+	public Integer getLikeNum() {
+		return likeNum;
 	}
-	public void setfStyleId(String fStyleId) {
-		this.fStyleId = fStyleId;
+	public void setLikeNum(Integer likeNum) {
+		this.likeNum = likeNum;
 	}
-	public String getfStyleName() {
-		return fStyleName;
+	public String getTitle() {
+		return title;
 	}
-	public void setfStyleName(String fStyleName) {
-		this.fStyleName = fStyleName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getfRoomType() {
-		return fRoomType;
+	public String getStyleId() {
+		return styleId;
 	}
-	public void setfRoomType(String fRoomType) {
-		this.fRoomType = fRoomType;
+	public void setStyleId(String styleId) {
+		this.styleId = styleId;
 	}
-	public String getfRoomArea() {
-		return fRoomArea;
+	public String getStyleName() {
+		return styleName;
 	}
-	public void setfRoomArea(String fRoomArea) {
-		this.fRoomArea = fRoomArea;
+	public void setStyleName(String styleName) {
+		this.styleName = styleName;
 	}
-	public String getfYuSuan() {
-		return fYuSuan;
+	public String getRoomType() {
+		return roomType;
 	}
-	public void setfYuSuan(String fYuSuan) {
-		this.fYuSuan = fYuSuan;
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
-	public String getfBelongAddr() {
-		return fBelongAddr;
+	public String getRoomArea() {
+		return roomArea;
 	}
-	public void setfBelongAddr(String fBelongAddr) {
-		this.fBelongAddr = fBelongAddr;
+	public void setRoomArea(String roomArea) {
+		this.roomArea = roomArea;
 	}
-	public String getfBelongXQu() {
-		return fBelongXQu;
+	public String getYuSuan() {
+		return yuSuan;
 	}
-	public void setfBelongXQu(String fBelongXQu) {
-		this.fBelongXQu = fBelongXQu;
+	public void setYuSuan(String yuSuan) {
+		this.yuSuan = yuSuan;
 	}
-	public String getfFinishedTime() {
-		return fFinishedTime;
+	public String getRoomArea1() {
+		return roomArea1;
 	}
-	public void setfFinishedTime(String fFinishedTime) {
-		this.fFinishedTime = fFinishedTime;
+	public void setRoomArea1(String roomArea1) {
+		this.roomArea1 = roomArea1;
+	}
+	public String getYuSuan1() {
+		return yuSuan1;
+	}
+	public void setYuSuan1(String yuSuan1) {
+		this.yuSuan1 = yuSuan1;
+	}
+	public String getBelongAddr() {
+		return belongAddr;
+	}
+	public void setBelongAddr(String belongAddr) {
+		this.belongAddr = belongAddr;
+	}
+	public String getBelongXQu() {
+		return belongXQu;
+	}
+	public void setBelongXQu(String belongXQu) {
+		this.belongXQu = belongXQu;
+	}
+	public String getFinishedTime() {
+		return finishedTime;
+	}
+	public void setFinishedTime(String finishedTime) {
+		this.finishedTime = finishedTime;
 	}
 	public String getfDesignerId() {
 		return fDesignerId;
@@ -140,49 +164,23 @@ public class VBuildCase {
 	public void setfDesignerId(String fDesignerId) {
 		this.fDesignerId = fDesignerId;
 	}
-	public String getfDesignerName() {
-		return fDesignerName;
+	public String getDesignerName() {
+		return designerName;
 	}
-	public void setfDesignerName(String fDesignerName) {
-		this.fDesignerName = fDesignerName;
+	public void setDesignerName(String designerName) {
+		this.designerName = designerName;
 	}
-	public String getfDescribe() {
-		return fDescribe;
+	public String getDescribe() {
+		return describe;
 	}
-	public void setfDescribe(String fDescribe) {
-		this.fDescribe = fDescribe;
+	public void setDescribe(String describe) {
+		this.describe = describe;
 	}
-	public String getfPicture() {
-		return fPicture;
+	public String getPicture() {
+		return picture;
 	}
-	public void setfPicture(String fPicture) {
-		this.fPicture = fPicture;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
-	public int getfPinLunNum() {
-		return fPinLunNum;
-	}
-	public void setfPinLunNum(int fPinLunNum) {
-		this.fPinLunNum = fPinLunNum;
-	}
-	public int getfLikeNum() {
-		return fLikeNum;
-	}
-	public void setfLikeNum(int fLikeNum) {
-		this.fLikeNum = fLikeNum;
-	}
-	public String getfRoomArea1() {
-		return fRoomArea1;
-	}
-	public void setfRoomArea1(String fRoomArea1) {
-		this.fRoomArea1 = fRoomArea1;
-	}
-	public String getfYuSuan1() {
-		return fYuSuan1;
-	}
-	public void setfYuSuan1(String fYuSuan1) {
-		this.fYuSuan1 = fYuSuan1;
-	}
-	
-	
 	
 }
