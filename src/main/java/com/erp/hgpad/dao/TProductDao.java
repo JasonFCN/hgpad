@@ -22,11 +22,11 @@ public interface TProductDao extends JpaRepository<TProduct, String> ,JpaSpecifi
 	List<TProduct> findByColorIn(Collection<String> colorIds);
 	List<TProduct> findByColorIn(String[] colorIds);
 	
-	@Query( value=	" select * from f_TProduct aa where 1=1 "+
+	@Query( value=	" select * from f_tproduct aa where 1=1 "+
 			" and if(:productPrice1!='', aa.f_price>= :productPrice1,1=1)  "+
 			" and if(:productPrice2!='', aa.f_price<=:productPrice2,1=1)  "+
 			" and if(:productcolors!='', find_in_set(aa.f_color,:productcolors),1=1)  "+
-			" and if(:productTypeNames!='', find_in_set(aa.f_product_Type_Name,:productTypeNames),1=1)  "+
+			" and if(:productTypeNames!='', find_in_set(aa.f_product_type_name,:productTypeNames),1=1)  "+
 			" and if(:productRoomIds!='', EXISTS(SELECT * from f_tproduct_room bb WHERE bb.f_product_id=aa.f_id and find_in_set(bb.f_room_id,:productRoomIds)),1=1)  "+
 			" and if(:productStyleIds!='', EXISTS(SELECT * from f_tproduct_style bb WHERE bb.f_product_id=aa.f_id and find_in_set(bb.f_style_id,:productStyleIds)),1=1)  "
 	,nativeQuery=true)

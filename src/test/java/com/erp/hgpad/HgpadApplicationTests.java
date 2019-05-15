@@ -20,27 +20,11 @@ import com.erp.hgpad.utilBean.SearchProductVo;
 @SpringBootTest
 public class HgpadApplicationTests {
 	
-	@Autowired
-	TProductTypeDao tProductTypeDao;
-	
-	@Autowired
-	TProductDao	productDao;
-	@Autowired
-	TProductService	productService;
-	
 	@Test
-	public void contextLoads() {
-		TProductType one = tProductTypeDao.getOne("4028b8816a4e9be1016a4e9c48990000");
-		System.out.println(one);
-	}
-	
-	@Test
-	public void test() {
-		SearchProductVo searchProductVo = new SearchProductVo();
-		//searchProductVo.setProductPrice1(BigDecimal.ONE);
-		//searchProductVo.setProductPrice2(BigDecimal.TEN);
-		List<TProduct> search = productService.search(searchProductVo);
-		System.out.println(search.size());
-	}
+    public void test1(){
+        System.out.println("test.....");
+    }
+
+
 
 }

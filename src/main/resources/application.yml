@@ -30,3 +30,5 @@ myConfig:
    picWidth2: 1920
    picWidth3: 960
    nowUrl: http://localhost:${server.port}
+
+

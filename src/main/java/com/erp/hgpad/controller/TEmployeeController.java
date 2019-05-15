@@ -86,7 +86,7 @@ public class TEmployeeController {
 			CommonUtil commonUtil = new CommonUtil();
 			CommonParam commonParam = new CommonParam();
 			String pinString = commonParam.getString("defaultPin", "global");
-			String pin = commonUtil.getStrMd5(pinString);
+			String pin = commonUtil.getStrMd52(pinString);
 			tEmployee.setPin(pin);
 			if(!file.isEmpty()) {
 				tEmployee.setPicture(ImageUtil.uploadImage(file, pathImg, false));
@@ -194,7 +194,7 @@ public class TEmployeeController {
 	/**
 	 * 初始化用户密码
 	 * 
-	 * @param f_Id
+	 * @param fId
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "setPrivilegeUI", method = { RequestMethod.GET, RequestMethod.POST })
@@ -207,7 +207,7 @@ public class TEmployeeController {
 
 				TEmployee tEmployee = tEmployeeService.getById(fId);
 				CommonUtil commonUtil = new CommonUtil();
-				String pin = commonUtil.getStrMd5("123456");
+				String pin = commonUtil.getStrMd52("123456");
 				tEmployee.setPin(pin);
 				tEmployeeService.save(tEmployee);
 				return "1";
@@ -256,7 +256,7 @@ public class TEmployeeController {
 				String userId = loginSession.getLoginUser().getId();
 				tEmployee = tEmployeeService.getById(userId);
 				CommonUtil commonUtil = new CommonUtil();
-				String pin = commonUtil.getStrMd5(fPin);
+				String pin = commonUtil.getStrMd52(fPin);
 				tEmployee.setPin(pin);
 				tEmployeeService.save(tEmployee);
 				return tEmployee;
@@ -276,7 +276,6 @@ public class TEmployeeController {
 	 * 个人信息
 	 * 
 	 * @param request
-	 * @param f_Id
 	 * @return
 	 * @throws IOException
 	 */
@@ -301,7 +300,7 @@ public class TEmployeeController {
 	/**
 	 * 更新个人信息
 	 * 
-	 * @param t_Employee
+	 * @param tEmployee
 	 * @return
 	 * @throws IOException
 	 */
@@ -364,8 +363,8 @@ public class TEmployeeController {
 			if (fId != null && !"".equals(fId)) {
 				TEmployee tEmployee = tEmployeeService.getById(fId);
 				CommonUtil commonUtil = new CommonUtil();
-				String pin = commonUtil.getStrMd5(fPin);
-				String oldPin2 = commonUtil.getStrMd5(oldPin);
+				String pin = commonUtil.getStrMd52(fPin);
+				String oldPin2 = commonUtil.getStrMd52(oldPin);
 				if (oldPin2.equals(tEmployee.getPin())) {
 					tEmployee.setPin(pin);
 					tEmployeeService.save(tEmployee);
@@ -373,7 +372,6 @@ public class TEmployeeController {
 				} else {
 					return "2";
 				}
-
 			} else {
 				log.error("用户未登录");
 				return "0";
