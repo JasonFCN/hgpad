@@ -6,7 +6,7 @@ spring:
       url: jdbc:mysql://localhost:3306/hgpad?serverTimezone=UTC
       username: cwj
       password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
+      #driver-class-name: com.mysql.cj.jdbc.Driver
    
    jpa:
       properties:
@@ -17,7 +17,7 @@ spring:
       show-sql: true
       hibernate:
          naming:
-            implicit-strategy: com.erp.hgpad.MyImplicitNamingStrategyJpaCompliant
+            implicit-strategy: com.erp.hgpad.config.MyImplicitNamingStrategyJpaCompliant
             
    thymeleaf:
       mode: LEGACYHTML5
