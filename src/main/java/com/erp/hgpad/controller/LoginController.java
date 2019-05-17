@@ -33,12 +33,7 @@ public class LoginController {
 
 	/**
 	 * 后台登录
-	 * 
-	 * @param loginName
-	 * @param checkNum
-	 * @param passWord
-	 * @param session
-	 * @param request
+	 *
 	 * @return
 	 */
 	@RequestMapping(value = "/loginUI", method = { RequestMethod.GET, RequestMethod.POST })
@@ -69,7 +64,7 @@ public class LoginController {
 	public String login(String loginName, @RequestParam(defaultValue="")String checkNum, String passWord, HttpSession session, HttpServletRequest request) {
 		if (checkNum.equals(request.getSession().getAttribute("vrifyCode"))) {
 			CommonUtil commonUtil = new CommonUtil();
-			passWord = commonUtil.getStrMd5(passWord);
+			passWord = CommonUtil.getStrMd52(passWord);
 			String result = tEmployeeService.login(loginName, passWord, request, session);
 			if ("1".equals(result)) {
 
