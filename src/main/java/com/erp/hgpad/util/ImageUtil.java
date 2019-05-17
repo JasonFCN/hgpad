@@ -196,5 +196,6 @@ public class ImageUtil {
 	public void setPicWidth3(int picWidth3) {
 		ImageUtil.picWidth3 = picWidth3;
 	}
+
 	
 }
